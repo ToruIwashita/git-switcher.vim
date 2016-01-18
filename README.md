@@ -1,1 +1,1 @@
-# git-switcher
+# git-switcher.vim
