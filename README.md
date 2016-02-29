@@ -19,7 +19,7 @@ Install either with [Pathogen](https://github.com/tpope/vim-pathogen), [Vundle](
 
 ### Options
 
-#### `g:gsw_sessions_dir_path`
+##### `g:gsw_sessions_dir_path`
 
 Location of session file storing directory. Default value is `~/.cache/vim/git_switcher/`
 
