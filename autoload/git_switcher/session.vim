@@ -8,10 +8,6 @@ set cpo&vim
 fun! git_switcher#session#new(session)
   let obj = {'name': a:session}
 
-  fun! obj.get_name()
-    return self.name
-  endf
-
   fun! obj.root_dir_path()
     if !exists('g:gsw_sessions_dir_path')
       return $HOME.'/.cache/vim/git_switcher/'

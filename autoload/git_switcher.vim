@@ -35,7 +35,7 @@ fun! git_switcher#new(...)
     endif
 
     call self.session.store()
-    echo "save '".self.session.get_name()."' session."
+    echo "save '".self.session.name."' session."
   endf
 
   fun! obj.load_session()
@@ -50,7 +50,7 @@ fun! git_switcher#new(...)
 
     call self.state.delete_all_buffers()
     call self.session.restore()
-    echo "load '".self.session.get_name()."' session."
+    echo "load '".self.session.name."' session."
   endf
 
   fun! obj.git_switch(branch,bang)
@@ -58,7 +58,7 @@ fun! git_switcher#new(...)
       return
     endif
 
-    if !a:bang && confirm("save '".self.git.current_branch()."' session?", "&Yes\n&No") == 1
+    if !a:bang && confirm("save '".self.session.name."' session?", "&Yes\n&No") == 1
       call self.save_session()
     endif
 
