@@ -1,5 +1,5 @@
 " git-switcher
-" Author:  ToruIwashita <toru.iwashita@gmail.com>
+" Author:  Toru Hoyano <toru.iwashita@gmail.com>
 " License: This file is placed in the public domain.
 
 command! -nargs=? -complete=customlist,git_switcher#git#_branches GswSave call git_switcher#save_session(<f-args>)

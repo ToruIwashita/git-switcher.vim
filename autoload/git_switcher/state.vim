@@ -1,5 +1,5 @@
 " git-switcher
-" Author:  ToruIwashita <toru.iwashita@gmail.com>
+" Author:  Toru Hoyano <toru.iwashita@gmail.com>
 " License: This file is placed in the public domain.
 
 let s:cpo_save = &cpo
