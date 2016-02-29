@@ -20,12 +20,29 @@ fun! git_switcher#new(...)
     let obj.session = git_switcher#session#new(obj.git.project().'/'.obj.git.current_branch())
   endif
 
+  fun! obj.inside_work_tree()
+    if !self.git.inside_work_tree()
+      echo 'working directory is not a git repository.'
+      return 0
+    endif
+
+    return 1
+  endf
+
   fun! obj.save_session()
+    if !self.inside_work_tree()
+      return
+    endif
+
     call self.session.store()
     echo "save '".self.session.get_name()."' session."
   endf
 
   fun! obj.load_session()
+    if !self.inside_work_tree()
+      return
+    endif
+
     if !self.session.file_exist()
       echo 'session file does not exist.'
       return 0
@@ -37,6 +54,10 @@ fun! git_switcher#new(...)
   endf
 
   fun! obj.git_switch(branch,bang)
+    if !self.inside_work_tree()
+      return
+    endif
+
     if !a:bang && confirm("save '".self.git.current_branch()."' session?", "&Yes\n&No") == 1
       call self.save_session()
     endif
