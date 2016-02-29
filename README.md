@@ -8,6 +8,8 @@ Install either with [Pathogen](https://github.com/tpope/vim-pathogen), [Vundle](
 
 ## Usage
 
+![git_switcher_example](https://raw.githubusercontent.com/wiki/ToruIwashita/git-switcher.vim/images/git_switcher_example.gif)
+
 ### Commands
 
  - `Gsw` Swich branch with a save confirmation and load session
