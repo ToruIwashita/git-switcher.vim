@@ -12,10 +12,21 @@ Install either with [Pathogen](https://github.com/tpope/vim-pathogen), [Vundle](
 
 ### Commands
 
- - `Gsw` Swich branch with a save confirmation and load session
- - `Gsw!` Swich branch and load session
- - `GswSave` Save session
- - `GswLoad` Load session
+ - `Gsw`
+
+Swich branch with a save confirmation and load session.
+
+ - `Gsw!`
+
+Swich branch and load session.
+
+ - `GswSave`
+
+Save session. If receiving an argument, save session with that name.
+
+ - `GswLoad`
+
+Load session. If receiving an argument, load session with that name.
 
 ### Options
 
