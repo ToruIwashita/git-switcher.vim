@@ -54,7 +54,7 @@ fun! git_switcher#new(...)
     echo "load '".self.session.name."' session."
   endf
 
-  fun! obj.git_switch(branch,bang)
+  fun! obj.switch(branch,bang)
     if !self.inside_work_tree()
       return
     endif
@@ -63,6 +63,25 @@ fun! git_switcher#new(...)
       call self.save_session()
     endif
 
+    call self.git.switch(a:branch)
+
+    let self.session = git_switcher#session#new(self.git.project().'/'.a:branch)
+    call self.load_session()
+  endf
+
+  fun! obj.switch_remote(branch,bang)
+    if !self.inside_work_tree()
+      return
+    endif
+    
+    if !a:bang && confirm("save '".self.session.name."' session?", "&Yes\n&No", 1) == 1
+      call self.save_session()
+    endif
+
+    echo 'git fetch.'
+    call self.git.fetch()
+    echo 'checkout branch.'
+    call self.clone_remote_branch(a:branch)
     call self.git.switch(a:branch)
 
     let self.session = git_switcher#session#new(self.git.project().'/'.a:branch)
@@ -84,7 +103,12 @@ endf
 
 fun! git_switcher#gsw(branch,bang)
   let git_switcher = call('git_switcher#new', a:000)
-  call git_switcher.git_switch(a:branch,a:bang)
+  call git_switcher.switch(a:branch,a:bang)
+endf
+
+fun! git_switcher#gsw_remote(branch,bang)
+  let git_switcher = call('git_switcher#new', a:000)
+  call git_switcher.switch_remote(a:branch,a:bang)
 endf
 
 let &cpo = s:cpo_save
