@@ -44,6 +44,7 @@ fun! git_switcher#new(...)
     endif
 
     if !self.session.file_exist()
+      silent! edit!
       echo 'session file does not exist.'
       return 0
     endif

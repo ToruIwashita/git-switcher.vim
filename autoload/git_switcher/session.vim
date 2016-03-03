@@ -52,7 +52,7 @@ fun! git_switcher#session#new(session)
 
   fun! obj.restore()
     exec 'source' self.file_path()
-    redraw
+    redraw!
   endf
 
   return obj
