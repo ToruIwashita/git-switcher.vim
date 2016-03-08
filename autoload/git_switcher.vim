@@ -59,7 +59,7 @@ fun! git_switcher#new(...)
       return
     endif
 
-    if !a:bang && confirm("save '".self.session.name."' session?", "&Yes\n&No", 0)
+    if !a:bang && confirm("save '".self.session.name."' session?", "&Yes\n&No", 1) == 1
       call self.save_session()
     endif
 
