@@ -1,36 +1,44 @@
-# git-switcher.vim
+# git-switcher.vim  
 
-Switching session based on git branch.
+Switching session based on git branch.  
 
-## Installation
+## Installation  
 
-Install either with [Pathogen](https://github.com/tpope/vim-pathogen), [Vundle](https://github.com/gmarik/Vundle.vim), [NeoBundle](https://github.com/Shougo/neobundle.vim), or other plugin manager.
+Install either with [Pathogen](https://github.com/tpope/vim-pathogen), [Vundle](https://github.com/gmarik/Vundle.vim), [NeoBundle](https://github.com/Shougo/neobundle.vim), or other plugin manager.  
 
-## Usage
+## Usage  
 
-![git_switcher_example](https://raw.githubusercontent.com/wiki/ToruIwashita/git-switcher.vim/images/git_switcher_example.gif)
+![git_switcher_example](https://raw.githubusercontent.com/wiki/ToruIwashita/git-switcher.vim/images/git_switcher_example.gif)  
 
-### Commands
+### Commands  
 
- - `Gsw`
+ - `Gsw`  
 
-Swich branch with a save confirmation and load session.
+Swich branch with save confirmation and load session.  
 
- - `Gsw!`
+ - `Gsw!`  
 
-Swich branch and load session.
+Swich branch and load session.  
 
- - `GswSave`
+ - `GswRemote`  
 
-Save session. If receiving an argument, save session with that name.
+Clone remote branch with save confirmation and load session.  
 
- - `GswLoad`
+ - `GswRemote!`  
 
-Load session. If receiving an argument, load session with that name.
+Clone remote branch with and load session.  
 
-### Options
+ - `GswSave`  
 
-##### `g:gsw_sessions_dir_path`
+Save session. If receiving an argument, save session with that name.  
 
-Location of session file storing directory. Default value is `~/.cache/vim/git_switcher/`
+ - `GswLoad`  
+
+Load session. If receiving an argument, load session with that name.  
+
+### Options  
+
+##### `g:gsw_sessions_dir_path`  
+
+Location of session file storing directory. Default value is `~/.cache/vim/git_switcher/`  
 
