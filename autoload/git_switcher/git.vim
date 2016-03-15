@@ -46,7 +46,7 @@ fun! git_switcher#git#new()
   endf
 
   fun! obj.remote_tracking_branches()
-    return map(filter(split(self.exec('branch --remotes'), '\n'), 'v:val !~ "->"'), 'substitute(v:val, "\\(  origin/\\|  \\)", "", "")')
+    return map(filter(split(self.exec('branch --remotes'), '\n'), 'v:val !~ "->"'), 'substitute(v:val, "^\\(  origin/\\|  \\)", "", "")')
   endf
 
   fun! obj.remote_only_branches()
