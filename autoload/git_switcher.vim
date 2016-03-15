@@ -88,6 +88,10 @@ fun! git_switcher#new(...)
     call self.load_session()
   endf
 
+  fun! obj.stored_sessions()
+    return map(split(expand(self.session.dir_path().'/*')), 'substitute(fnamemodify(v:val, ":t"), "\\.session\\.vim$", "", "")')
+  endf
+
   return obj
 endf
 
@@ -109,6 +113,11 @@ endf
 fun! git_switcher#gsw_remote(branch,bang)
   let git_switcher = call('git_switcher#new', a:000)
   call git_switcher.switch_remote(a:branch,a:bang)
+endf
+
+fun! git_switcher#_stored_sessions(arg_lead, cmd_line, cursor_pos)
+  let git_switcher = git_switcher#new()
+  return filter(git_switcher.stored_sessions(), 'v:val =~ "^'.fnameescape(a:arg_lead).'"')
 endf
 
 let &cpo = s:cpo_save
