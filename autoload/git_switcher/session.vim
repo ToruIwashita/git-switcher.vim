@@ -9,11 +9,7 @@ fun! git_switcher#session#new(session)
   let obj = {'name': a:session}
 
   fun! obj.root_dir_path()
-    if !exists('g:gsw_sessions_dir_path')
-      return $HOME.'/.cache/vim/git_switcher/'
-    else
-      return g:gsw_sessions_dir_path.'/'
-    endif
+    return g:gsw_sessions_dir_path.'/'
   endf
 
   fun! obj.file_path()

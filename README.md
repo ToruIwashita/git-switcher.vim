@@ -40,5 +40,5 @@ Load session. If receiving an argument, load session with that name.
 
 ##### `g:gsw_sessions_dir_path`  
 
-Location of session file storing directory. Default value is `~/.cache/vim/git_switcher/`  
+Location of session file storing directory. Default value is `~/.cache/vim/git_switcher`  
 

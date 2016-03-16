@@ -7,6 +7,10 @@ if exists('g:loaded_git_switcher')
 endif
 let g:loaded_git_switcher = 1
 
+if !exists('g:gsw_sessions_dir_path')
+  let g:gsw_sessions_dir_path = $HOME.'/.cache/vim/git_switcher'
+endif
+
 command! -nargs=? -complete=customlist,git_switcher#_stored_sessions GswSave call git_switcher#save_session(<f-args>)
 command! -nargs=? -complete=customlist,git_switcher#_stored_sessions GswLoad call git_switcher#load_session(<f-args>)
 command! -bang -nargs=1 -complete=customlist,git_switcher#git#_branches Gsw call git_switcher#gsw(<f-args>,<bang>0)
