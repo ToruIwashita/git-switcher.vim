@@ -26,7 +26,7 @@ Clone remote branch with save confirmation and load session.
 
  - `GswRemote!`  
 
-Clone remote branch with and load session.  
+Clone remote branch and load session.  
 
  - `GswSave`  
 
