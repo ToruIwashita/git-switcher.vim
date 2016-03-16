@@ -49,6 +49,13 @@ fun! git_switcher#new(...)
     echo "load '".self.session.name."' session."
   endf
 
+  fun! obj.autoload_session()
+    if self.session.file_exist()
+      \ && (g:gsw_session_autoload == 'yes' || (g:gsw_session_autoload == 'confirm' && confirm("save '".self.session.name."' session?", "&Yes\n&No", 1) == 1))
+      call self.load_session()
+    end
+  endf
+
   fun! obj.switch(branch,bang)
     if !self.inside_work_tree()
       return
@@ -98,6 +105,11 @@ endf
 fun! git_switcher#load_session(...)
   let git_switcher = call('git_switcher#new', a:000)
   call git_switcher.load_session()
+endf
+
+fun! git_switcher#autoload_session()
+  let git_switcher = git_switcher#new()
+  call git_switcher.autoload_session()
 endf
 
 fun! git_switcher#gsw(branch,bang)

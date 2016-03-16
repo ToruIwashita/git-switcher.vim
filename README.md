@@ -42,3 +42,10 @@ Load session. If receiving an argument, load session with that name.
 
 Location of session file storing directory. Default value is `~/.cache/vim/git_switcher`  
 
+##### `g:gsw_session_autoload`  
+
+Load the session automaticaly when you open no name buffer. Default value is `no`  
+
+ - `yes`: Automatic loading immediately.  
+ - `confirm`: Automatic loading after confirming.  
+ - `no`: Disable automatic loading.  
