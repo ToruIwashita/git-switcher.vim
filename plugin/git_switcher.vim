@@ -11,6 +11,15 @@ if !exists('g:gsw_sessions_dir_path')
   let g:gsw_sessions_dir_path = $HOME.'/.cache/vim/git_switcher'
 endif
 
+if !exists('g:gsw_session_autoload')
+  let g:gsw_session_autoload = 'no'
+endif
+
+augroup git_switcher
+  autocmd!
+  autocmd VimEnter * nested if @% == '' | call git_switcher#autoload_session() | endif 
+augroup END
+
 command! -nargs=? -complete=customlist,git_switcher#_stored_sessions GswSave call git_switcher#save_session(<f-args>)
 command! -nargs=? -complete=customlist,git_switcher#_stored_sessions GswLoad call git_switcher#load_session(<f-args>)
 command! -bang -nargs=1 -complete=customlist,git_switcher#git#_branches Gsw call git_switcher#gsw(<f-args>,<bang>0)
