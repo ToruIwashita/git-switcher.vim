@@ -34,6 +34,10 @@ fun! git_switcher#session#new(session)
     endif
   endf
 
+  fun! obj.stored_sessions()
+    return map(split(expand(self.dir_path().'/*')), 'substitute(fnamemodify(v:val, ":t"), "\\.session\\.vim$", "", "")')
+  endf
+
   fun! obj.store()
     call self.create_dir()
 

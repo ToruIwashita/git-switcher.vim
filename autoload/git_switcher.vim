@@ -91,7 +91,7 @@ fun! git_switcher#new(...)
   endf
 
   fun! obj.stored_sessions()
-    return map(split(expand(self.session.dir_path().'/*')), 'substitute(fnamemodify(v:val, ":t"), "\\.session\\.vim$", "", "")')
+    return self.session.stored_sessions()
   endf
 
   return obj
