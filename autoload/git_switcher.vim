@@ -51,7 +51,7 @@ fun! git_switcher#new(...)
 
   fun! obj.autoload_session()
     if self.session.file_exist()
-      \ && (g:gsw_session_autoload == 'yes' || (g:gsw_session_autoload == 'confirm' && confirm("save '".self.session.name."' session?", "&Yes\n&No", 1) == 1))
+      \ && (g:gsw_session_autoload == 'yes' || (g:gsw_session_autoload == 'confirm' && confirm("load '".self.session.name."' session?", "&Yes\n&No", 1) == 1))
       call self.load_session()
     end
   endf
