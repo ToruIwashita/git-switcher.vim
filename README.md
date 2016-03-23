@@ -14,11 +14,11 @@ Install either with [Pathogen](https://github.com/tpope/vim-pathogen), [Vundle](
 
  - `Gsw`  
 
-Swich branch with save confirmation and load session.  
+Swich branch with save confirmation and load session. If specified branch does not exist, switch after creating branch.
 
  - `Gsw!`  
 
-Swich branch.
+Swich branch. If specified branch does not exist, switch after creating branch.
 
  - `GswRemote`  
 
