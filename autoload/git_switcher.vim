@@ -61,11 +61,23 @@ fun! git_switcher#new(...)
       return
     endif
 
+    if !self.git.branch_exist(a:branch)
+      if confirm("create '".a:branch."' branch?", "&Yes\n&No", 1) == 1
+        if !self.git.create_branch(a:branch) | return | endif
+      else
+        return
+      endif
+    endif
+
     if !a:bang && confirm("save '".self.session.name."' session?", "&Yes\n&No", 1) == 1
       call self.save_session()
     endif
 
-    call self.git.switch(a:branch)
+    if !self.git.switch(a:branch)
+      return
+    endif
+
+    redraw!
 
     let self.session = git_switcher#session#new(self.git.project().'/'.a:branch)
 
@@ -86,7 +98,7 @@ fun! git_switcher#new(...)
     echo 'git fetch.'
     call self.git.fetch()
     echo 'checkout branch.'
-    call self.git.clone_remote_branch(a:branch)
+    call self.git.create_remote_trancking_branch(a:branch)
     call self.git.switch(a:branch)
 
     let self.session = git_switcher#session#new(self.git.project().'/'.a:branch)
