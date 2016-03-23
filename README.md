@@ -8,7 +8,7 @@ Install either with [Pathogen](https://github.com/tpope/vim-pathogen), [Vundle](
 
 ## Usage  
 
-![git_switcher_example](https://raw.githubusercontent.com/wiki/ToruIwashita/git-switcher.vim/images/git_switcher_example_2.gif)  
+![git_switcher_example](https://raw.githubusercontent.com/wiki/ToruIwashita/git-switcher.vim/images/git_switcher_example_new.gif)  
 
 ### Commands  
 
