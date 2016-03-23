@@ -86,7 +86,7 @@ fun! git_switcher#new(...)
     echo 'git fetch.'
     call self.git.fetch()
     echo 'checkout branch.'
-    call self.clone_remote_branch(a:branch)
+    call self.git.clone_remote_branch(a:branch)
     call self.git.switch(a:branch)
 
     let self.session = git_switcher#session#new(self.git.project().'/'.a:branch)
