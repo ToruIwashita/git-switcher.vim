@@ -68,7 +68,10 @@ fun! git_switcher#new(...)
     call self.git.switch(a:branch)
 
     let self.session = git_switcher#session#new(self.git.project().'/'.a:branch)
-    call self.load_session()
+
+    if !a:bang
+      call self.load_session()
+    endif
   endf
 
   fun! obj.switch_remote(branch,bang)
