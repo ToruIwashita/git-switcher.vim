@@ -18,18 +18,17 @@ fun! git_switcher#git#new()
   
   fun! obj.fetch()
     call self.exec('fetch')
+    return 1
   endf
 
   fun! obj.create_branch(branch_key)
     if self.branch_exist(fnamemodify(a:branch_key, ':t'))
-      echo "'".a:branch_key."' already exists."
       return 0
     endif
 
     call self.exec('branch '.a:branch_key)
 
     if !self.branch_exist(fnamemodify(a:branch_key, ':t'))
-      echo "create '".a:branch_key."' failed."
       return 0
     endif
 
@@ -42,14 +41,12 @@ fun! git_switcher#git#new()
 
   fun! obj.switch(branch)
     if !self.branch_exist(a:branch)
-      echo "'".a:branch."' does not exist."
       return 0
     endif
 
     call self.exec('checkout '.a:branch)
 
     if self.current_branch() != a:branch
-      echo 'switch branch failed.'
       return 0
     endif
 
