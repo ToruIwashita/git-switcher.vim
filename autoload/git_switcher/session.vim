@@ -5,15 +5,31 @@
 let s:cpo_save = &cpo
 set cpo&vim
 
-fun! git_switcher#session#new(session)
-  let obj = {'name': a:session}
+fun! git_switcher#session#new(key)
+  let obj = {
+    \ '_name': 'session',
+    \ '_key': a:key,
+    \ '_root_dir': g:gsw_sessions_dir_path
+  \ }
+
+  fun! obj.name()
+    return self._name
+  endf
+
+  fun! obj.key()
+    return self._key
+  endf
+
+  fun! obj.root_dir()
+    return self._root_dir
+  endf
 
   fun! obj.root_dir_path()
-    return g:gsw_sessions_dir_path.'/'
+    return self.root_dir().'/'
   endf
 
   fun! obj.file_path()
-    return self.root_dir_path().self.name.'.session.vim'
+    return self.root_dir_path().self.key().'.'.self.name().'.vim'
   endf
 
   fun! obj.file_exist()

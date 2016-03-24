@@ -30,7 +30,7 @@ fun! git_switcher#new(...)
     endif
 
     call self.session.store()
-    echo "saved '".self.session.name."' session."
+    echo "saved '".self.session.key()."' session."
     return 1
   endf
 
@@ -47,13 +47,13 @@ fun! git_switcher#new(...)
 
     call self.state.delete_all_buffers()
     call self.session.restore()
-    echo "loaded '".self.session.name."' session."
+    echo "loaded '".self.session.key()."' session."
     return 1
   endf
 
   fun! obj.autoload_session()
     if self.session.file_exist()
-      \ && (g:gsw_session_autoload == 'yes' || (g:gsw_session_autoload == 'confirm' && confirm("load '".self.session.name."' session?", "&Yes\n&No", 1) == 1))
+      \ && (g:gsw_session_autoload == 'yes' || (g:gsw_session_autoload == 'confirm' && confirm("load '".self.session.key()."' session?", "&Yes\n&No", 1) == 1))
       call self.load_session()
     end
   endf
@@ -85,7 +85,7 @@ fun! git_switcher#new(...)
       endif
     endif
 
-    if !a:bang && confirm("save '".self.session.name."' session?", "&Yes\n&No", 1) == 1
+    if !a:bang && confirm("save '".self.session.key()."' session?", "&Yes\n&No", 1) == 1
       redraw!
       call self.save_session()
     endif

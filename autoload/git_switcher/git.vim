@@ -6,10 +6,14 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 fun! git_switcher#git#new()
-  let obj = {'name': 'git'}
+  let obj = {'_name': 'git'}
+
+  fun! obj.name()
+    return self._name
+  endf
 
   fun! obj.exec(cmd)
-    return system(self.name.' '.a:cmd.' 2>/dev/null')
+    return system(self.name().' '.a:cmd.' 2>/dev/null')
   endf
 
   fun! obj.chomp_exec(cmd)

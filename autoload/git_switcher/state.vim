@@ -6,7 +6,7 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 fun! git_switcher#state#new()
-  let obj = {'name': 'state'}
+  let obj = {'_name': 'state'}
 
   fun! obj.delete_all_buffers() abort
     for buf_num in filter(range(1, bufnr('$')), 'buflisted(v:val)')
