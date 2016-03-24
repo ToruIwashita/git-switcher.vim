@@ -121,6 +121,19 @@ fun! git_switcher#new(...)
     return map(split(expand(self.session.dir_path().'/*')), 'substitute(fnamemodify(v:val, ":t"), "\\.session\\.vim$", "", "")')
   endf
 
+  fun! obj.delete_session()
+    if confirm("delete '".self.session.key()."' session?", "&Yes\n&No", 1) != 1
+      return 1
+    endif
+
+    if !self.session.destroy()
+      echo "deleting '".self.session.key()."' session failed."
+      return 0
+    endif
+
+    return 1
+  endf
+
   return obj
 endf
 
@@ -147,6 +160,11 @@ endf
 fun! git_switcher#gsw_remote(branch,bang)
   let git_switcher = git_switcher#new(a:branch)
   call git_switcher.switch('remote', a:branch, a:bang)
+endf
+
+fun! git_switcher#delete_session(branch)
+  let git_switcher = git_switcher#new(a:branch)
+  call git_switcher.delete_session()
 endf
 
 fun! git_switcher#_stored_sessions(arg_lead, cmd_line, cursor_pos)

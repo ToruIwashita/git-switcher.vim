@@ -71,6 +71,10 @@ fun! git_switcher#session#new(key)
     redraw!
   endf
 
+  fun! obj.destroy()
+    return delete(self.file_path()) == 0
+  endf
+
   return obj
 endf
 
