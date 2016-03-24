@@ -7,8 +7,8 @@ if exists('g:loaded_git_switcher')
 endif
 let g:loaded_git_switcher = 1
 
-if !exists('g:gsw_sessions_dir_path')
-  let g:gsw_sessions_dir_path = $HOME.'/.cache/vim/git_switcher'
+if !exists('g:gsw_sessions_dir')
+  let g:gsw_sessions_dir = $HOME.'/.cache/vim/git_switcher'
 endif
 
 if !exists('g:gsw_session_autoload')

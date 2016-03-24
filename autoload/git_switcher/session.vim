@@ -9,7 +9,7 @@ fun! git_switcher#session#new(key)
   let obj = {
     \ '_name': 'session',
     \ '_key': a:key,
-    \ '_root_dir': g:gsw_sessions_dir_path
+    \ '_root_dir': g:gsw_sessions_dir
   \ }
 
   fun! obj.name()
