@@ -45,6 +45,7 @@ fun! git_switcher#new(...)
       return 0
     endif
 
+    echo "loading '".self.session.key()."' session."
     call self.state.delete_all_buffers()
     call self.session.restore()
     echo "loaded '".self.session.key()."' session."
