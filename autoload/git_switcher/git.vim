@@ -1,19 +1,15 @@
-" git-switcher
-" Author:  Toru Hoyano <toru.iwashita@gmail.com>
+" File: git.vim
+" Author: Toru Hoyano <toru.iwashita@gmail.com>
 " License: This file is placed in the public domain.
 
 let s:cpo_save = &cpo
 set cpo&vim
 
 fun! git_switcher#git#new()
-  let obj = {'_name': 'git'}
-
-  fun! obj.name()
-    return self._name
-  endf
+  let obj = {'_self': 'git'}
 
   fun! obj.exec(cmd)
-    return system(self.name().' '.a:cmd.' 2>/dev/null')
+    return system(self._self.' '.a:cmd.' 2>/dev/null')
   endf
 
   fun! obj.chomp_exec(cmd)
@@ -26,13 +22,13 @@ fun! git_switcher#git#new()
   endf
 
   fun! obj.create_branch(branch_key)
-    if self.branch_exist(fnamemodify(a:branch_key, ':t'))
+    if self.branch_exists(fnamemodify(a:branch_key, ':t'))
       return 0
     endif
 
     call self.exec('branch '.a:branch_key)
 
-    if !self.branch_exist(fnamemodify(a:branch_key, ':t'))
+    if !self.branch_exists(fnamemodify(a:branch_key, ':t'))
       return 0
     endif
 
@@ -44,7 +40,7 @@ fun! git_switcher#git#new()
   endf
 
   fun! obj.switch(branch)
-    if !self.branch_exist(a:branch)
+    if !self.branch_exists(a:branch)
       return 0
     endif
 
@@ -65,7 +61,7 @@ fun! git_switcher#git#new()
     return self.chomp_exec('rev-parse --is-inside-work-tree') == 'true'
   endf
 
-  fun! obj.branch_exist(branch)
+  fun! obj.branch_exists(branch)
     return match(self.branches(), '\<'.a:branch.'\>') != -1
   endf
 
