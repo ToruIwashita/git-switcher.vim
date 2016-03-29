@@ -64,25 +64,25 @@ fun! git_switcher#new(...)
     endif
 
     if !self.git.branch_exist(a:branch)
-      if confirm("create '".a:branch."' branch?", "&Yes\n&No", 1) == 1
-        redraw!
-
-        if a:source ==# 'remote'
-          echo 'fetching remote.'
-          call self.git.fetch()
-          let create_branch_res = self.git.create_remote_trancking_branch(a:branch)
-          redraw!
-        elseif a:source ==# 'local'
-          let create_branch_res = self.git.create_branch(a:branch)
-        end
-
-        if !create_branch_res
-          echo "creating '".a:branch."' branch failed."
-          return 0
-        end
-      else
+      if confirm("create '".a:branch."' branch?", "&Yes\n&No", 1) != 1
         return 1
       endif
+
+      redraw!
+
+      if a:source ==# 'remote'
+        echo 'fetching remote.'
+        call self.git.fetch()
+        let create_branch_res = self.git.create_remote_trancking_branch(a:branch)
+        redraw!
+      elseif a:source ==# 'local'
+        let create_branch_res = self.git.create_branch(a:branch)
+      end
+
+      if !create_branch_res
+        echo "creating '".a:branch."' branch failed."
+        return 0
+      end
     endif
 
     if !a:bang && confirm("save '".self.session.key()."' session?", "&Yes\n&No", 1) == 1
@@ -98,25 +98,40 @@ fun! git_switcher#new(...)
       return 0
     endif
 
-    if !a:bang
-      let self.session = git_switcher#session#new(self.git.project().'/'.a:branch)
+    if a:bang
+      return 1
+    endif
 
-      redraw!
-      let load_session_res = self.load_session()
+    let self.session = git_switcher#session#new(self.git.project().'/'.a:branch)
+    redraw!
 
-      redraw!
-      if load_session_res
-        echo "switched to '".a:branch."' branch and loaded session."
-      else
-        echo "switched to '".a:branch."' branch."
-      endif
+    let load_session_res = self.load_session()
+    redraw!
+
+    if load_session_res
+      echo "switched to '".a:branch."' branch and loaded session."
+    else
+      echo "switched to '".a:branch."' branch."
     endif
 
     return 1
   endf
 
   fun! obj.stored_sessions()
-    return self.session.stored_sessions()
+    return map(split(expand(self.session.dir_path().'/*')), 'substitute(fnamemodify(v:val, ":t"), "\\.session\\.vim$", "", "")')
+  endf
+
+  fun! obj.delete_session()
+    if confirm("delete '".self.session.key()."' session?", "&Yes\n&No", 1) != 1
+      return 1
+    endif
+
+    if !self.session.destroy()
+      echo "deleting '".self.session.key()."' session failed."
+      return 0
+    endif
+
+    return 1
   endf
 
   return obj
@@ -138,13 +153,18 @@ fun! git_switcher#autoload_session()
 endf
 
 fun! git_switcher#gsw(branch,bang)
-  let git_switcher = call('git_switcher#new', a:000)
+  let git_switcher = git_switcher#new(a:branch)
   call git_switcher.switch('local', a:branch, a:bang)
 endf
 
 fun! git_switcher#gsw_remote(branch,bang)
-  let git_switcher = call('git_switcher#new', a:000)
+  let git_switcher = git_switcher#new(a:branch)
   call git_switcher.switch('remote', a:branch, a:bang)
+endf
+
+fun! git_switcher#delete_session(branch)
+  let git_switcher = git_switcher#new(a:branch)
+  call git_switcher.delete_session()
 endf
 
 fun! git_switcher#_stored_sessions(arg_lead, cmd_line, cursor_pos)

@@ -20,6 +20,10 @@ fun! git_switcher#session#new(key)
     return self._key
   endf
 
+  fun! obj.file_suffix()
+    return '.'.self.name().'.vim'
+  endf
+
   fun! obj.root_dir()
     return self._root_dir
   endf
@@ -29,7 +33,7 @@ fun! git_switcher#session#new(key)
   endf
 
   fun! obj.file_path()
-    return self.root_dir_path().self.key().'.'.self.name().'.vim'
+    return self.root_dir_path().self.key().self.file_suffix()
   endf
 
   fun! obj.file_exist()
@@ -50,10 +54,6 @@ fun! git_switcher#session#new(key)
     endif
   endf
 
-  fun! obj.stored_sessions()
-    return map(split(expand(self.dir_path().'/*')), 'substitute(fnamemodify(v:val, ":t"), "\\.session\\.vim$", "", "")')
-  endf
-
   fun! obj.store()
     call self.create_dir()
 
@@ -69,6 +69,10 @@ fun! git_switcher#session#new(key)
   fun! obj.restore()
     exec 'source' self.file_path()
     redraw!
+  endf
+
+  fun! obj.destroy()
+    return delete(self.file_path()) == 0
   endf
 
   return obj
