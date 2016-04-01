@@ -36,7 +36,11 @@ Save session. If receiving an argument, save session with that name.
 
 Load session. If receiving an argument, load session with that name.  
 
- - `GswDeleteSession`  
+#####・`GswFetch`  
+
+Call git fetch command.  
+
+#####・`GswDeleteSession`  
 
 Delete saved session.  
 

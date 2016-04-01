@@ -24,6 +24,13 @@ fun! git_switcher#new(...)
     return 1
   endf
 
+  fun! obj.fetch_project()
+    echo 'fetching remote.'
+    call self.git.fetch()
+    redraw!
+    echo 'fetched.'
+  endf
+
   fun! obj.save_session()
     if !self.inside_work_tree()
       return 0
@@ -71,8 +78,7 @@ fun! git_switcher#new(...)
       redraw!
 
       if a:source ==# 'remote'
-        echo 'fetching remote.'
-        call self.git.fetch()
+        call self.fetch_project()
         let create_branch_res = self.git.create_remote_trancking_branch(a:branch)
         redraw!
       elseif a:source ==# 'local'
@@ -135,6 +141,11 @@ fun! git_switcher#new(...)
   endf
 
   return obj
+endf
+
+fun! git_switcher#fetch_project()
+  let git_switcher = git_switcher#new()
+  call git_switcher.fetch_project()
 endf
 
 fun! git_switcher#save_session(...)
