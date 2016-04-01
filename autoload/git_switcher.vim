@@ -29,6 +29,7 @@ fun! git_switcher#new(...)
     call self.git.fetch()
     redraw!
     echo 'fetched.'
+    return 1
   endf
 
   fun! obj.save_session()
