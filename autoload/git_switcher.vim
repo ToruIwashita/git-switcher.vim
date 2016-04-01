@@ -6,7 +6,10 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 fun! git_switcher#new(...)
-  let obj = {}
+  let obj = {
+    \ '_self': 'git_switcher',
+    \ '_autostash_enabled': g:gsw_switch_autostash
+  \ }
   let obj.git = git_switcher#git#new()
   let obj.state = git_switcher#state#new()
   if a:0
@@ -14,6 +17,10 @@ fun! git_switcher#new(...)
   else
     let obj.project_session = git_switcher#project_session#new(obj.git.project(), obj.git.current_branch())
   endif
+
+  fun! obj.autostash_enabled()
+    return self._autostash_enabled == 1
+  endf
 
   fun! obj.inside_work_tree()
     if !self.git.inside_work_tree()
@@ -97,6 +104,10 @@ fun! git_switcher#new(...)
       call self.save_session()
     endif
 
+    if self.autostash_enabled()
+      call self.git.save_stash()
+    endif
+
     redraw!
     echo "checking out files."
     if !self.git.switch(a:branch)
@@ -105,20 +116,30 @@ fun! git_switcher#new(...)
       return 0
     endif
 
-    if a:bang
-      return 1
+    let pop_stash_res = 0
+    if self.autostash_enabled()
+      let pop_stash_res = self.git.pop_stash()
     endif
 
     let self.project_session = git_switcher#project_session#new(self.git.project(), a:branch)
-    redraw!
 
-    let load_session_res = self.load_session()
-    redraw!
-
-    if load_session_res
-      echo "switched to '".a:branch."' branch and loaded session."
-    else
+    if a:bang
+      redraw!
       echo "switched to '".a:branch."' branch."
+      return 1
+    endif
+
+    redraw!
+    if self.load_session()
+      let res_message = "switched to '".a:branch."' branch and loaded session."
+    else
+      let res_message = "switched to '".a:branch."' branch."
+    endif
+
+    redraw!
+    echo res_message
+    if self.git.both_modified_file_exists()
+      echo pop_stash_res
     endif
 
     return 1

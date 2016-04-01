@@ -15,6 +15,10 @@ if !exists('g:gsw_session_autoload')
   let g:gsw_session_autoload = 'no'
 endif
 
+if !exists('g:gsw_autostash_switching')
+  let g:gsw_switch_autostash = 0
+endif
+
 augroup git_switcher
   autocmd!
   autocmd VimEnter * nested if @% == '' | call git_switcher#autoload_session() | endif 
