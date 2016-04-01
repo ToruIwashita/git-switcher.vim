@@ -12,23 +12,23 @@ Install either with [Pathogen](https://github.com/tpope/vim-pathogen), [Vundle](
 
 ### Commands  
 
-#####・`Gsw`  
+##### - `Gsw`  
 
 Swich branch with save confirmation and load session. If specified branch does not exist, switch after creating branch.  
 
-#####・`Gsw!`  
+##### - `Gsw!`  
 
 Swich branch. If specified branch does not exist, switch after creating branch.  
 
-#####・`GswRemote`  
+##### - `GswRemote`  
 
 Clone remote branch with save confirmation and load session. If specified branch does not exist, switch after creating branch.  
 
-#####・`GswRemote!`  
+##### - `GswRemote!`  
 
 Clone remote branch and load session. If specified branch does not exist, switch after creating branch.  
 
-#####・`GswSave`  
+##### - `GswSave`  
 
 Save session. If receiving an argument, save session with that name.  
 
@@ -36,25 +36,25 @@ Save session. If receiving an argument, save session with that name.
 
 Load session. If receiving an argument, load session with that name.  
 
-#####・`GswFetch`  
+##### - `GswFetch`  
 
 Call git fetch command.  
 
-#####・`GswClearSession`  
+##### - `GswClearSession`  
 
 Clear session by deleting buffers.  
 
-#####・`GswDeleteSession`  
+##### - `GswDeleteSession`  
 
 Delete saved session.  
 
 ### Options  
 
-#####・`g:gsw_sessions_dir`  
+##### - `g:gsw_sessions_dir`  
 
 Location of session file storing directory. Default value is `~/.cache/vim/git_switcher`  
 
-#####・`g:gsw_session_autoload`  
+##### - `g:gsw_session_autoload`  
 
 Load the session automaticaly when you open no name buffer. Default value is `no`  
 
