@@ -42,7 +42,7 @@ Call git fetch command.
 
 #####・`GswClearSession`  
 
-Clear the session by deleting the buffer.  
+Clear session by deleting buffers.  
 
 #####・`GswDeleteSession`  
 
