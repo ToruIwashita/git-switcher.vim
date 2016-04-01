@@ -21,6 +21,7 @@ augroup git_switcher
 augroup END
 
 command! GswFetch call git_switcher#fetch_project()
+command! GswClearState call git_switcher#clear_stete()
 command! -nargs=? -complete=customlist,git_switcher#_stored_sessions GswSave call git_switcher#save_session(<f-args>)
 command! -nargs=? -complete=customlist,git_switcher#_stored_sessions GswLoad call git_switcher#load_session(<f-args>)
 command! -nargs=1 -complete=customlist,git_switcher#_stored_sessions GswDeleteSession call git_switcher#delete_session(<f-args>)

@@ -127,6 +127,12 @@ fun! git_switcher#new(...)
     return self.project_session.stored_sessions()
   endf
 
+  fun! obj.clear_state()
+    call self.state.delete_all_buffers()
+    echo 'cleared session state.'
+    return 1
+  endf
+
   fun! obj.delete_session()
     if confirm("delete '".self.project_session.name()."' session?", "&Yes\n&No", 1) != 1
       return 1
@@ -171,6 +177,11 @@ endf
 fun! git_switcher#gsw_remote(branch,bang)
   let git_switcher = git_switcher#new()
   call git_switcher.switch('remote', a:branch, a:bang)
+endf
+
+fun! git_switcher#clear_stete()
+  let git_switcher = git_switcher#new()
+  call git_switcher.clear_state()
 endf
 
 fun! git_switcher#delete_session(branch)
