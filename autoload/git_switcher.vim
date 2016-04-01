@@ -1,5 +1,5 @@
-" git-switcher
-" Author:  Toru Hoyano <toru.iwashita@gmail.com>
+" File: git-switcher.vim
+" Author: Toru Hoyano <toru.iwashita@gmail.com>
 " License: This file is placed in the public domain.
 
 let s:cpo_save = &cpo
@@ -7,12 +7,12 @@ set cpo&vim
 
 fun! git_switcher#new(...)
   let obj = {}
-  let obj.git   = git_switcher#git#new()
+  let obj.git = git_switcher#git#new()
   let obj.state = git_switcher#state#new()
   if a:0
-    let obj.session = git_switcher#session#new(obj.git.project().'/'.a:1)
+    let obj.project_session = git_switcher#project_session#new(obj.git.project(), a:1)
   else
-    let obj.session = git_switcher#session#new(obj.git.project().'/'.obj.git.current_branch())
+    let obj.project_session = git_switcher#project_session#new(obj.git.project(), obj.git.current_branch())
   endif
 
   fun! obj.inside_work_tree()
@@ -29,8 +29,8 @@ fun! git_switcher#new(...)
       return 0
     endif
 
-    call self.session.store()
-    echo "saved '".self.session.key()."' session."
+    call self.project_session.store()
+    echo "saved '".self.project_session.name()."' session."
     return 1
   endf
 
@@ -39,21 +39,21 @@ fun! git_switcher#new(...)
       return 0
     endif
 
-    if !self.session.file_exist()
+    if !self.project_session.file_exists()
       silent! edit!
       echo 'session file does not exist.'
       return 0
     endif
 
     call self.state.delete_all_buffers()
-    call self.session.restore()
-    echo "loaded '".self.session.key()."' session."
+    call self.project_session.restore()
+    echo "loaded '".self.project_session.name()."' session."
     return 1
   endf
 
   fun! obj.autoload_session()
-    if self.session.file_exist()
-      \ && (g:gsw_session_autoload == 'yes' || (g:gsw_session_autoload == 'confirm' && confirm("load '".self.session.key()."' session?", "&Yes\n&No", 1) == 1))
+    if self.project_session.file_exists()
+      \ && (g:gsw_session_autoload == 'yes' || (g:gsw_session_autoload == 'confirm' && confirm("load '".self.project_session.name()."' session?", "&Yes\n&No", 1) == 1))
       call self.load_session()
     end
   endf
@@ -63,7 +63,7 @@ fun! git_switcher#new(...)
       return 0
     endif
 
-    if !self.git.branch_exist(a:branch)
+    if !self.git.branch_exists(a:branch)
       if confirm("create '".a:branch."' branch?", "&Yes\n&No", 1) != 1
         return 1
       endif
@@ -85,7 +85,7 @@ fun! git_switcher#new(...)
       end
     endif
 
-    if !a:bang && confirm("save '".self.session.key()."' session?", "&Yes\n&No", 1) == 1
+    if !a:bang && confirm("save '".self.project_session.name()."' session?", "&Yes\n&No", 1) == 1
       redraw!
       call self.save_session()
     endif
@@ -102,7 +102,7 @@ fun! git_switcher#new(...)
       return 1
     endif
 
-    let self.session = git_switcher#session#new(self.git.project().'/'.a:branch)
+    let self.project_session = git_switcher#project_session#new(self.git.project(), a:branch)
     redraw!
 
     let load_session_res = self.load_session()
@@ -118,16 +118,16 @@ fun! git_switcher#new(...)
   endf
 
   fun! obj.stored_sessions()
-    return map(split(expand(self.session.dir_path().'/*')), 'substitute(fnamemodify(v:val, ":t"), "\\.session\\.vim$", "", "")')
+    return self.project_session.stored_sessions()
   endf
 
   fun! obj.delete_session()
-    if confirm("delete '".self.session.key()."' session?", "&Yes\n&No", 1) != 1
+    if confirm("delete '".self.project_session.name()."' session?", "&Yes\n&No", 1) != 1
       return 1
     endif
 
-    if !self.session.destroy()
-      echo "deleting '".self.session.key()."' session failed."
+    if !self.project_session.destroy()
+      echo "deleting '".self.project_session.name()."' session failed."
       return 0
     endif
 
@@ -153,12 +153,12 @@ fun! git_switcher#autoload_session()
 endf
 
 fun! git_switcher#gsw(branch,bang)
-  let git_switcher = git_switcher#new(a:branch)
+  let git_switcher = git_switcher#new()
   call git_switcher.switch('local', a:branch, a:bang)
 endf
 
 fun! git_switcher#gsw_remote(branch,bang)
-  let git_switcher = git_switcher#new(a:branch)
+  let git_switcher = git_switcher#new()
   call git_switcher.switch('remote', a:branch, a:bang)
 endf
 

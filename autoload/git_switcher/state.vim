@@ -1,12 +1,12 @@
-" git-switcher
-" Author:  Toru Hoyano <toru.iwashita@gmail.com>
+" File: state.vim
+" Author: Toru Hoyano <toru.iwashita@gmail.com>
 " License: This file is placed in the public domain.
 
 let s:cpo_save = &cpo
 set cpo&vim
 
 fun! git_switcher#state#new()
-  let obj = {'_name': 'state'}
+  let obj = {'_self': 'state'}
 
   fun! obj.delete_all_buffers() abort
     for buf_num in filter(range(1, bufnr('$')), 'buflisted(v:val)')
