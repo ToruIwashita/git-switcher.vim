@@ -72,7 +72,7 @@ fun! git_switcher#new(...)
     endif
 
     if !self.git.branch_exists(a:branch)
-      if confirm("create '".a:branch."' branch?", "&Yes\n&No", 1) != 1
+      if confirm("create '".a:branch."' branch based on '".self.git.current_branch()."'?", "&Yes\n&No", 1) != 1
         return 1
       endif
 
