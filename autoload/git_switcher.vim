@@ -31,7 +31,45 @@ fun! git_switcher#new(...)
     return 1
   endf
 
+  fun! obj.branch()
+    if !self.inside_work_tree()
+      return 0
+    endif
+
+    echo self.git.branch()
+    return 1
+  endf
+
+  fun! obj.remote_tracking_branch()
+    if !self.inside_work_tree()
+      return 0
+    endif
+
+    echo self.git.remote_tracking_branch()
+    return 1
+  endf
+
+  fun! obj.branches()
+    if !self.inside_work_tree()
+      return []
+    endif
+
+    return self.git.branches()
+  endf
+
+  fun! obj.remote_only_branches()
+    if !self.inside_work_tree()
+      return []
+    endif
+
+    return self.git.remote_only_branches()
+  endf
+
   fun! obj.fetch_project()
+    if !self.inside_work_tree()
+      return 0
+    endif
+
     echo 'fetching remote.'
     call self.git.fetch()
     redraw!
@@ -151,13 +189,11 @@ fun! git_switcher#new(...)
     return self.project_session.stored_sessions()
   endf
 
-  fun! obj.clear_state()
-    call self.state.delete_all_buffers()
-    echo 'cleared session state.'
-    return 1
-  endf
-
   fun! obj.delete_session()
+    if !self.inside_work_tree()
+      return 0
+    endif
+
     if confirm("delete '".self.project_session.name()."' session?", "&Yes\n&No", 1) != 1
       return 1
     endif
@@ -170,7 +206,23 @@ fun! git_switcher#new(...)
     return 1
   endf
 
+  fun! obj.clear_state()
+    call self.state.delete_all_buffers()
+    echo 'cleared session state.'
+    return 1
+  endf
+
   return obj
+endf
+
+fun! git_switcher#branch()
+  let git_switcher = git_switcher#new()
+  call git_switcher.branch()
+endf
+
+fun! git_switcher#remote_tracking_branch()
+  let git_switcher = git_switcher#new()
+  call git_switcher.remote_tracking_branch()
 endf
 
 fun! git_switcher#fetch_project()
@@ -211,6 +263,16 @@ endf
 fun! git_switcher#delete_session(branch)
   let git_switcher = git_switcher#new(a:branch)
   call git_switcher.delete_session()
+endf
+
+fun! git_switcher#_branches(...)
+  let git_switcher = git_switcher#new()
+  return filter(git_switcher.branches(), 'v:val =~ "^'.fnameescape(a:1).'"')
+endf
+
+fun! git_switcher#_remote_only_branches(...)
+  let git_switcher = git_switcher#new()
+  return filter(git_switcher.remote_only_branches(), 'v:val =~ "^'.fnameescape(a:1).'"')
 endf
 
 fun! git_switcher#_stored_sessions(...)
