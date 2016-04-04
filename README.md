@@ -14,27 +14,27 @@ Install either with [Pathogen](https://github.com/tpope/vim-pathogen), [Vundle](
 
 ##### - `Gsw`  
 
-Swich branch with save confirmation and load session. If specified branch does not exist, switch after creating branch.  
+Switch branches with save confirmation and load the session. If specified branch does not exist, switch after creating branch.  
 
 ##### - `Gsw!`  
 
-Swich branch. If specified branch does not exist, switch after creating branch.  
+Switch branches. If specified branch does not exist, switch branches after creating branch.  
 
 ##### - `GswRemote`  
 
-Clone remote branch with save confirmation and load session. If specified branch does not exist, switch after creating branch.  
+Clone remote branch with save confirmation and load the session. If specified branch does not exist, switch branches after creating branch.  
 
 ##### - `GswRemote!`  
 
-Clone remote branch and load session. If specified branch does not exist, switch after creating branch.  
+Clone remote branch and load the session. If specified branch does not exist, switch branches after creating branch.  
 
 ##### - `GswSave`  
 
-Save session. If receiving an argument, save session with that name.  
+Save a session. If receiving an argument, save a session with that name.  
 
 #####・`GswLoad`  
 
-Load session. If receiving an argument, load session with that name.  
+Load a session. If receiving an argument, load a session with that name.  
 
 ##### - `GswFetch`  
 
@@ -46,7 +46,7 @@ Clear session by deleting buffers.
 
 ##### - `GswDeleteSession`  
 
-Delete saved session.  
+Delete a saved session.  
 
 ### Options  
 
@@ -61,3 +61,7 @@ Load the session automaticaly when you open no name buffer. Default value is `no
  - `yes`: Automatic loading immediately.  
  - `confirm`: Automatic loading after confirming.  
  - `no`: Disable automatic loading.  
+
+##### - `gsw_switch_autostash`  
+
+Automatically create a temporary stash and apply it in switching branches.  
