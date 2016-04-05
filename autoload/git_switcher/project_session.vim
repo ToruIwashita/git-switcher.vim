@@ -52,7 +52,7 @@ fun! git_switcher#project_session#new(project_key, session_key)
   endf
 
   fun! obj.stored_sessions()
-    return map(split(expand('~/.cache/vim/git_switcher/tag-tnjump.vim/*')), 'matchstr(fnamemodify(v:val, ":t"), "^\\zs\\(.*\\)\\ze'.self.session_file.escaped_ext().'$", 0)')
+    return map(split(expand(self.project_dir.path().'/*')), 'matchstr(fnamemodify(v:val, ":t"), "^\\zs\\(.*\\)\\ze'.self.session_file.escaped_ext().'$", 0)')
   endf
 
   return obj
