@@ -85,6 +85,7 @@ fun! git_switcher#new(...)
 
       redraw!
 
+      let create_branch_res = 0
       if a:source ==# 'remote'
         call self.fetch_project()
         let create_branch_res = self.git.create_remote_trancking_branch(a:branch)
