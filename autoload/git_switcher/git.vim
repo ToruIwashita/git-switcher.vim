@@ -113,14 +113,14 @@ fun! git_switcher#git#new()
   return obj
 endf
 
-fun! git_switcher#git#_branches(arg_lead, cmd_line, cursor_pos)
+fun! git_switcher#git#_branches(...)
   let git = git_switcher#git#new()
-  return filter(git.branches(), 'v:val =~ "^'.fnameescape(a:arg_lead).'"')
+  return filter(git.branches(), 'v:val =~ "^'.fnameescape(a:1).'"')
 endf
 
-fun! git_switcher#git#_remote_only_branches(arg_lead, cmd_line, cursor_pos)
+fun! git_switcher#git#_remote_only_branches(...)
   let git = git_switcher#git#new()
-  return filter(git.remote_only_branches(), 'v:val =~ "^'.fnameescape(a:arg_lead).'"')
+  return filter(git.remote_only_branches(), 'v:val =~ "^'.fnameescape(a:1).'"')
 endf
 
 let &cpo = s:cpo_save

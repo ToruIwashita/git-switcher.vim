@@ -211,9 +211,9 @@ fun! git_switcher#delete_session(branch)
   call git_switcher.delete_session()
 endf
 
-fun! git_switcher#_stored_sessions(arg_lead, cmd_line, cursor_pos)
+fun! git_switcher#_stored_sessions(...)
   let git_switcher = git_switcher#new()
-  return filter(git_switcher.stored_sessions(), 'v:val =~ "^'.fnameescape(a:arg_lead).'"')
+  return filter(git_switcher.stored_sessions(), 'v:val =~ "^'.fnameescape(a:1).'"')
 endf
 
 let &cpo = s:cpo_save
