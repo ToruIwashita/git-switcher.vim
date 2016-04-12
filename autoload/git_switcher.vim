@@ -105,8 +105,9 @@ fun! git_switcher#new(...)
       call self.save_session()
     endif
 
+    let save_stash_res = 0
     if self.autostash_enabled()
-      call self.git.save_stash()
+      let save_stash_res = self.git.save_stash()
     endif
 
     redraw!
@@ -118,7 +119,7 @@ fun! git_switcher#new(...)
     endif
 
     let pop_stash_res = 0
-    if self.autostash_enabled()
+    if self.autostash_enabled() && save_stash_res
       let pop_stash_res = self.git.pop_stash()
     endif
 

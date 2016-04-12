@@ -12,10 +12,6 @@ fun! git_switcher#git#new()
     return substitute(system(self._self.' '.a:cmd.' 2>/dev/null'), '\n$', '', '')
   endf
 
-  fun! obj.chomp_exec(cmd)
-    return substitute(self.exec(a:cmd), '\n', '', 'g')
-  endf
-
   fun! obj.short_status()
     return self.exec('status --short')
   endf
@@ -26,7 +22,7 @@ fun! git_switcher#git#new()
   endf
 
   fun! obj.save_stash()
-    return self.exec('stash save')
+    return self.exec('stash save') !=# 'No local changes to save'
   endf
 
   fun! obj.pop_stash()
@@ -66,11 +62,11 @@ fun! git_switcher#git#new()
   endf
 
   fun! obj.project()
-    return fnamemodify(self.chomp_exec('rev-parse --show-toplevel'), ':t')
+    return fnamemodify(self.exec('rev-parse --show-toplevel'), ':t')
   endf
 
   fun! obj.inside_work_tree()
-    return self.chomp_exec('rev-parse --is-inside-work-tree') == 'true'
+    return self.exec('rev-parse --is-inside-work-tree') ==# 'true'
   endf
 
   fun! obj.both_modified_file_exists()
@@ -86,7 +82,7 @@ fun! git_switcher#git#new()
   endf
 
   fun! obj.current_branch()
-    return self.chomp_exec('symbolic-ref --short HEAD')
+    return self.exec('symbolic-ref --short HEAD')
   endf
 
   fun! obj.branches()
