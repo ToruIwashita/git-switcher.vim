@@ -9,7 +9,7 @@ fun! git_switcher#git#new()
   let obj = {'_self': 'git'}
 
   fun! obj.exec(cmd)
-    return substitute(system(self._self.' '.a:cmd.' 2>/dev/null'), '\n$', '', '')
+    return substitute(system('\'.self._self.' '.a:cmd.' 2>/dev/null'), '\n$', '', '')
   endf
 
   fun! obj.short_status()
@@ -27,6 +27,43 @@ fun! git_switcher#git#new()
 
   fun! obj.pop_stash()
     return self.exec('stash pop')
+  endf
+
+  fun! obj.branch()
+    return self.exec('branch')
+  endf
+
+  fun! obj.remote_tracking_branch()
+    return self.exec('branch --remotes')
+  endf
+
+  fun! obj.branches()
+    return filter(split(self.branch()), 'v:val != "*"')
+  endf
+
+  fun! obj.remote_tracking_branches()
+    return map(filter(split(self.remote_tracking_branch(), '\n'), 'v:val !~ "->"'), 'matchstr(v:val, "^\\(  origin/\\|  \\)\\zs\\(.*\\)\\ze", 0)')
+  endf
+
+  fun! obj.remote_only_branches()
+    let local_branches = self.branches()
+    let remote_only_branches = []
+
+    for remote_tracking_branch in self.remote_tracking_branches()
+      if match(local_branches, '\<'.remote_tracking_branch.'\>') == -1
+        call add(remote_only_branches, remote_tracking_branch)
+      endif
+    endfor
+
+    return remote_only_branches
+  endf
+
+  fun! obj.current_branch()
+    return self.exec('symbolic-ref --short HEAD')
+  endf
+
+  fun! obj.branch_exists(branch)
+    return match(self.branches(), '\<'.a:branch.'\>') != -1
   endf
 
   fun! obj.create_branch(branch_key)
@@ -77,46 +114,7 @@ fun! git_switcher#git#new()
     return map(filter(split(self.short_status(), '\n'), 'v:val =~ "^UU"'), 'matchstr(v:val, "^UU \\zs\\(.*\\)\\ze", 0)')
   endf
 
-  fun! obj.branch_exists(branch)
-    return match(self.branches(), '\<'.a:branch.'\>') != -1
-  endf
-
-  fun! obj.current_branch()
-    return self.exec('symbolic-ref --short HEAD')
-  endf
-
-  fun! obj.branches()
-    return filter(split(self.exec('branch')), 'v:val != "*"')
-  endf
-
-  fun! obj.remote_tracking_branches()
-    return map(filter(split(self.exec('branch --remotes'), '\n'), 'v:val !~ "->"'), 'matchstr(v:val, "^\\(  origin/\\|  \\)\\zs\\(.*\\)\\ze", 0)')
-  endf
-
-  fun! obj.remote_only_branches()
-    let local_branches = self.branches()
-    let remote_only_branches = []
-
-    for remote_tracking_branch in self.remote_tracking_branches()
-      if match(local_branches, '\<'.remote_tracking_branch.'\>') == -1
-        call add(remote_only_branches, remote_tracking_branch)
-      endif
-    endfor
-
-    return remote_only_branches
-  endf
-
   return obj
-endf
-
-fun! git_switcher#git#_branches(...)
-  let git = git_switcher#git#new()
-  return filter(git.branches(), 'v:val =~ "^'.fnameescape(a:1).'"')
-endf
-
-fun! git_switcher#git#_remote_only_branches(...)
-  let git = git_switcher#git#new()
-  return filter(git.remote_only_branches(), 'v:val =~ "^'.fnameescape(a:1).'"')
 endf
 
 let &cpo = s:cpo_save

@@ -24,10 +24,12 @@ augroup git_switcher
   autocmd VimEnter * nested if @% == '' | call git_switcher#autoload_session() | endif 
 augroup END
 
+command! GswBranch call git_switcher#branch()
+command! GswBranchRemote call git_switcher#remote_tracking_branch()
 command! GswFetch call git_switcher#fetch_project()
 command! GswClearState call git_switcher#clear_stete()
 command! -nargs=? -complete=customlist,git_switcher#_stored_sessions GswSave call git_switcher#save_session(<f-args>)
 command! -nargs=? -complete=customlist,git_switcher#_stored_sessions GswLoad call git_switcher#load_session(<f-args>)
 command! -nargs=1 -complete=customlist,git_switcher#_stored_sessions GswDeleteSession call git_switcher#delete_session(<f-args>)
-command! -bang -nargs=1 -complete=customlist,git_switcher#git#_branches Gsw call git_switcher#gsw(<f-args>,<bang>0)
-command! -bang -nargs=1 -complete=customlist,git_switcher#git#_remote_only_branches GswRemote call git_switcher#gsw_remote(<f-args>,<bang>0)
+command! -bang -nargs=1 -complete=customlist,git_switcher#_branches Gsw call git_switcher#gsw(<f-args>,<bang>0)
+command! -bang -nargs=1 -complete=customlist,git_switcher#_remote_only_branches GswRemote call git_switcher#gsw_remote(<f-args>,<bang>0)
