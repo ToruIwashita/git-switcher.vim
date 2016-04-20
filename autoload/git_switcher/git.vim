@@ -12,13 +12,20 @@ fun! git_switcher#git#new()
     return substitute(system('\'.self._self.' '.a:cmd.' 2>/dev/null'), '\n$', '', '')
   endf
 
+  fun! obj.exec_and_return_exit_status(cmd)
+    return !system('\'.self._self.' '.a:cmd.' >/dev/null 2>&1; echo $?')
+  endf
+
   fun! obj.short_status()
     return self.exec('status --short')
   endf
   
   fun! obj.fetch()
-    call self.exec('fetch')
-    return 1
+    return self.exec_and_return_exit_status('fetch')
+  endf
+
+  fun! obj.pull_current_branch()
+    return self.exec_and_return_exit_status('pull origin '.self.current_branch())
   endf
 
   fun! obj.save_stash()
@@ -26,7 +33,7 @@ fun! git_switcher#git#new()
   endf
 
   fun! obj.pop_stash()
-    return self.exec('stash pop')
+    return self.exec_and_return_exit_status('stash pop')
   endf
 
   fun! obj.branch()
@@ -71,7 +78,9 @@ fun! git_switcher#git#new()
       return 0
     endif
 
-    call self.exec('branch '.a:branch_key)
+    if !self.exec_and_return_exit_status('branch '.a:branch_key)
+      return 0
+    endif
 
     if !self.branch_exists(fnamemodify(a:branch_key, ':t'))
       return 0
@@ -89,7 +98,9 @@ fun! git_switcher#git#new()
       return 0
     endif
 
-    call self.exec('checkout '.a:branch)
+    if !self.exec_and_return_exit_status('checkout '.a:branch)
+      return 0
+    endif
 
     if self.current_branch() != a:branch
       return 0

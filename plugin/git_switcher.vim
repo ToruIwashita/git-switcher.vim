@@ -27,6 +27,7 @@ augroup END
 command! GswBranch call git_switcher#branch()
 command! GswBranchRemote call git_switcher#remote_tracking_branch()
 command! GswFetch call git_switcher#fetch_project()
+command! GswPull call git_switcher#pull_current_branch()
 command! GswClearState call git_switcher#clear_stete()
 command! -nargs=? -complete=customlist,git_switcher#_stored_sessions GswSave call git_switcher#save_session(<f-args>)
 command! -nargs=? -complete=customlist,git_switcher#_stored_sessions GswLoad call git_switcher#load_session(<f-args>)
