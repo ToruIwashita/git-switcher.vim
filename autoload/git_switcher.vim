@@ -71,9 +71,33 @@ fun! git_switcher#new(...)
     endif
 
     echo 'fetching remote.'
-    call self.git.fetch()
+    let fetch_res = self.git.fetch()
     redraw!
+
+    if !fetch_res
+      echo 'fetching failed.'
+      return 0
+    endif
+
     echo 'fetched.'
+    return 1
+  endf
+
+  fun! obj.pull_current_branch()
+    if !self.inside_work_tree()
+      return 0
+    endif
+
+    echo "pulling '".self.git.current_branch()."' branch."
+    let pull_current_branch_res = self.git.pull_current_branch()
+    redraw!
+
+    if !pull_current_branch_res
+      echo 'pulling failed.'
+      return 0
+    endif
+
+    echo 'pulled.'
     return 1
   endf
 
@@ -122,10 +146,14 @@ fun! git_switcher#new(...)
       endif
 
       redraw!
-
       let create_branch_res = 0
+
       if a:source ==# 'remote'
-        call self.fetch_project()
+
+        if !self.fetch_project()
+          return 0
+        endif
+
         let create_branch_res = self.git.create_remote_trancking_branch(a:branch)
         redraw!
       elseif a:source ==# 'local'
@@ -144,12 +172,14 @@ fun! git_switcher#new(...)
     endif
 
     let save_stash_res = 0
+
     if self.autostash_enabled()
       let save_stash_res = self.git.save_stash()
     endif
 
     redraw!
     echo "checking out files."
+
     if !self.git.switch(a:branch)
       redraw!
       echo "switching '".a:branch."' branch failed."
@@ -228,6 +258,11 @@ endf
 fun! git_switcher#fetch_project()
   let git_switcher = git_switcher#new()
   call git_switcher.fetch_project()
+endf
+
+fun! git_switcher#pull_current_branch()
+  let git_switcher = git_switcher#new()
+  call git_switcher.pull_current_branch()
 endf
 
 fun! git_switcher#save_session(...)
