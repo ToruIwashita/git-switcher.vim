@@ -40,6 +40,10 @@ Load a session. If receiving an argument, load a session with that name.
 
 Call git fetch command.  
 
+##### - `GswPull`  
+
+Call git pull command.  
+
 ##### - `GswClearSession`  
 
 Clear session by deleting buffers.  
