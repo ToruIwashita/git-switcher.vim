@@ -52,6 +52,10 @@ Clear session by deleting buffers.
 
 Delete a saved session.  
 
+##### - `GswDeleteSessionIfBranchDoesNotExist`  
+
+Delete saved sessions that there is no branch in the project.  
+
 ### Options  
 
 ##### - `g:gsw_sessions_dir`  
