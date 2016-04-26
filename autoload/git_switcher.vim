@@ -149,7 +149,6 @@ fun! git_switcher#new(...)
       let create_branch_res = 0
 
       if a:source ==# 'remote'
-
         if !self.fetch_project()
           return 0
         endif
@@ -219,19 +218,39 @@ fun! git_switcher#new(...)
     return self.project_session.stored_sessions()
   endf
 
-  fun! obj.delete_session()
+  fun! obj.delete_session(...)
     if !self.inside_work_tree()
       return 0
     endif
 
-    if confirm("delete '".self.project_session.name()."' session?", "&Yes\n&No", 1) != 1
+    if a:0
+      let project_session = git_switcher#project_session#new(self.git.project(), a:1)
+    else
+      let project_session = self.project_session
+    endif
+
+    if confirm("delete '".project_session.name()."' session?", "&Yes\n&No", 1) != 1
       return 1
     endif
 
-    if !self.project_session.destroy()
-      echo "deleting '".self.project_session.name()."' session failed."
+    if !project_session.destroy()
+      echo "deleting '".project_session.name()."' session failed."
       return 0
     endif
+
+    return 1
+  endf
+
+  fun! obj.delete_session_if_branch_does_not_exist()
+    if !self.inside_work_tree()
+      return 0
+    endif
+    
+    for stored_session in self.stored_sessions()
+      if !self.git.branch_exists(stored_session)
+        if !self.delete_session(stored_session) | return 0 | endif
+      endif
+    endfor
 
     return 1
   endf
@@ -298,6 +317,11 @@ endf
 fun! git_switcher#delete_session(branch)
   let git_switcher = git_switcher#new(a:branch)
   call git_switcher.delete_session()
+endf
+
+fun! git_switcher#delete_session_if_branch_does_not_exist()
+  let git_switcher = git_switcher#new()
+  return git_switcher.delete_session_if_branch_does_not_exist() 
 endf
 
 fun! git_switcher#_branches(...)
