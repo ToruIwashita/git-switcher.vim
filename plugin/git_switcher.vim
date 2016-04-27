@@ -1,6 +1,6 @@
-" File: git-switcher.vim
+" File: plugin/git-switcher.vim
 " Author: Toru Hoyano <toru.iwashita@gmail.com>
-" License: This file is placed in the public domain.
+" License: MIT License
 
 if exists('g:loaded_git_switcher')
   finish

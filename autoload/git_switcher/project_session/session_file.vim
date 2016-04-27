@@ -1,6 +1,6 @@
-" File: session_file.vim
+" File: autoload/git_switcher/project_session/session_file.vim
 " Author: Toru Hoyano <toru.iwashita@gmail.com>
-" License: This file is placed in the public domain.
+" License: MIT License
 
 let s:cpo_save = &cpo
 set cpo&vim

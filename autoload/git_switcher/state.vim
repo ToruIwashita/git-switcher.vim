@@ -1,6 +1,6 @@
-" File: state.vim
+" File: autoload/git_switcher/state.vim
 " Author: Toru Hoyano <toru.iwashita@gmail.com>
-" License: This file is placed in the public domain.
+" License: MIT License
 
 let s:cpo_save = &cpo
 set cpo&vim
