@@ -11,8 +11,12 @@ if !exists('g:gsw_sessions_dir')
   let g:gsw_sessions_dir = $HOME.'/.cache/vim/git_switcher'
 endif
 
-if !exists('g:gsw_session_autoload')
-  let g:gsw_session_autoload = 'no'
+if !exists('g:gsw_autoload_session')
+  let g:gsw_autoload_session = 'no'
+endif
+
+if !exists('g:gsw_autodelete_sessions_if_branch_does_not_exist')
+  let g:gsw_autodelete_sessions_if_branch_does_not_exist = 'no'
 endif
 
 if !exists('g:gsw_autostash_switching')
@@ -29,9 +33,9 @@ command! GswBranchRemote call git_switcher#remote_tracking_branch()
 command! GswFetch call git_switcher#fetch_project()
 command! GswPull call git_switcher#pull_current_branch()
 command! GswClearState call git_switcher#clear_stete()
-command! GswDeleteSessionIfBranchDoesNotExist call git_switcher#delete_session_if_branch_does_not_exist() 
+command! -bang GswDeleteSessionIfBranchDoesNotExist call git_switcher#delete_session_if_branch_does_not_exist(<bang>0)
 command! -nargs=? -complete=customlist,git_switcher#_stored_sessions GswSave call git_switcher#save_session(<f-args>)
 command! -nargs=? -complete=customlist,git_switcher#_stored_sessions GswLoad call git_switcher#load_session(<f-args>)
-command! -nargs=1 -complete=customlist,git_switcher#_stored_sessions GswDeleteSession call git_switcher#delete_session(<f-args>)
+command! -nargs=1 -complete=customlist,git_switcher#_stored_sessions GswDeleteSession call git_switcher#delete_session(<f-args>,<bang>0)
 command! -bang -nargs=1 -complete=customlist,git_switcher#_branches Gsw call git_switcher#gsw(<f-args>,<bang>0)
 command! -bang -nargs=1 -complete=customlist,git_switcher#_remote_only_branches GswRemote call git_switcher#gsw_remote(<f-args>,<bang>0)
