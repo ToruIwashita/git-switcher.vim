@@ -21,7 +21,7 @@ fun! git_switcher#git#new()
   endf
   
   fun! obj.fetch()
-    return self.exec_and_return_exit_status('fetch')
+    return self.exec_and_return_exit_status('fetch --prune')
   endf
 
   fun! obj.pull_current_branch()
