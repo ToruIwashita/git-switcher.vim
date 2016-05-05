@@ -8,13 +8,11 @@ set cpo&vim
 fun! git_switcher#new(...)
   let obj = {
     \ '_self': 'git_switcher',
-    \ '_autostash_enabled': g:gsw_switch_autostash,
-    \ '_autoload_enabled': g:gsw_autoload_session,
-    \ '_autodelete_sessions_enabled': g:gsw_autodelete_sessions_if_branch_does_not_exist
+    \ '_autostash_enabled': g:gsw_switch_autostash
   \ }
   let obj.git = git_switcher#git#new()
   let obj.state = git_switcher#state#new()
-  if a:1
+  if a:0
     let obj.project_session = git_switcher#project_session#new(obj.git.project(), a:1)
   else
     let obj.project_session = git_switcher#project_session#new(obj.git.project(), obj.git.current_branch())
@@ -22,22 +20,6 @@ fun! git_switcher#new(...)
 
   fun! obj.autostash_enabled()
     return self._autostash_enabled == 1
-  endf
-
-  fun! obj.autoload_enabled()
-    return self._autoload_enabled == 'yes'
-  endf
-
-  fun! obj.autoload_enabled_with_confirmation()
-    return self._autoload_enabled == 'confirm'
-  endf
-
-  fun! obj.autodelete_sessions_enabled()
-    return self._gsw_sessions_autodelete_if_branch_does_not_exist == 'yes'
-  endf
-
-  fun! obj.autodelete_sessions_enabled_with_confirmation()
-    return self._gsw_sessions_autodelete_if_branch_does_not_exist == 'confirm'
   endf
 
   fun! obj.inside_work_tree()
@@ -148,16 +130,8 @@ fun! git_switcher#new(...)
 
   fun! obj.autoload_session()
     if self.project_session.file_exists()
-      \ && (self.autoload_enabled() || (self.autoload_enabled_with_confirmation() && confirm("load '".self.project_session.name()."' session?", "&Yes\n&No", 1) == 1))
+      \ && (g:gsw_session_autoload == 'yes' || (g:gsw_session_autoload == 'confirm' && confirm("load '".self.project_session.name()."' session?", "&Yes\n&No", 1) == 1))
       call self.load_session()
-    end
-  endf
-
-  fun! obj.autodelete_sessions_if_branch_does_not_exist()
-    if self.autodelete_sessions_enabled()
-      call self.delete_sessions_if_branch_does_not_exist(0)
-    elseif self.autodelete_sessions_enabled_with_confirmation()
-      call self.delete_sessions_if_branch_does_not_exist(1)
     end
   endf
 
@@ -240,8 +214,12 @@ fun! git_switcher#new(...)
     return 1
   endf
 
-  fun! obj.stored_sessions()
-    return self.project_session.stored_sessions()
+  fun! obj.stored_session_names()
+    return self.project_session.stored_session_names()
+  endf
+
+  fun! obj.stored_project_sessions()
+    return map(self.stored_session_names(), 'git_switcher#project_session#new(self.git.project(), v:val)')
   endf
 
   fun! obj.delete_session(...)
@@ -250,14 +228,14 @@ fun! git_switcher#new(...)
     endif
 
     let bang = 0
-    if a:1 | let bang = 1 | endif
+    if a:0 | let bang = a:1 | endif
 
-    if bang || confirm("delete '".self.project_session.name()."' session?", "&Yes\n&No", 1) != 1
+    if !bang && confirm("delete '".self.project_session.name()."' session?", "&Yes\n&No", 1) != 1
       return 1
     endif
 
     if !self.project_session.destroy()
-      echo "deleting '".self.project_session.name()."' session failed."
+      echo "deleting '".self.project_session.session_name()."' session failed."
       return 0
     endif
 
@@ -270,18 +248,20 @@ fun! git_switcher#new(...)
     endif
 
     let bang = 0
-    if a:1 | let bang = 1 | endif
+    if a:0 | let bang = a:1 | endif
     
-    for stored_session in self.stored_sessions()
-      if !self.git.branch_exists(stored_session)
-        let project_session = git_switcher#project_session#new(self.git.project(), stored_session)
+    for project_session in self.stored_project_sessions()
+      if self.git.branch_exists(project_session.session_name())
+        continue
+      endif
 
-        if bang || confirm("delete '".project_session.name()."' session?", "&Yes\n&No", 1) != 1
-          if !project_session.destroy()
-            echo "deleting '".project_session.name()."' session failed."
-            return 0
-          endif
-        endif
+      if !bang && confirm("delete '".project_session.session_name()."' session?", "&Yes\n&No", 1) != 1
+        continue
+      endif
+
+      if !project_session.destroy()
+        echo "deleting '".project_session.session_name()."' session failed."
+        return 0
       endif
     endfor
 
@@ -332,11 +312,6 @@ fun! git_switcher#autoload_session()
   call git_switcher.autoload_session()
 endf
 
-fun! git_switcher#autodelete_session_if_branch_does_not_exist()
-  let git_switcher = git_switcher#new()
-  call git_switcher.autoload_session()
-endf
-
 fun! git_switcher#gsw(branch,bang)
   let git_switcher = git_switcher#new()
   call git_switcher.switch('local', a:branch, a:bang)
@@ -352,12 +327,12 @@ fun! git_switcher#clear_stete()
   call git_switcher.clear_state()
 endf
 
-fun! git_switcher#delete_session(branch,bang)
+fun! git_switcher#delete_session(bang,branch)
   let git_switcher = git_switcher#new(a:branch)
   call git_switcher.delete_session(a:bang)
 endf
 
-fun! git_switcher#delete_session_if_branch_does_not_exist(bang)
+fun! git_switcher#delete_sessions_if_branch_does_not_exist(bang)
   let git_switcher = git_switcher#new()
   return git_switcher.delete_sessions_if_branch_does_not_exist(a:bang) 
 endf
@@ -374,7 +349,7 @@ endf
 
 fun! git_switcher#_stored_sessions(...)
   let git_switcher = git_switcher#new()
-  return filter(git_switcher.stored_sessions(), 'v:val =~ "^'.fnameescape(a:1).'"')
+  return filter(git_switcher.stored_session_names(), 'v:val =~ "^'.fnameescape(a:1).'"')
 endf
 
 let &cpo = s:cpo_save
