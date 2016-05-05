@@ -14,27 +14,27 @@ Install either with [Pathogen](https://github.com/tpope/vim-pathogen), [Vundle](
 
 ##### - `Gsw`  
 
-Switch branches with save confirmation and load the session. If specified branch does not exist, switch after creating branch.  
+Save a session and load the specify session after switching the branch. If specified branch does not exist, switch the branch after creating.  
 
 ##### - `Gsw!`  
 
-Switch branches. If specified branch does not exist, switch branches after creating branch.  
+Switch branches. If specified branch does not exist, switch branches after creating.  
 
 ##### - `GswRemote`  
 
-Clone remote branch with save confirmation and load the session. If specified branch does not exist, switch branches after creating branch.  
+Save a session and load the specify session after checkout remote branch.  
 
 ##### - `GswRemote!`  
 
-Clone remote branch and load the session. If specified branch does not exist, switch branches after creating branch.  
+Checkout remote branch.  
 
 ##### - `GswSave`  
 
-Save a session. If receiving an argument, save a session with that name.  
+Save a session. If an argument is given, save it in the name.  
 
 #####・`GswLoad`  
 
-Load a session. If receiving an argument, load a session with that name.  
+Load a session. If an argument is given, load it in the name.  
 
 ##### - `GswFetch`  
 
@@ -46,15 +46,23 @@ Call git pull command.
 
 ##### - `GswClearSession`  
 
-Clear session by deleting buffers.  
+Clear a session by deleting buffers.  
 
 ##### - `GswDeleteSession`  
 
-Delete a saved session.  
+Delete the specified session after confirming.  
+
+##### - `GswDeleteSession!`  
+
+Delete the specified session immediately.  
 
 ##### - `GswDeleteSessionIfBranchDoesNotExist`  
 
-Delete saved sessions that there is no branch in the project.  
+Delete sessions there is no branch in the project, after comfirming.  
+
+##### - `GswDeleteSessionIfBranchDoesNotExist!`  
+
+Delete sessions there is no branch in the project.  
 
 ### Options  
 
@@ -62,14 +70,22 @@ Delete saved sessions that there is no branch in the project.
 
 Location of session file storing directory. Default value is `~/.cache/vim/git_switcher`  
 
-##### - `g:gsw_session_autoload`  
+##### - `g:gsw_autoload_session`  
 
-Load the session automaticaly when you open no name buffer. Default value is `no`  
+Load a session automaticaly when you open no name buffer. Default value is `no`  
 
  - `yes`: Automatic loading immediately.  
  - `confirm`: Automatic loading after confirming.  
  - `no`: Disable automatic loading.  
 
+##### - `g:gsw_autodelete_sessions_if_branch_does_not_exist`  
+
+Delete sessions automaticaly when you open no name buffer. Default value is `no`  
+
+ - `yes`: Automatic deleting immediately.  
+ - `confirm`: Automatic deleting after confirming.  
+ - `no`: Disable automatic deleting.  
+
 ##### - `gsw_switch_autostash`  
 
-Automatically create a temporary stash and apply it in switching branches.  
+Automatically create a temporary stash and apply it after switching branches.  
