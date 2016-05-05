@@ -9,7 +9,8 @@ fun! git_switcher#new(...)
   let obj = {
     \ '_self': 'git_switcher',
     \ '_autostash_enabled': g:gsw_switch_autostash,
-    \ '_autoload_enabled': g:gsw_session_autoload
+    \ '_autoload_session_behavior': g:gsw_autoload_session,
+    \ '_autodelete_sessions_bahavior': g:gsw_autodelete_sessions_if_branch_does_not_exist
   \ }
   let obj.git = git_switcher#git#new()
   let obj.state = git_switcher#state#new()
@@ -24,11 +25,19 @@ fun! git_switcher#new(...)
   endf
 
   fun! obj.autoload_enabled()
-    return self._autoload_enabled == 'yes'
+    return self._autoload_session_behavior == 'yes'
   endf
 
   fun! obj.autoload_enabled_with_confirmation()
-    return self._autoload_enabled == 'confirm'
+    return self._autoload_session_behavior == 'confirm'
+  endf
+
+  fun! obj.autodelete_sessions_enabled()
+    return self._autodelete_sessions_bahavior == 'yes'
+  endf
+
+  fun! obj.autodelete_sessions_enabled_with_confirmation()
+    return self._autodelete_sessions_bahavior == 'confirm'
   endf
 
   fun! obj.inside_work_tree()
@@ -141,6 +150,16 @@ fun! git_switcher#new(...)
     if self.project_session.file_exists()
       \ && (self.autoload_enabled() || (self.autoload_enabled_with_confirmation() && confirm("load '".self.project_session.name()."' session?", "&Yes\n&No", 1) == 1))
       call self.load_session()
+    end
+  endf
+
+  fun! obj.autodelete_sessions_if_branch_does_not_exist()
+    let bang = 0
+    if self.autodelete_sessions_enabled() | let bang = 1 | end
+
+    if self.autodelete_sessions_enabled() || self.autodelete_sessions_enabled_with_confirmation()
+      call self.delete_sessions_if_branch_does_not_exist(bang)
+      redraw!
     end
   endf
 
@@ -318,11 +337,6 @@ fun! git_switcher#load_session(...)
   call git_switcher.load_session()
 endf
 
-fun! git_switcher#autoload_session()
-  let git_switcher = git_switcher#new()
-  call git_switcher.autoload_session()
-endf
-
 fun! git_switcher#gsw(bang,branch)
   let git_switcher = git_switcher#new()
   call git_switcher.switch(a:bang, 'local', a:branch)
@@ -346,6 +360,12 @@ endf
 fun! git_switcher#delete_sessions_if_branch_does_not_exist(bang)
   let git_switcher = git_switcher#new()
   return git_switcher.delete_sessions_if_branch_does_not_exist(a:bang)
+endf
+
+fun! git_switcher#autocmd_for_vim_enter()
+  let git_switcher = git_switcher#new()
+  call git_switcher.autodelete_sessions_if_branch_does_not_exist()
+  call git_switcher.autoload_session()
 endf
 
 fun! git_switcher#_branches(...)
