@@ -144,7 +144,7 @@ fun! git_switcher#new(...)
     end
   endf
 
-  fun! obj.switch(source, branch, bang)
+  fun! obj.switch(bang, source, branch)
     if !self.inside_work_tree()
       return 0
     endif
@@ -323,14 +323,14 @@ fun! git_switcher#autoload_session()
   call git_switcher.autoload_session()
 endf
 
-fun! git_switcher#gsw(branch,bang)
+fun! git_switcher#gsw(bang,branch)
   let git_switcher = git_switcher#new()
-  call git_switcher.switch('local', a:branch, a:bang)
+  call git_switcher.switch(a:bang, 'local', a:branch)
 endf
 
-fun! git_switcher#gsw_remote(branch,bang)
+fun! git_switcher#gsw_remote(bang,branch)
   let git_switcher = git_switcher#new()
-  call git_switcher.switch('remote', a:branch, a:bang)
+  call git_switcher.switch(a:bang, 'remote', a:branch)
 endf
 
 fun! git_switcher#clear_stete()
