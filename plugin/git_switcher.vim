@@ -15,6 +15,10 @@ if !exists('g:gsw_session_autoload')
   let g:gsw_session_autoload = 'no'
 endif
 
+if !exists('g:gsw_sessions_autodelete_if_branch_does_not_exist')
+  let g:gsw_sessions_autodelete_if_branch_does_not_exist = 'no'
+endif
+
 if !exists('g:gsw_autostash_switching')
   let g:gsw_switch_autostash = 0
 endif
