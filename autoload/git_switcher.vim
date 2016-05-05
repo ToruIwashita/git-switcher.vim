@@ -8,7 +8,8 @@ set cpo&vim
 fun! git_switcher#new(...)
   let obj = {
     \ '_self': 'git_switcher',
-    \ '_autostash_enabled': g:gsw_switch_autostash
+    \ '_autostash_enabled': g:gsw_switch_autostash,
+    \ '_autoload_enabled': g:gsw_session_autoload
   \ }
   let obj.git = git_switcher#git#new()
   let obj.state = git_switcher#state#new()
@@ -20,6 +21,14 @@ fun! git_switcher#new(...)
 
   fun! obj.autostash_enabled()
     return self._autostash_enabled == 1
+  endf
+
+  fun! obj.autoload_enabled()
+    return self._autoload_enabled == 'yes'
+  endf
+
+  fun! obj.autoload_enabled_with_confirmation()
+    return self._autoload_enabled == 'confirm'
   endf
 
   fun! obj.inside_work_tree()
@@ -130,7 +139,7 @@ fun! git_switcher#new(...)
 
   fun! obj.autoload_session()
     if self.project_session.file_exists()
-      \ && (g:gsw_session_autoload == 'yes' || (g:gsw_session_autoload == 'confirm' && confirm("load '".self.project_session.name()."' session?", "&Yes\n&No", 1) == 1))
+      \ && (self.autoload_enabled() || (self.autoload_enabled_with_confirmation() && confirm("load '".self.project_session.name()."' session?", "&Yes\n&No", 1) == 1))
       call self.load_session()
     end
   endf
