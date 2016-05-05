@@ -11,12 +11,12 @@ if !exists('g:gsw_sessions_dir')
   let g:gsw_sessions_dir = $HOME.'/.cache/vim/git_switcher'
 endif
 
-if !exists('g:gsw_session_autoload')
-  let g:gsw_session_autoload = 'no'
+if !exists('g:gsw_autoload_session')
+  let g:gsw_autoload_session = 'no'
 endif
 
-if !exists('g:gsw_sessions_autodelete_if_branch_does_not_exist')
-  let g:gsw_sessions_autodelete_if_branch_does_not_exist = 'no'
+if !exists('g:gsw_autodelete_sessions_if_branch_does_not_exist')
+  let g:gsw_autodelete_sessions_if_branch_does_not_exist = 'no'
 endif
 
 if !exists('g:gsw_autostash_switching')
@@ -25,7 +25,7 @@ endif
 
 augroup git_switcher
   autocmd!
-  autocmd VimEnter * nested if @% == '' | call git_switcher#autoload_session() | endif 
+  autocmd VimEnter * nested if @% == '' | call git_switcher#autocmd_for_vim_enter() | endif 
 augroup END
 
 command! GswBranch call git_switcher#branch()
