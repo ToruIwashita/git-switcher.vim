@@ -42,7 +42,37 @@ fun! git_switcher#new(...)
 
   fun! obj.inside_work_tree()
     if !self.git.inside_work_tree()
+      redraw!
       echo 'working directory is not a git repository.'
+      return 0
+    endif
+
+    return 1
+  endf
+
+  fun! obj.session_locked()
+    if self.project_session.locked()
+      redraw!
+      echo "'".self.project_session.name()."' session has been locked."
+      return 1
+    endif
+
+    return 0
+  endf
+
+  fun! obj.lock_session()
+    if !self.project_session.create_lock_file()
+      redraw!
+      echo "lock '".self.project_session.name()."' session failed."
+      return 0
+    endif
+
+    return 1
+  endf
+
+  fun! obj.unlock_sessions()
+    if !self.project_session.delete_lock_files()
+      echo 'unlock sessions failed.'
       return 0
     endif
 
@@ -124,8 +154,25 @@ fun! git_switcher#new(...)
       return 0
     endif
 
+    if self.session_locked()
+      return 0
+    endif
+
     call self.project_session.store()
     echo "saved '".self.project_session.name()."' session."
+
+    if self.project_session.session_name() != self.git.current_branch()
+      return 1
+    endif
+
+    if !self.unlock_sessions()
+      return 0
+    endif
+
+    if !self.lock_session()
+      return 0
+    endif
+
     return 1
   endf
 
@@ -134,21 +181,42 @@ fun! git_switcher#new(...)
       return 0
     endif
 
-    if !self.project_session.file_exists()
-      silent! edit!
-      echo 'session file does not exist.'
+    if self.session_locked()
       return 0
     endif
 
-    call self.state.delete_all_buffers()
+    if !self.project_session.exists()
+      silent! edit!
+      echo "'".self.project_session.name()."' session file does not exist."
+      return 0
+    endif
+
+    call self.clear_state()
+
+    if !self.unlock_sessions()
+      return 0
+    endif
+
     call self.project_session.restore()
     echo "loaded '".self.project_session.name()."' session."
+
+    if !self.lock_session()
+      return 0
+    endif
+
     return 1
   endf
 
   fun! obj.autoload_session()
-    if self.project_session.file_exists()
-      \ && (self.autoload_enabled() || (self.autoload_enabled_with_confirmation() && confirm("load '".self.project_session.name()."' session?", "&Yes\n&No", 1) == 1))
+    if !self.project_session.exists()
+      return 0
+    endif
+
+    if self.session_locked()
+      return 0
+    endif
+
+    if self.autoload_enabled() || (self.autoload_enabled_with_confirmation() && confirm("load '".self.project_session.name()."' session?", "&Yes\n&No", 1) == 1)
       call self.load_session()
     end
   endf
@@ -195,7 +263,10 @@ fun! git_switcher#new(...)
 
     if !a:bang && confirm("save '".self.project_session.name()."' session?", "&Yes\n&No", 1) == 1
       redraw!
-      call self.save_session()
+      if !self.save_session()
+        echo "save '".self.project_session.name()."' session failed."
+        return 0
+      endif
     endif
 
     let save_stash_res = 0
@@ -213,12 +284,12 @@ fun! git_switcher#new(...)
       return 0
     endif
 
+    let self.project_session = git_switcher#project_session#new(self.git.project(), a:branch)
+
     let pop_stash_res = 0
     if self.autostash_enabled() && save_stash_res
       let pop_stash_res = self.git.pop_stash()
     endif
-
-    let self.project_session = git_switcher#project_session#new(self.git.project(), a:branch)
 
     if a:bang
       redraw!
@@ -300,6 +371,7 @@ fun! git_switcher#new(...)
 
   fun! obj.clear_state()
     call self.state.delete_all_buffers()
+    redraw!
     echo 'cleared session state.'
     return 1
   endf
@@ -366,6 +438,11 @@ fun! git_switcher#autocmd_for_vim_enter()
   let git_switcher = git_switcher#new()
   call git_switcher.autodelete_sessions_if_branch_does_not_exist()
   call git_switcher.autoload_session()
+endf
+
+fun! git_switcher#autocmd_for_vim_leave()
+  let git_switcher = git_switcher#new()
+  call git_switcher.unlock_sessions()
 endf
 
 fun! git_switcher#_branches(...)

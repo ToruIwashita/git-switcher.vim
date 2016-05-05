@@ -9,6 +9,7 @@ fun! git_switcher#project_session#new(project_key, session_key)
   let obj = {'_self': 'project_session'}
   let obj.project_dir = git_switcher#project_session#project_dir#new(a:project_key)
   let obj.session_file = git_switcher#project_session#session_file#new(a:session_key)
+  let obj.lock_file = git_switcher#project_session#lock_file#new(a:session_key)
 
   fun! obj.session_name()
     return self.session_file.basename() 
@@ -26,8 +27,73 @@ fun! git_switcher#project_session#new(project_key, session_key)
     return self.project_dir.path().self.session_file.name()
   endf
 
-  fun! obj.file_exists()
+  fun! obj.exists()
     return filereadable(self.file_path())
+  endf
+
+  fun! obj.current_lock_file_path()
+    return self.project_dir.path().self.lock_file.name()
+  endf
+
+  fun! obj.current_lock_file_exists()
+    return filereadable(self.current_lock_file_path())
+  endf
+
+  fun! obj.same_process_lock_file_paths()
+    let lock_file_paths = split(expand(self.project_dir.path().'*'.self.lock_file.ext()))
+
+    if !filereadable(lock_file_paths[0])
+      return []
+    endif
+
+    return lock_file_paths
+  endf
+
+  fun! obj.already_existing_lock_file_paths()
+    let lock_file_paths = split(expand(self.project_dir.path().self.lock_file.glob_name()))
+
+    if !filereadable(lock_file_paths[0])
+      return []
+    endif
+
+    return lock_file_paths
+  endf
+
+  fun! obj.one_of_already_existing_lock_file_paths()
+    let already_existing_lock_file_paths = self.already_existing_lock_file_paths()
+
+    if len(already_existing_lock_file_paths) == 0
+      return ''
+    endif
+
+    return self.already_existing_lock_file_paths()[0]
+  endf
+
+  fun! obj.already_existing_lock_file_exists()
+    return filereadable(self.one_of_already_existing_lock_file_paths())
+  endf
+
+  fun! obj.create_lock_file()
+    exec 'redir > '.self.current_lock_file_path()
+    return self.current_lock_file_exists()
+  endf
+
+  fun! obj.delete_lock_files()
+    for lock_file_path in self.same_process_lock_file_paths()
+      if delete(lock_file_path) != 0
+        return 0
+      endif
+    endfor
+
+    return 1
+  endf
+
+  fun! obj.locked()
+    if !self.already_existing_lock_file_exists() || self.current_lock_file_path() == self.one_of_already_existing_lock_file_paths()
+      return 0
+    else
+      return 1
+    endif
   endf
 
   fun! obj.store()
