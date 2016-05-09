@@ -44,6 +44,18 @@ Call git fetch command.
 
 Call git pull command.  
 
+##### - `GswBranch`  
+
+Call git branch command.  
+
+##### - `GswBranchRemote`  
+
+Call git branch command with --remotes option.  
+
+##### - `GswSessionList`  
+
+Show stored session list.  
+
 ##### - `GswClearSession`  
 
 Clear a session by deleting buffers.  
