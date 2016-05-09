@@ -121,6 +121,10 @@ fun! git_switcher#project_session#new(project_key, session_key)
     return map(split(expand(self.project_dir.path().'*')), 'matchstr(fnamemodify(v:val, ":t"), "^\\zs\\(.*\\)\\ze'.self.session_file.escaped_ext().'$", 0)')
   endf
 
+  fun! obj.stored_session_list()
+    return join(self.stored_session_names(), "\n")
+  endf
+
   return obj
 endf
 

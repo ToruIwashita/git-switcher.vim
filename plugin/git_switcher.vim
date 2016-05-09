@@ -29,6 +29,7 @@ augroup git_switcher
   autocmd VimLeave * call git_switcher#autocmd_for_vim_leave()
 augroup END
 
+command! GswSessionList call git_switcher#session_list()
 command! GswBranch call git_switcher#branch()
 command! GswBranchRemote call git_switcher#remote_tracking_branch()
 command! GswFetch call git_switcher#fetch_project()

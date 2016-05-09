@@ -79,6 +79,15 @@ fun! git_switcher#new(...)
     return 1
   endf
 
+  fun! obj.session_list()
+    if !self.inside_work_tree()
+      return 0
+    endif
+
+    echo self.project_session.stored_session_list()
+    return 1
+  endf
+
   fun! obj.branch()
     if !self.inside_work_tree()
       return 0
@@ -377,6 +386,11 @@ fun! git_switcher#new(...)
   endf
 
   return obj
+endf
+
+fun! git_switcher#session_list()
+  let git_switcher = git_switcher#new()
+  call git_switcher.session_list()
 endf
 
 fun! git_switcher#branch()
