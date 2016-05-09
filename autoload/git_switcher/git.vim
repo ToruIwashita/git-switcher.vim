@@ -49,7 +49,7 @@ fun! git_switcher#git#new()
   endf
 
   fun! obj.remote_tracking_branches()
-    return map(filter(split(self.remote_tracking_branch(), '\n'), 'v:val !~ "->"'), 'matchstr(v:val, "^\\(  origin/\\|  \\)\\zs\\(.*\\)\\ze", 0)')
+    return filter(map(filter(split(self.remote_tracking_branch(), '\n'), 'v:val !~ "->"'), 'matchstr(v:val, "^\\(  origin/\\|  \\)\\zs\\(.*\\)\\ze", 0)'), 'v:val != ""')
   endf
 
   fun! obj.remote_only_branches()
@@ -122,7 +122,7 @@ fun! git_switcher#git#new()
   endf
 
   fun! obj.both_modified_files()
-    return map(filter(split(self.short_status(), '\n'), 'v:val =~ "^UU"'), 'matchstr(v:val, "^UU \\zs\\(.*\\)\\ze", 0)')
+    return filter(map(filter(split(self.short_status(), '\n'), 'v:val =~ "^UU"'), 'matchstr(v:val, "^UU \\zs\\(.*\\)\\ze", 0)'), 'v:val != ""')
   endf
 
   return obj
