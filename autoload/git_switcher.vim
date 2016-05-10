@@ -154,6 +154,7 @@ fun! git_switcher#new(...)
       return 0
     endif
 
+    checktime
     echo 'pulled.'
     return 1
   endf
