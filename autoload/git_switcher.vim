@@ -195,7 +195,7 @@ fun! git_switcher#new(...)
     endif
 
     if !self.project_session.exists()
-      silent! edit!
+      checktime
       echo "'".self.project_session.name()."' session file does not exist."
       return 0
     endif
@@ -301,7 +301,7 @@ fun! git_switcher#new(...)
     endif
 
     if a:bang
-      silent! edit!
+      checktime
       redraw!
       echo "switched to '".a:branch."' branch."
       return 1

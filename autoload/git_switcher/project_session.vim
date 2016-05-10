@@ -110,6 +110,7 @@ fun! git_switcher#project_session#new(project_key, session_key)
 
   fun! obj.restore()
     exec 'source' self.file_path()
+    checktime
     redraw!
   endf
 
