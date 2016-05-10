@@ -301,6 +301,7 @@ fun! git_switcher#new(...)
     endif
 
     if a:bang
+      silent! edit!
       redraw!
       echo "switched to '".a:branch."' branch."
       return 1
