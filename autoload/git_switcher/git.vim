@@ -9,11 +9,14 @@ fun! git_switcher#git#new() abort
   let obj = {'_self': 'git'}
 
   fun! obj.exec(cmd) abort
-    return substitute(system('\'.self._self.' '.a:cmd.' 2>/dev/null'), '\n$', '', '')
-  endf
+    let results = split(system('\'.self._self.' '.a:cmd.' 2>/dev/null; echo $?'), "\n")
+    let exit_status = remove(results, -1)
 
-  fun! obj.exec_and_return_exit_status(cmd) abort
-    return !system('\'.self._self.' '.a:cmd.' >/dev/null 2>&1; echo $?')
+    if exit_status
+      throw 'failed to '.a:cmd
+    endif
+
+    return join(results, "\n")
   endf
 
   fun! obj.short_status() abort
@@ -21,11 +24,11 @@ fun! git_switcher#git#new() abort
   endf
   
   fun! obj.fetch() abort
-    return self.exec_and_return_exit_status('fetch --prune')
+    return self.exec('fetch --prune')
   endf
 
   fun! obj.pull_current_branch() abort
-    return self.exec_and_return_exit_status('pull origin '.self.current_branch())
+    return self.exec('pull origin '.self.current_branch())
   endf
 
   fun! obj.save_stash() abort
@@ -33,7 +36,7 @@ fun! git_switcher#git#new() abort
   endf
 
   fun! obj.pop_stash() abort
-    return self.exec_and_return_exit_status('stash pop')
+    return self.exec('stash pop')
   endf
 
   fun! obj.branch() abort
@@ -75,18 +78,10 @@ fun! git_switcher#git#new() abort
 
   fun! obj.create_branch(branch_key) abort
     if self.branch_exists(fnamemodify(a:branch_key, ':t'))
-      return 0
+      throw "'".a:branch_key."' branch already exists."
     endif
 
-    if !self.exec_and_return_exit_status('branch '.a:branch_key)
-      return 0
-    endif
-
-    if !self.branch_exists(fnamemodify(a:branch_key, ':t'))
-      return 0
-    endif
-
-    return 1
+    call self.exec('branch '.a:branch_key)
   endf
 
   fun! obj.create_remote_trancking_branch(branch) abort
@@ -95,18 +90,10 @@ fun! git_switcher#git#new() abort
 
   fun! obj.switch(branch) abort
     if !self.branch_exists(a:branch)
-      return 0
+      throw "'".a:branch."' branch not exists."
     endif
 
-    if !self.exec_and_return_exit_status('checkout '.a:branch)
-      return 0
-    endif
-
-    if self.current_branch() != a:branch
-      return 0
-    endif
-
-    return 1
+    call self.exec('checkout '.a:branch)
   endf
 
   fun! obj.project() abort
@@ -114,7 +101,13 @@ fun! git_switcher#git#new() abort
   endf
 
   fun! obj.inside_work_tree() abort
-    return self.exec('rev-parse --is-inside-work-tree') ==# 'true'
+    try
+      call self.exec('rev-parse')
+    catch
+      return 0
+    endtry
+
+    return 1
   endf
 
   fun! obj.both_modified_file_exists() abort

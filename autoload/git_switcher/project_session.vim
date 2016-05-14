@@ -75,17 +75,17 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
 
   fun! obj.create_lock_file() abort
     exec 'redir > '.self.current_lock_file_path()
-    return self.current_lock_file_exists()
+    if !self.current_lock_file_exists()
+      throw 'failed to create lock file.'
+    endif
   endf
 
   fun! obj.delete_lock_files() abort
     for lock_file_path in self.same_process_lock_file_paths()
       if delete(lock_file_path) != 0
-        return 0
+        throw 'failed to delete lock files.'
       endif
     endfor
-
-    return 1
   endf
 
   fun! obj.locked() abort
@@ -99,23 +99,43 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
   fun! obj.store() abort
     call self.project_dir.create()
 
+    let result = 1
     let current_ssop = &sessionoptions
     try
       set ssop-=options
       exec 'mksession!' self.file_path()
+    catch
+      let result = 0
     finally
       let &sessionoptions = current_ssop
     endtry
+
+    if !result
+      throw "faild to store '".self.name()."' session." 
+    endif
   endf
 
   fun! obj.restore() abort
-    exec 'source' self.file_path()
-    checktime
-    redraw!
+    let result = 1
+
+    try
+      exec 'source' self.file_path()
+    catch
+      let result = 0
+    finally
+      checktime
+      redraw!
+    endtry
+
+    if !result
+      throw "faild to restore '".self.name()."' session." 
+    endif
   endf
 
   fun! obj.destroy() abort
-    return delete(self.file_path()) == 0
+    if delete(self.file_path()) != 0
+      throw "failed to destroy '".self.name()."' session."
+    endif
   endf
 
   fun! obj.stored_session_names() abort

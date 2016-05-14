@@ -30,7 +30,7 @@ fun! git_switcher#project_session#project_dir#new(key) abort
 
   fun! obj.create() abort
     if !self.exists()
-      return mkdir(self.path(), 'p')
+      call mkdir(self.path(), 'p')
     endif
   endf
 
