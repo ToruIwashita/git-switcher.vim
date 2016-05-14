@@ -5,30 +5,30 @@
 let s:cpo_save = &cpo
 set cpo&vim
 
-fun! git_switcher#project_session#project_dir#new(key)
+fun! git_switcher#project_session#project_dir#new(key) abort
   let obj = {
     \ '_self': 'project_dir',
     \ '_root_dir': g:gsw_sessions_dir,
     \ '_key': a:key
   \ }
 
-  fun! obj.name()
+  fun! obj.name() abort
     return self._key
   endf
 
-  fun! obj.root_dir_path()
+  fun! obj.root_dir_path() abort
     return self._root_dir.'/'
   endf
 
-  fun! obj.path()
+  fun! obj.path() abort
     return self.root_dir_path().self.name().'/'
   endf
 
-  fun! obj.exists()
+  fun! obj.exists() abort
     return isdirectory(self.path())
   endf
 
-  fun! obj.create()
+  fun! obj.create() abort
     if !self.exists()
       return mkdir(self.path(), 'p')
     endif

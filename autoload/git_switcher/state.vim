@@ -5,7 +5,7 @@
 let s:cpo_save = &cpo
 set cpo&vim
 
-fun! git_switcher#state#new()
+fun! git_switcher#state#new() abort
   let obj = {'_self': 'state'}
 
   fun! obj.delete_all_buffers() abort

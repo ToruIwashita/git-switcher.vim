@@ -5,29 +5,29 @@
 let s:cpo_save = &cpo
 set cpo&vim
 
-fun! git_switcher#project_session#lock_file#new(key)
+fun! git_switcher#project_session#lock_file#new(key) abort
   let obj = {
     \ '_self': 'lock_file',
     \ '_key': a:key
   \ }
 
-  fun! obj.basename()
+  fun! obj.basename() abort
     return self._key
   endf
 
-  fun! obj.name()
+  fun! obj.name() abort
     return self.basename().self.ext()
   endf
 
-  fun! obj.glob_name()
+  fun! obj.glob_name() abort
     return self.basename().self.glob_ext()
   endf
 
-  fun! obj.ext()
+  fun! obj.ext() abort
     return '.session.lock.'.substitute(system('echo $PPID'), '\n$', '', '').'.vim'
   endf
 
-  fun! obj.glob_ext()
+  fun! obj.glob_ext() abort
     return '.session.lock*'
   endf
 
