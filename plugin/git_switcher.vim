@@ -19,10 +19,6 @@ if !exists('g:gsw_autodelete_sessions_if_branch_does_not_exist')
   let g:gsw_autodelete_sessions_if_branch_does_not_exist = 'no'
 endif
 
-if !exists('g:gsw_autostash_switching')
-  let g:gsw_switch_autostash = 0
-endif
-
 augroup git_switcher
   autocmd!
   autocmd VimEnter * nested if @% == '' | call git_switcher#autocmd_for_vim_enter() | endif 
