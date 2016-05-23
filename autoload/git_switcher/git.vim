@@ -9,14 +9,15 @@ fun! git_switcher#git#new() abort
   let obj = {'_self': 'git'}
 
   fun! obj.exec(cmd) abort
-    let results = split(system('\'.self._self.' '.a:cmd.' 2>/dev/null; echo $?'), "\n")
+    let results = split(system('\'.self._self.' '.a:cmd.'; echo $?'), "\n")
     let exit_status = remove(results, -1)
+    let output = join(results, "\n")
 
     if exit_status
-      throw 'failed to '.a:cmd
+      throw 'failed to '.a:cmd."\n".output
     endif
 
-    return join(results, "\n")
+    return output
   endf
 
   fun! obj.short_status() abort
