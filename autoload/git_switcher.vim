@@ -259,9 +259,6 @@ fun! git_switcher#new(...) abort
 
       redraw!
       echo res_message
-      if self.git.both_modified_file_exists()
-        echo 'both modified files exists.'
-      endif
     catch
       redraw!
       echo v:exception

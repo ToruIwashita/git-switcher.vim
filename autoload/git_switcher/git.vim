@@ -103,14 +103,6 @@ fun! git_switcher#git#new() abort
     return 1
   endf
 
-  fun! obj.both_modified_file_exists() abort
-    return !empty(self.both_modified_files())
-  endf
-
-  fun! obj.both_modified_files() abort
-    return filter(map(filter(split(self.short_status(), '\n'), 'v:val =~ "^UU"'), 'matchstr(v:val, "^UU \\zs\\(.*\\)\\ze", 0)'), 'v:val != ""')
-  endf
-
   return obj
 endf
 
