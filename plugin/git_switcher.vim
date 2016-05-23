@@ -1,4 +1,4 @@
-" File: plugin/git-switcher.vim
+" File: plugin/git_switcher.vim
 " Author: Toru Hoyano <toru.iwashita@gmail.com>
 " License: MIT License
 
@@ -7,8 +7,19 @@ if exists('g:loaded_git_switcher')
 endif
 let g:loaded_git_switcher = 1
 
+let s:cpo_save = &cpo
+set cpo&vim
+
 if !exists('g:gsw_sessions_dir')
   let g:gsw_sessions_dir = $HOME.'/.cache/vim/git_switcher'
+endif
+
+if !exists('g:gsw_non_project_sessions_dir')
+  let g:gsw_non_project_sessions_dir = 'non_project'
+endif
+
+if !exists('g:gsw_non_project_default_session_name')
+  let g:gsw_non_project_default_session_name = 'default'
 endif
 
 if !exists('g:gsw_autoload_session')
@@ -37,3 +48,6 @@ command! -nargs=? -complete=customlist,git_switcher#_stored_session_names GswLoa
 command! -bang -nargs=1 -complete=customlist,git_switcher#_stored_session_names GswDeleteSession call git_switcher#delete_session(<bang>0,<f-args>)
 command! -bang -nargs=1 -complete=customlist,git_switcher#_branches Gsw call git_switcher#gsw(<bang>0,<f-args>)
 command! -bang -nargs=1 -complete=customlist,git_switcher#_remote_only_branches GswRemote call git_switcher#gsw_remote(<bang>0,<f-args>)
+
+let &cpo = s:cpo_save
+unlet s:cpo_save

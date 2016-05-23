@@ -31,6 +31,10 @@ fun! git_switcher#project_session#lock_file#new(key) abort
     return '.session.lock*'
   endf
 
+  fun! obj.escaped_glob_ext() abort
+    return '\.session\.lock\..*\.vim'
+  endf
+
   return obj
 endf
 

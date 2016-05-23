@@ -11,16 +11,20 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
   let obj.session_file = git_switcher#project_session#session_file#new(a:session_key)
   let obj.lock_file = git_switcher#project_session#lock_file#new(a:session_key)
 
-  fun! obj.session_name() abort
-    return self.session_file.basename() 
-  endf
-
   fun! obj.project_name() abort
     return self.project_dir.name()
   endf
 
+  fun! obj.session_name() abort
+    return self.session_file.basename() 
+  endf
+
   fun! obj.name() abort
     return self.project_name().'/'.self.session_name()
+  endf
+
+  fun! obj.already_existing_locked_session_name()
+    return matchstr(fnamemodify(self.one_of_already_existing_session_lock_file_paths(), ':t'), '^\zs\(.*\)\ze'.self.lock_file.escaped_glob_ext().'$', 0)
   endf
 
   fun! obj.file_path() abort
@@ -31,12 +35,12 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
     return filereadable(self.file_path())
   endf
 
-  fun! obj.current_lock_file_path() abort
+  fun! obj.current_session_lock_file_path() abort
     return self.project_dir.path().self.lock_file.name()
   endf
 
-  fun! obj.current_lock_file_exists() abort
-    return filereadable(self.current_lock_file_path())
+  fun! obj.current_session_lock_file_exists() abort
+    return filereadable(self.current_session_lock_file_path())
   endf
 
   fun! obj.same_process_lock_file_paths() abort
@@ -49,7 +53,27 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
     return lock_file_paths
   endf
 
-  fun! obj.already_existing_lock_file_paths() abort
+  fun! obj.already_existing_session_lock_file_paths() abort
+    let lock_file_paths = split(expand(self.project_dir.path().'*'.self.lock_file.glob_ext()))
+
+    if !filereadable(lock_file_paths[0])
+      return []
+    endif
+
+    return lock_file_paths
+  endf
+
+  fun! obj.one_of_already_existing_session_lock_file_paths() abort
+    let already_existing_session_lock_file_paths = self.already_existing_session_lock_file_paths()
+
+    if len(already_existing_session_lock_file_paths) == 0
+      return ''
+    endif
+
+    return self.already_existing_session_lock_file_paths()[0]
+  endf
+
+  fun! obj.already_existing_current_session_lock_file_paths() abort
     let lock_file_paths = split(expand(self.project_dir.path().self.lock_file.glob_name()))
 
     if !filereadable(lock_file_paths[0])
@@ -59,23 +83,23 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
     return lock_file_paths
   endf
 
-  fun! obj.one_of_already_existing_lock_file_paths() abort
-    let already_existing_lock_file_paths = self.already_existing_lock_file_paths()
+  fun! obj.one_of_already_existing_current_session_lock_file_paths() abort
+    let already_existing_current_session_lock_file_paths = self.already_existing_current_session_lock_file_paths()
 
-    if len(already_existing_lock_file_paths) == 0
+    if len(already_existing_current_session_lock_file_paths) == 0
       return ''
     endif
 
-    return self.already_existing_lock_file_paths()[0]
+    return self.already_existing_current_session_lock_file_paths()[0]
   endf
 
-  fun! obj.already_existing_lock_file_exists() abort
-    return filereadable(self.one_of_already_existing_lock_file_paths())
+  fun! obj.already_existing_current_session_lock_file_exists() abort
+    return filereadable(self.one_of_already_existing_current_session_lock_file_paths())
   endf
 
   fun! obj.create_lock_file() abort
-    exec 'redir > '.self.current_lock_file_path()
-    if !self.current_lock_file_exists()
+    exec 'redir > '.self.current_session_lock_file_path()
+    if !self.current_session_lock_file_exists()
       throw 'failed to create lock file.'
     endif
   endf
@@ -89,7 +113,7 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
   endf
 
   fun! obj.locked() abort
-    if !self.already_existing_lock_file_exists() || self.current_lock_file_path() == self.one_of_already_existing_lock_file_paths()
+    if !self.already_existing_current_session_lock_file_exists() || self.current_session_lock_file_path() == self.one_of_already_existing_current_session_lock_file_paths()
       return 0
     else
       return 1
