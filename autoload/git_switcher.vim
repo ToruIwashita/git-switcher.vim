@@ -8,7 +8,6 @@ set cpo&vim
 fun! git_switcher#new(...) abort
   let obj = {
     \ '_self': 'git_switcher',
-    \ '_autostash_enabled': g:gsw_switch_autostash,
     \ '_autoload_session_behavior': g:gsw_autoload_session,
     \ '_autodelete_sessions_bahavior': g:gsw_autodelete_sessions_if_branch_does_not_exist
   \ }
@@ -19,10 +18,6 @@ fun! git_switcher#new(...) abort
   else
     let obj.project_session = git_switcher#project_session#new(obj.git.project(), obj.git.current_branch())
   endif
-
-  fun! obj.autostash_enabled() abort
-    return self._autostash_enabled == 1
-  endf
 
   fun! obj.autoload_enabled() abort
     return self._autoload_session_behavior == 'yes'
@@ -241,20 +236,12 @@ fun! git_switcher#new(...) abort
       endif
       redraw!
 
-      if self.autostash_enabled()
-        call self.git.save_stash()
-      endif
-
       redraw!
       echo "checking out files."
 
       call self.git.switch(a:branch)
 
       let self.project_session = git_switcher#project_session#new(self.git.project(), a:branch)
-
-      if self.autostash_enabled()
-        call self.git.pop_stash()
-      endif
 
       if a:bang
         checktime

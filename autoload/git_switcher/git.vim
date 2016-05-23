@@ -31,14 +31,6 @@ fun! git_switcher#git#new() abort
     return self.exec('pull origin '.self.current_branch())
   endf
 
-  fun! obj.save_stash() abort
-    return self.exec('stash save') !=# 'No local changes to save'
-  endf
-
-  fun! obj.pop_stash() abort
-    return self.exec('stash pop')
-  endf
-
   fun! obj.branch() abort
     return self.exec('branch')
   endf

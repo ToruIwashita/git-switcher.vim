@@ -97,7 +97,3 @@ Delete sessions automaticaly when you open no name buffer. Default value is `no`
  - `yes`: Automatic deleting immediately.  
  - `confirm`: Automatic deleting after confirming.  
  - `no`: Disable automatic deleting.  
-
-##### - `gsw_switch_autostash`  
-
-Automatically create a temporary stash and apply it after switching branches.  
