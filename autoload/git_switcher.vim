@@ -186,7 +186,7 @@ fun! git_switcher#new(...) abort
       endif
       call self.session_locked()
 
-      if self.autoload_enabled() || (self.autoload_enabled_with_confirmation() && confirm("load '".self.project_session.name()."' session?", "&Yes\n&No", 1) == 1)
+      if self.autoload_enabled() || (self.autoload_enabled_with_confirmation() && confirm("load '".self.project_session.name()."' session?", "&Yes\n&No", 0) == 1)
         call self.load_session()
       end
     catch
@@ -213,7 +213,7 @@ fun! git_switcher#new(...) abort
   fun! obj.switch(bang, source, branch) abort
     try
       if !self.git.branch_exists(a:branch)
-        if confirm("create '".a:branch."' branch based on '".self.git.current_branch()."'?", "&Yes\n&No", 1) != 1
+        if confirm("create '".a:branch."' branch based on '".self.git.current_branch()."'?", "&Yes\n&No", 0) != 1
           return 1
         endif
         redraw!
@@ -228,7 +228,7 @@ fun! git_switcher#new(...) abort
         end
       endif
 
-      if !a:bang && confirm("save '".self.project_session.name()."' session?", "&Yes\n&No", 1) == 1
+      if !a:bang && confirm("save '".self.project_session.name()."' session?", "&Yes\n&No", 0) == 1
         redraw!
         if !self.save_session()
           return 0
@@ -278,7 +278,7 @@ fun! git_switcher#new(...) abort
       let bang = 0
       if a:0 | let bang = a:1 | endif
 
-      if !bang && confirm("delete '".self.project_session.name()."' session?", "&Yes\n&No", 1) != 1
+      if !bang && confirm("delete '".self.project_session.name()."' session?", "&Yes\n&No", 0) != 1
         return 1
       endif
 
@@ -299,7 +299,7 @@ fun! git_switcher#new(...) abort
           continue
         endif
    
-        if !bang && confirm("delete '".project_session.name()."' session?", "&Yes\n&No", 1) != 1
+        if !bang && confirm("delete '".project_session.name()."' session?", "&Yes\n&No", 0) != 1
           continue
         endif
    
