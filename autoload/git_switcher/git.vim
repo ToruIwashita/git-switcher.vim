@@ -8,12 +8,24 @@ set cpo&vim
 fun! git_switcher#git#new() abort
   let obj = {'_self': 'git'}
 
+  fun! obj.exec_and_return_exit_code(cmd) abort
+    return system('\'.self._self.' '.a:cmd.' >/dev/null 2>&1; echo $?')
+  endf
+
+  fun! obj.exec_and_return_list_of_splited_stdout_and_exit_code(cmd) abort
+    return split(system('\'.self._self.' '.a:cmd.'; echo $?'), "\n")
+  endf
+
   fun! obj.exec(cmd) abort
-    let results = split(system('\'.self._self.' '.a:cmd.'; echo $?'), "\n")
-    let exit_status = remove(results, -1)
+    if self.exec_and_return_exit_code('rev-parse')
+      throw 'failed because not a git repository.'
+    endif
+
+    let results = self.exec_and_return_list_of_splited_stdout_and_exit_code(a:cmd)
+    let exit_code = remove(results, -1)
     let output = join(results, "\n")
 
-    if exit_status
+    if exit_code
       throw 'failed to '.a:cmd."\n".output
     endif
 
