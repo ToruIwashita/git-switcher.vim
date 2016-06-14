@@ -12,7 +12,7 @@ fun! git_switcher#git#new() abort
     return system('\'.self._self.' '.a:cmd.' >/dev/null 2>&1; echo $?')
   endf
 
-  fun! obj.exec_and_return_list_of_splited_stdout_and_exit_code(cmd) abort
+  fun! obj.exec_and_return_list_of_splited_stdout_with_exit_code(cmd) abort
     return split(system('\'.self._self.' '.a:cmd.'; echo $?'), "\n")
   endf
 
@@ -21,7 +21,7 @@ fun! git_switcher#git#new() abort
       throw 'failed because not a git repository.'
     endif
 
-    let results = self.exec_and_return_list_of_splited_stdout_and_exit_code(a:cmd)
+    let results = self.exec_and_return_list_of_splited_stdout_with_exit_code(a:cmd)
     let exit_code = remove(results, -1)
     let output = join(results, "\n")
 
