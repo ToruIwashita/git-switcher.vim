@@ -31,17 +31,13 @@ fun! git_switcher#git#new() abort
 
     return output
   endf
-
-  fun! obj.short_status() abort
-    return self.exec('status --short')
-  endf
   
   fun! obj.fetch() abort
-    return self.exec('fetch --prune')
+    call self.exec('fetch --prune')
   endf
 
   fun! obj.pull_current_branch() abort
-    return self.exec('pull origin '.self.current_branch())
+    call self.exec('pull origin '.self.current_branch())
   endf
 
   fun! obj.branch() abort
