@@ -183,9 +183,8 @@ fun! git_switcher#new(...) abort
       redraw!
 
       if a:source ==# 'remote'
-        if !self.fetch_project()
-          return 0
-        endif
+        call self.fetch_project()
+        redraw!
         call self.git.create_remote_trancking_branch(a:branch)
       elseif a:source ==# 'local'
         call self.git.create_branch(a:branch)
