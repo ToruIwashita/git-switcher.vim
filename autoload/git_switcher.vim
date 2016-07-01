@@ -38,9 +38,13 @@ fun! git_switcher#new(...) abort
 
   " initialize END
 
-  fun! obj.autoload_enabled() abort
+  " private
+
+  fun! obj._autoload_enabled() abort
     return self._autoload_session_behavior == 'yes'
   endf
+
+  " private END
 
   fun! obj.autoload_enabled_with_confirmation() abort
     return self._autoload_session_behavior == 'confirm'
@@ -160,7 +164,7 @@ fun! git_switcher#new(...) abort
     endif
     call self.session_locked()
 
-    if self.autoload_enabled() || (self.autoload_enabled_with_confirmation() && confirm("load '".self.project_session.name()."' session?", "&Yes\n&No", 0) == 1)
+    if self._autoload_enabled() || (self.autoload_enabled_with_confirmation() && confirm("load '".self.project_session.name()."' session?", "&Yes\n&No", 0) == 1)
       call self.load_session()
     end
   endf
