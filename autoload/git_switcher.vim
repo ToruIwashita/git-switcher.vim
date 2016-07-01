@@ -34,8 +34,20 @@ fun! git_switcher#new(...) abort
   let obj.project_session = git_switcher#project_session#new(obj._project_name, obj._session_name)
   let obj.state = git_switcher#state#new()
 
+  fun! obj.default_project_name()
+    return self._default_project_name
+  endf
+
   fun! obj.project_name()
     return self._project_name
+  endf
+
+  fun! obj.default_session_name()
+    return self._default_session_name
+  endf
+
+  fun! obj.session_name()
+    return self._session_name
   endf
 
   fun! obj.autoload_enabled() abort
@@ -55,7 +67,7 @@ fun! git_switcher#new(...) abort
   endf
 
   fun! obj.non_project_default_session()
-    return self._project_name == self._default_project_name && self._session_name == self._default_session_name
+    return self.project_name() == self.default_project_name() && self.session_name() == self.default_session_name()
   endf
 
   fun! obj.session_locked() abort
