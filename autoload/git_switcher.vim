@@ -7,6 +7,7 @@ set cpo&vim
 
 fun! git_switcher#new(...) abort
   " initialize
+
   let obj = {
     \ '_self': 'git_switcher',
     \ '_autoload_session_behavior':    g:gsw_autoload_session,
@@ -34,23 +35,8 @@ fun! git_switcher#new(...) abort
 
   let obj.project_session = git_switcher#project_session#new(obj._project_name, obj._session_name)
   let obj.state = git_switcher#state#new()
+
   " initialize END
-
-  fun! obj.default_project_name()
-    return self._default_project_name
-  endf
-
-  fun! obj.project_name()
-    return self._project_name
-  endf
-
-  fun! obj.default_session_name()
-    return self._default_session_name
-  endf
-
-  fun! obj.session_name()
-    return self._session_name
-  endf
 
   fun! obj.autoload_enabled() abort
     return self._autoload_session_behavior == 'yes'
@@ -69,7 +55,7 @@ fun! git_switcher#new(...) abort
   endf
 
   fun! obj.non_project_default_session()
-    return self.project_name() == self.default_project_name() && self.session_name() == self.default_session_name()
+    return self._project_name == self._default_project_name() && self._session_name == self._default_session_name
   endf
 
   fun! obj.session_locked() abort
@@ -146,7 +132,7 @@ fun! git_switcher#new(...) abort
     call self.project_session.store()
     echo "saved '".self.project_session.name()."' session."
 
-    if !self.git.inside_work_tree() || (self.project_session.session_name() != self.git.current_branch())
+    if !self.git.inside_work_tree() || (self.project_session._session_name != self.git.current_branch())
       return 1
     endif
 
@@ -242,7 +228,7 @@ fun! git_switcher#new(...) abort
   endf
 
   fun! obj.stored_project_sessions() abort
-    return map(self.stored_session_names(), 'git_switcher#project_session#new(self.project_name(), v:val)')
+    return map(self.stored_session_names(), 'git_switcher#project_session#new(self._project_name, v:val)')
   endf
 
   fun! obj.delete_session(...) abort
@@ -261,7 +247,7 @@ fun! git_switcher#new(...) abort
     if a:0 | let bang = a:1 | endif
      
     for project_session in self.stored_project_sessions()
-      if self.git.branch_exists(project_session.session_name())
+      if self.git.branch_exists(project_session._session_name)
         continue
       endif
  
