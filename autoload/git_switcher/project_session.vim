@@ -23,10 +23,6 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
     return self.project_name().'/'.self.session_name()
   endf
 
-  fun! obj.already_existing_locked_session_name()
-    return matchstr(fnamemodify(self.one_of_already_existing_session_lock_file_paths(), ':t'), '^\zs\(.*\)\ze'.self.lock_file.escaped_glob_ext().'$', 0)
-  endf
-
   fun! obj.file_path() abort
     return self.project_dir.path().self.session_file.name()
   endf
