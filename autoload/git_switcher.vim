@@ -44,37 +44,37 @@ fun! git_switcher#new(...) abort
     return self._autoload_session_behavior == 'yes'
   endf
 
-  " private END
-
-  fun! obj.autoload_enabled_with_confirmation() abort
+  fun! obj._autoload_enabled_with_confirmation() abort
     return self._autoload_session_behavior == 'confirm'
   endf
 
-  fun! obj.autodelete_sessions_enabled() abort
+  fun! obj._autodelete_sessions_enabled() abort
     return self._autodelete_sessions_bahavior == 'yes'
   endf
 
-  fun! obj.autodelete_sessions_enabled_with_confirmation() abort
+  fun! obj._autodelete_sessions_enabled_with_confirmation() abort
     return self._autodelete_sessions_bahavior == 'confirm'
   endf
 
-  fun! obj.non_project_default_session()
-    return self._project_name == self._default_project_name() && self._session_name == self._default_session_name
+  fun! obj._non_project_default_session()
+    return self._project_name == self._default_project_name && self._session_name == self._default_session_name
   endf
 
-  fun! obj.session_locked() abort
+  fun! obj._session_locked() abort
     if self.project_session.locked()
       throw "'".self.project_session.name()."' session has been locked."
     endif
   endf
 
-  fun! obj.lock_session() abort
+  fun! obj._lock_session() abort
     try
       call self.project_session.create_lock_file()
     catch
       throw "lock '".self.project_session.name()."' session failed."
     endtry
   endf
+
+  " private END
 
   fun! obj.unlock_sessions() abort
     try
@@ -128,24 +128,24 @@ fun! git_switcher#new(...) abort
   endf
 
   fun! obj.save_session() abort
-    if self.non_project_default_session() && confirm("save '".self.project_session.name()."' (non project default) session?", "&Yes\n&No", 0) != 1
+    if self._non_project_default_session() && confirm("save '".self.project_session.name()."' (non project default) session?", "&Yes\n&No", 0) != 1
       return 1
     endif
 
-    call self.session_locked()
+    call self._session_locked()
     call self.project_session.store()
     echo "saved '".self.project_session.name()."' session."
 
-    if !self.git.inside_work_tree() || (self.project_session._session_name != self.git.current_branch())
+    if !self.git.inside_work_tree() || (self.project_session.session_name() != self.git.current_branch())
       return 1
     endif
 
     call self.unlock_sessions()
-    call self.lock_session()
+    call self._lock_session()
   endf
 
   fun! obj.load_session() abort
-    call self.session_locked()
+    call self._session_locked()
     if !self.project_session.exists()
       throw "'".self.project_session.name()."' session file does not exist."
     endif
@@ -155,25 +155,25 @@ fun! git_switcher#new(...) abort
     call self.project_session.restore()
     echo "loaded '".self.project_session.name()."' session."
 
-    call self.lock_session()
+    call self._lock_session()
   endf
 
   fun! obj.autoload_session() abort
     if !self.git.inside_work_tree() || !self.project_session.exists()
       return 1
     endif
-    call self.session_locked()
+    call self._session_locked()
 
-    if self._autoload_enabled() || (self.autoload_enabled_with_confirmation() && confirm("load '".self.project_session.name()."' session?", "&Yes\n&No", 0) == 1)
+    if self._autoload_enabled() || (self._autoload_enabled_with_confirmation() && confirm("load '".self.project_session.name()."' session?", "&Yes\n&No", 0) == 1)
       call self.load_session()
     end
   endf
 
   fun! obj.autodelete_sessions_if_branch_does_not_exist() abort
     let bang = 0
-    if self.autodelete_sessions_enabled() | let bang = 1 | end
+    if self._autodelete_sessions_enabled() | let bang = 1 | end
 
-    if self.autodelete_sessions_enabled() || self.autodelete_sessions_enabled_with_confirmation()
+    if self._autodelete_sessions_enabled() || self._autodelete_sessions_enabled_with_confirmation()
       call self.delete_sessions_if_branch_does_not_exist(bang)
       redraw!
     end
@@ -251,7 +251,7 @@ fun! git_switcher#new(...) abort
     if a:0 | let bang = a:1 | endif
      
     for project_session in self.stored_project_sessions()
-      if self.git.branch_exists(project_session._session_name)
+      if self.git.branch_exists(project_session.session_name())
         continue
       endif
  
