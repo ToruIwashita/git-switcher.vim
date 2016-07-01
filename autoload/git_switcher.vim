@@ -6,6 +6,7 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 fun! git_switcher#new(...) abort
+  " initialize
   let obj = {
     \ '_self': 'git_switcher',
     \ '_autoload_session_behavior':    g:gsw_autoload_session,
@@ -33,6 +34,7 @@ fun! git_switcher#new(...) abort
 
   let obj.project_session = git_switcher#project_session#new(obj._project_name, obj._session_name)
   let obj.state = git_switcher#state#new()
+  " initialize END
 
   fun! obj.default_project_name()
     return self._default_project_name
