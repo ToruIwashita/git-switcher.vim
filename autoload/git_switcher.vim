@@ -74,6 +74,12 @@ fun! git_switcher#new(...) abort
     endtry
   endf
 
+  fun! obj._set_project_session(session_name)
+    let self._project_name = self.git.project()
+    let self._session_name = a:session_name
+    let self.project_session = git_switcher#project_session#new(self._project_name, self._session_name)
+  endf
+
   " private END
 
   fun! obj.unlock_sessions() abort
@@ -205,8 +211,7 @@ fun! git_switcher#new(...) abort
     echo "checking out files."
 
     call self.git.switch(a:branch)
-
-    let self.project_session = git_switcher#project_session#new(self.git.project(), a:branch)
+    call self._set_project_session(a:branch)
 
     if a:bang
       checktime
