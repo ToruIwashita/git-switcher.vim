@@ -261,6 +261,7 @@ fun! git_switcher#new(...) abort
 
   fun! obj.clear_state() abort
     call self.state.delete_all_buffers()
+    call self.unlock_sessions()
     redraw!
     echo 'cleared session state.'
   endf
