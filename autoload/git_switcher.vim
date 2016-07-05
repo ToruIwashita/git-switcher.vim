@@ -10,7 +10,7 @@ fun! git_switcher#new(...) abort
 
   " initialize
 
-  fun! obj.initialize(...)
+  fun! obj.initialize(...) abort
     let self._autoload_session_behavior    = g:gsw_autoload_session
     let self._autodelete_sessions_bahavior = g:gsw_autodelete_sessions_if_branch_does_not_exist
     let self._default_project_name         = g:gsw_non_project_sessions_dir
@@ -60,7 +60,7 @@ fun! git_switcher#new(...) abort
     return self._autodelete_sessions_bahavior == 'confirm'
   endf
 
-  fun! obj._non_project_default_session()
+  fun! obj._non_project_default_session() abort
     return self._project_name == self._default_project_name && self._session_name == self._default_session_name
   endf
 
@@ -78,7 +78,7 @@ fun! git_switcher#new(...) abort
     endtry
   endf
 
-  fun! obj._set_project_session(session_name)
+  fun! obj._set_project_session(session_name) abort
     let self._project_name = self.git.project()
     let self._session_name = a:session_name
     let self.project_session = git_switcher#project_session#new(self._project_name, self._session_name)
