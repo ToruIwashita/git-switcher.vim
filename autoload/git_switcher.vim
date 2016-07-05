@@ -6,35 +6,39 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 fun! git_switcher#new(...) abort
+  let obj = {'_self': 'git_switcher'}
+
   " initialize
 
-  let obj = {
-    \ '_self': 'git_switcher',
-    \ '_autoload_session_behavior':    g:gsw_autoload_session,
-    \ '_autodelete_sessions_bahavior': g:gsw_autodelete_sessions_if_branch_does_not_exist,
-    \ '_default_project_name':         g:gsw_non_project_sessions_dir,
-    \ '_default_session_name':         g:gsw_non_project_default_session_name
-  \ }
-  let obj.git = git_switcher#git#new()
+  fun! obj.initialize(...)
+    let self._autoload_session_behavior    = g:gsw_autoload_session
+    let self._autodelete_sessions_bahavior = g:gsw_autodelete_sessions_if_branch_does_not_exist
+    let self._default_project_name         = g:gsw_non_project_sessions_dir
+    let self._default_session_name         = g:gsw_non_project_default_session_name
 
-  try
-    let obj._project_name = obj.git.project()
-  catch
-    let obj._project_name = obj._default_project_name
-  endtry
+    let self.git = git_switcher#git#new()
 
-  if a:0
-    let obj._session_name = a:1
-  else
     try
-      let obj._session_name = obj.git.current_branch()
+      let self._project_name = self.git.project()
     catch
-      let obj._session_name = obj._default_session_name
+      let self._project_name = self._default_project_name
     endtry
-  endif
 
-  let obj.project_session = git_switcher#project_session#new(obj._project_name, obj._session_name)
-  let obj.state = git_switcher#state#new()
+    if a:0
+      let self._session_name = a:1
+    else
+      try
+        let self._session_name = self.git.current_branch()
+      catch
+        let self._session_name = self._default_session_name
+      endtry
+    endif
+
+    let self.project_session = git_switcher#project_session#new(self._project_name, self._session_name)
+    let self.state = git_switcher#state#new()
+  endf
+
+  call call(obj.initialize, a:000, obj)
 
   " initialize END
 
