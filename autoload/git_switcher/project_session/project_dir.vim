@@ -6,11 +6,18 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 fun! git_switcher#project_session#project_dir#new(key) abort
-  let obj = {
-    \ '_self': 'project_dir',
-    \ '_root_dir': g:gsw_sessions_dir,
-    \ '_key': a:key
-  \ }
+  let obj = {'_self': 'project_dir'}
+
+  " initialize
+
+  fun! obj.initialize(key) abort
+    let self._root_dir = g:gsw_sessions_dir
+    let self._key = a:key
+  endf
+
+  call call(obj.initialize, [a:key], obj)
+
+  " initialize END
 
   fun! obj.name() abort
     return self._key

@@ -6,10 +6,17 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 fun! git_switcher#project_session#session_file#new(key) abort
-  let obj = {
-    \ '_self': 'session_file',
-    \ '_key': a:key
-  \ }
+  let obj = {'_self': 'session_file'}
+
+  " initialize
+
+  fun! obj.initialize(key) abort
+    let self._key = a:key
+  endf
+
+  call call(obj.initialize, [a:key], obj)
+
+  " initialize END
 
   fun! obj.basename() abort
     return self._key
