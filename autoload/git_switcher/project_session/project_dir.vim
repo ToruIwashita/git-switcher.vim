@@ -19,24 +19,28 @@ fun! git_switcher#project_session#project_dir#new(key) abort
 
   " initialize END
 
+  " private
+
+  fun! obj._root_dir_path() abort
+    return self._root_dir.'/'
+  endf
+
+  fun! obj._exists() abort
+    return isdirectory(self.path())
+  endf
+
+  " private END
+
   fun! obj.name() abort
     return self._key
   endf
 
-  fun! obj.root_dir_path() abort
-    return self._root_dir.'/'
-  endf
-
   fun! obj.path() abort
-    return self.root_dir_path().self.name().'/'
-  endf
-
-  fun! obj.exists() abort
-    return isdirectory(self.path())
+    return self._root_dir_path().self.name().'/'
   endf
 
   fun! obj.create() abort
-    if !self.exists()
+    if !self._exists()
       call mkdir(self.path(), 'p')
     endif
   endf
