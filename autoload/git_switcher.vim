@@ -6,71 +6,85 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 fun! git_switcher#new(...) abort
-  let obj = {
-    \ '_self': 'git_switcher',
-    \ '_autoload_session_behavior':    g:gsw_autoload_session,
-    \ '_autodelete_sessions_bahavior': g:gsw_autodelete_sessions_if_branch_does_not_exist,
-    \ '_default_project_name':         g:gsw_non_project_sessions_dir,
-    \ '_default_session_name':         g:gsw_non_project_default_session_name
-  \ }
-  let obj.git = git_switcher#git#new()
+  let obj = {'_self': 'git_switcher'}
 
-  try
-    let obj._project_name = obj.git.project()
-  catch
-    let obj._project_name = obj._default_project_name
-  endtry
+  " initialize
 
-  if a:0
-    let obj._session_name = a:1
-  else
+  fun! obj.initialize(...) abort
+    let self._autoload_session_behavior    = g:gsw_autoload_session
+    let self._autodelete_sessions_bahavior = g:gsw_autodelete_sessions_if_branch_does_not_exist
+    let self._default_project_name         = g:gsw_non_project_sessions_dir
+    let self._default_session_name         = g:gsw_non_project_default_session_name
+
+    let self.git = git_switcher#git#new()
+
     try
-      let obj._session_name = obj.git.current_branch()
+      let self._project_name = self.git.project()
     catch
-      let obj._session_name = obj._default_session_name
+      let self._project_name = self._default_project_name
     endtry
-  endif
 
-  let obj.project_session = git_switcher#project_session#new(obj._project_name, obj._session_name)
-  let obj.state = git_switcher#state#new()
+    if a:0
+      let self._session_name = a:1
+    else
+      try
+        let self._session_name = self.git.current_branch()
+      catch
+        let self._session_name = self._default_session_name
+      endtry
+    endif
 
-  fun! obj.project_name()
-    return self._project_name
+    let self.project_session = git_switcher#project_session#new(self._project_name, self._session_name)
+    let self.state = git_switcher#state#new()
   endf
 
-  fun! obj.autoload_enabled() abort
+  call call(obj.initialize, a:000, obj)
+
+  " initialize END
+
+  " private
+
+  fun! obj._autoload_enabled() abort
     return self._autoload_session_behavior == 'yes'
   endf
 
-  fun! obj.autoload_enabled_with_confirmation() abort
+  fun! obj._autoload_enabled_with_confirmation() abort
     return self._autoload_session_behavior == 'confirm'
   endf
 
-  fun! obj.autodelete_sessions_enabled() abort
+  fun! obj._autodelete_sessions_enabled() abort
     return self._autodelete_sessions_bahavior == 'yes'
   endf
 
-  fun! obj.autodelete_sessions_enabled_with_confirmation() abort
+  fun! obj._autodelete_sessions_enabled_with_confirmation() abort
     return self._autodelete_sessions_bahavior == 'confirm'
   endf
 
-  fun! obj.non_project_default_session()
+  fun! obj._non_project_default_session() abort
     return self._project_name == self._default_project_name && self._session_name == self._default_session_name
   endf
 
-  fun! obj.session_locked() abort
+  fun! obj._session_locked() abort
     if self.project_session.locked()
       throw "'".self.project_session.name()."' session has been locked."
     endif
   endf
 
-  fun! obj.lock_session() abort
+  fun! obj._lock_session() abort
     try
       call self.project_session.create_lock_file()
     catch
       throw "lock '".self.project_session.name()."' session failed."
     endtry
   endf
+
+  fun! obj._set_project_session(session_name) abort
+    let self._project_name = self.git.project()
+    let self._session_name = a:session_name
+    let self.project_session = git_switcher#project_session#new(self._project_name, self._session_name)
+  endf
+
+  " private END
 
   fun! obj.unlock_sessions() abort
     try
@@ -124,11 +138,11 @@ fun! git_switcher#new(...) abort
   endf
 
   fun! obj.save_session() abort
-    if self.non_project_default_session() && confirm("save '".self.project_session.name()."' (non project default) session?", "&Yes\n&No", 0) != 1
+    if self._non_project_default_session() && confirm("save '".self.project_session.name()."' (non project default) session?", "&Yes\n&No", 0) != 1
       return 1
     endif
 
-    call self.session_locked()
+    call self._session_locked()
     call self.project_session.store()
     echo "saved '".self.project_session.name()."' session."
 
@@ -137,11 +151,11 @@ fun! git_switcher#new(...) abort
     endif
 
     call self.unlock_sessions()
-    call self.lock_session()
+    call self._lock_session()
   endf
 
   fun! obj.load_session() abort
-    call self.session_locked()
+    call self._session_locked()
     if !self.project_session.exists()
       throw "'".self.project_session.name()."' session file does not exist."
     endif
@@ -151,25 +165,25 @@ fun! git_switcher#new(...) abort
     call self.project_session.restore()
     echo "loaded '".self.project_session.name()."' session."
 
-    call self.lock_session()
+    call self._lock_session()
   endf
 
   fun! obj.autoload_session() abort
     if !self.git.inside_work_tree() || !self.project_session.exists()
       return 1
     endif
-    call self.session_locked()
+    call self._session_locked()
 
-    if self.autoload_enabled() || (self.autoload_enabled_with_confirmation() && confirm("load '".self.project_session.name()."' session?", "&Yes\n&No", 0) == 1)
+    if self._autoload_enabled() || (self._autoload_enabled_with_confirmation() && confirm("load '".self.project_session.name()."' session?", "&Yes\n&No", 0) == 1)
       call self.load_session()
     end
   endf
 
   fun! obj.autodelete_sessions_if_branch_does_not_exist() abort
     let bang = 0
-    if self.autodelete_sessions_enabled() | let bang = 1 | end
+    if self._autodelete_sessions_enabled() | let bang = 1 | end
 
-    if self.autodelete_sessions_enabled() || self.autodelete_sessions_enabled_with_confirmation()
+    if self._autodelete_sessions_enabled() || self._autodelete_sessions_enabled_with_confirmation()
       call self.delete_sessions_if_branch_does_not_exist(bang)
       redraw!
     end
@@ -201,8 +215,7 @@ fun! git_switcher#new(...) abort
     echo "checking out files."
 
     call self.git.switch(a:branch)
-
-    let self.project_session = git_switcher#project_session#new(self.git.project(), a:branch)
+    call self._set_project_session(a:branch)
 
     if a:bang
       checktime
@@ -228,7 +241,7 @@ fun! git_switcher#new(...) abort
   endf
 
   fun! obj.stored_project_sessions() abort
-    return map(self.stored_session_names(), 'git_switcher#project_session#new(self.project_name(), v:val)')
+    return map(self.stored_session_names(), 'git_switcher#project_session#new(self._project_name, v:val)')
   endf
 
   fun! obj.delete_session(...) abort

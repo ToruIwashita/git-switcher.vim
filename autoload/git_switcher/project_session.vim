@@ -7,9 +7,18 @@ set cpo&vim
 
 fun! git_switcher#project_session#new(project_key, session_key) abort
   let obj = {'_self': 'project_session'}
-  let obj.project_dir = git_switcher#project_session#project_dir#new(a:project_key)
-  let obj.session_file = git_switcher#project_session#session_file#new(a:session_key)
-  let obj.lock_file = git_switcher#project_session#lock_file#new(a:session_key)
+
+  " initialize
+ 
+  fun! obj.initialize(project_key, session_key) abort
+    let self.project_dir = git_switcher#project_session#project_dir#new(a:project_key)
+    let self.session_file = git_switcher#project_session#session_file#new(a:session_key)
+    let self.lock_file = git_switcher#project_session#lock_file#new(a:session_key)
+  endf
+
+  call call(obj.initialize, [a:project_key, a:session_key], obj)
+
+  " initialize END
 
   fun! obj.project_name() abort
     return self.project_dir.name()
@@ -21,10 +30,6 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
 
   fun! obj.name() abort
     return self.project_name().'/'.self.session_name()
-  endf
-
-  fun! obj.already_existing_locked_session_name()
-    return matchstr(fnamemodify(self.one_of_already_existing_session_lock_file_paths(), ':t'), '^\zs\(.*\)\ze'.self.lock_file.escaped_glob_ext().'$', 0)
   endf
 
   fun! obj.file_path() abort
