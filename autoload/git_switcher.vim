@@ -138,7 +138,7 @@ fun! git_switcher#new(...) abort
   endf
 
   fun! obj.save_session() abort
-    if self._non_project_default_session() && confirm("save '".self.project_session.name()."' (non project default) session?", "&Yes\n&No", 0) != 1
+    if self._non_project_default_session() && confirm("save '".self.project_session.name()."'(non project default) session?", "&Yes\n&No", 0) != 1
       return 1
     endif
 
