@@ -12,7 +12,7 @@ fun! git_switcher#new(...) abort
 
   fun! obj.initialize(...) abort
     let self._autoload_session_behavior    = g:gsw_autoload_session
-    let self._autodelete_sessions_bahavior = g:gsw_autodelete_sessions_if_branch_does_not_exist
+    let self._autodelete_sessions_bahavior = g:gsw_autodelete_sessions_if_branch_not_exist
     let self._default_project_name         = g:gsw_non_project_sessions_dir
     let self._default_session_name         = g:gsw_non_project_default_session_name
 
@@ -179,12 +179,12 @@ fun! git_switcher#new(...) abort
     end
   endf
 
-  fun! obj.autodelete_sessions_if_branch_does_not_exist() abort
+  fun! obj.autodelete_sessions_if_branch_not_exist() abort
     let bang = 0
     if self._autodelete_sessions_enabled() | let bang = 1 | end
 
     if self._autodelete_sessions_enabled() || self._autodelete_sessions_enabled_with_confirmation()
-      call self.delete_sessions_if_branch_does_not_exist(bang)
+      call self.delete_sessions_if_branch_not_exist(bang)
       redraw!
     end
   endf
@@ -255,7 +255,7 @@ fun! git_switcher#new(...) abort
     call self.project_session.destroy()
   endf
 
-  fun! obj.delete_sessions_if_branch_does_not_exist(...) abort
+  fun! obj.delete_sessions_if_branch_not_exist(...) abort
     let bang = 0
     if a:0 | let bang = a:1 | endif
      
@@ -392,10 +392,10 @@ fun! git_switcher#delete_session(bang,branch)
   endtry
 endf
 
-fun! git_switcher#delete_sessions_if_branch_does_not_exist(bang)
+fun! git_switcher#delete_sessions_if_branch_not_exist(bang)
   try
     let git_switcher = git_switcher#new()
-    return git_switcher.delete_sessions_if_branch_does_not_exist(a:bang)
+    return git_switcher.delete_sessions_if_branch_not_exist(a:bang)
   catch
     redraw!
     echo v:exception
@@ -405,7 +405,7 @@ endf
 fun! git_switcher#autocmd_for_vim_enter()
   try
     let git_switcher = git_switcher#new()
-    call git_switcher.autodelete_sessions_if_branch_does_not_exist()
+    call git_switcher.autodelete_sessions_if_branch_not_exist()
     call git_switcher.autoload_session()
   catch
     redraw!
