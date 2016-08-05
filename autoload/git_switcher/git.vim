@@ -1,5 +1,5 @@
 " File: autoload/git_switcher/git.vim
-" Author: Toru Hoyano <toru.iwashita@gmail.com>
+" Author: ToruIwashita <toru.iwashita@gmail.com>
 " License: MIT License
 
 let s:cpo_save = &cpo
