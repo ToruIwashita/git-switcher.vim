@@ -1,4 +1,4 @@
-*git-switcher.txt*	switch the session by following the branch switching
+*git-switcher.txt*	Switch a session by following the branch switching
 			of git
 
 Version: 1.0.0
@@ -35,7 +35,7 @@ Commands
 :Gsw[!] <branch-name>
 	Switch branches.
 	When switching branches, If the session that the same name as the
-	branch has been held, the session will load.
+	branch has been saved, the session is loaded.
 	With a '!' bang, it only switch branches.
 	If there is no switching destination branch, create new branch and
 	switch to it.
@@ -45,7 +45,7 @@ Commands
 :GswRemote[!] <branch-name>
 	Checkout a remote branch.
 	At that time, if the session that the same name as the remote branch
-	has been saved, the session will load.
+	has been saved, the session is loaded.
 	With a '!' bang, it only checkout a remote branch.
 	This command is equipped with remote branch names completion.
 
@@ -78,7 +78,7 @@ Commands
 
 							*:GswClearState*
 :GswClearState
-	This command initialize the window, tab, buffer.
+	This command initialize Vim's window, tab, buffer.
 
 							*:GswDeleteSession*
 :GswDeleteSession <session-name>
