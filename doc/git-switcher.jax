@@ -1,6 +1,6 @@
 *git-switcher.txt*	gitのブランチ切り替えに追随してセッション切り替えを行う
 
-Version: 1.0.0
+Version: 1.0.1
 Author: ToruIwashita <toru.iwashita@gmail.com>
 License: MIT License
 
@@ -78,16 +78,18 @@ gitのワーキングディレクトリ外においてもセッションの保�
 :GswClearState
 	Vimのbuffer、window、tabの状態を初期化します。
 
-					*:GswDeleteSessionsIfBranchNotExist*
-:GswDeleteSessionsIfBranchNotExist
-	保存したセッションの内、ローカルに同じ名前のブランチが存在しないもの
-	を削除します。
-
 							*:GswDeleteSession*
-:GswDeleteSession <session-name>
-	指定されたセッションを削除します。
+:GswDeleteSession[!] <session-name>
+	指定されたセッションを確認後に削除します。
+	'!'付きで実行された場合、確認なしで削除します。
 	このコマンドでは同プロジェクトにおいて既に保存されているセッションを
 	補完します。
+
+					*:GswDeleteSessionsIfBranchNotExist*
+:GswDeleteSessionsIfBranchNotExist[!]
+	保存したセッションのうちローカルに同じ名前のブランチが存在しないもの
+	を確認後に削除します。
+	'!'付きで実行された場合、確認なしで削除します。
 
 								*:GswBranch*
 :GswBranch
@@ -138,13 +140,20 @@ g:gsw_autoload_session
 	gitのリポジトリ上では作業ブランチ名と同じ名前のセッションをロードし、
 	gitリポジトリ外ではg:gsw_non_project_default_session_nameで指定された
 	デフォルトのセッションをロードする。
+	 - 'yes': 自動ロード
+	 - 'confirm': 確認後にロード
+	 - 'no': 自動ロード無効
+Default: >
 Default: >
 	let g:gsw_autoload_session = 'no'
 
 				*g:gsw_autodelete_sessions_if_branch_not_exist*
 g:gsw_autodelete_sessions_if_branch_not_exist
-	vim起動時、保存したセッションの内でローカルに同じ名前のブランチが
+	vim起動時、保存したセッションのうち、ローカルに同じ名前のブランチが
 	存在しないものを削除する。
+	 - 'yes': 自動削除
+	 - 'confirm': 確認後に削除
+	 - 'no': 自動削除無効
 Default: >
 	let g:gsw_autodelete_sessions_if_branch_not_exist = 'no'
 
