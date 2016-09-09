@@ -1,0 +1,155 @@
+*git-switcher.txt*	switch the session by following the branch switching
+			of git
+
+Version: 1.0.0
+Author: ToruIwashita <toru.iwashita@gmail.com>
+License: MIT License
+
+==============================================================================
+							*git-switcher-contents*
+目次
+
+Introduction					|git-switcher-introduction|
+Interface					|git-switcher-interface|
+  Commands					|git-switcher-commnads|
+Options						|git-switcher-options|
+  Variables					|git-switcher-variables|
+
+==============================================================================
+						*git-switcher-introduction*
+Introduction
+
+*git-switcher* provide the retention and restoration of the session based on
+the switching branches. If even outside the git working directory, management
+of session is possible.
+
+==============================================================================
+						*git-switcher-interface*
+Interface
+
+------------------------------------------------------------------------------
+							*git-switcher-commnads*
+Commands
+
+								*:Gsw*
+:Gsw[!] <branch-name>
+	Switch branches.
+	When switching branches, If the session that the same name as the
+	branch has been held, the session will load.
+	With a '!' bang, it only switch branches.
+	If there is no switching destination branch, create new branch and
+	switch to it.
+	This command is equipped with branch names completion.
+
+								*:GswRemote*
+:GswRemote[!] <branch-name>
+	Checkout a remote branch.
+	At that time, if the session that the same name as the remote branch
+	has been saved, the session will load.
+	With a '!' bang, it only checkout a remote branch.
+	This command is equipped with remote branch names completion.
+
+								*:GswSave*
+:GswSave [session-name]
+	If this command is run with no arguments, then save the session in the
+	current working branch name.
+	With an argument, then save the given string as the session name.
+	This command is equipped with session names completion that has
+	already been saved.
+	In addition, this command will also work on the directory that are not
+	managed by git, that case is to save the session using
+	g:gsw_non_project_sessions_dir and
+	g:gsw_non_project_default_session_name option.
+
+								*:GswLoad*
+:GswLoad [session-name]
+	If this command is run with no arguments, then load the session in the
+	current working branch name.
+	With an argument, then load the given string as the session name.
+	This command is equipped with saved session names completion.
+	In addition, this command will also work on the directory that are not
+	managed by git, that case is to load the session using
+	g:gsw_non_project_sessions_dir and
+	g:gsw_non_project_default_session_name option.
+
+							*:GswSessionList*
+:GswSessionList
+	This command display a list of saved session names.
+
+							*:GswClearState*
+:GswClearState
+	This command initialize the window, tab, buffer.
+
+							*:GswDeleteSession*
+:GswDeleteSession <session-name>
+	This command removes the specified session.
+	This command is equipped with saved session names completion.
+
+					*:GswDeleteSessionsIfBranchNotExist*
+:GswDeleteSessionsIfBranchNotExist
+	This command removes saved sessions there is no branch of the same name
+	in the local repositry.
+
+								*:GswBranch*
+:GswBranch
+	This command display a list of branch in the local repositry.
+
+							*:GswBranchRemote*
+:GswBranchRemote
+	This command display a list of branch in the remote repositry.
+
+								*:GswFetch*
+:GswFetch
+	Execute git fetch.
+
+								*:GswPull*
+:GswPull
+	Execute git pull.
+
+==============================================================================
+							*git-switcher-options*
+Options
+
+------------------------------------------------------------------------------
+						*git-switcher-variables*
+Variables
+
+							*g:gsw_sessions_dir*
+g:gsw_sessions_dir
+	Directory path where saving the session.
+Default: >
+	let g:gsw_sessions_dir = $HOME.'/.cache/vim/git_switcher'
+
+					*g:gsw_non_project_sessions_dir*
+g:gsw_non_project_sessions_dir
+	This is the project (directory) name to use when saving the session
+	outside of the repository.
+Default: >
+	let g:gsw_non_project_sessions_dir = 'non_project'
+
+				*g:gsw_non_project_default_session_name*
+g:gsw_non_project_default_session_name
+	This is the default session name to use when saving the session outside
+	of the repository.
+Default: >
+	let g:gsw_non_project_default_session_name = 'default'
+
+						*g:gsw_autoload_session*
+g:gsw_autoload_session
+	Session automatic load settings on startup.
+	It is on the git repository to load the session with the same name as
+	the working branch name, is outside the git repository to load the
+	default session that is specified in the
+	g:gsw_non_project_default_session_name.
+Default: >
+	let g:gsw_autoload_session = 'no'
+
+				*g:gsw_autodelete_sessions_if_branch_not_exist*
+g:gsw_autodelete_sessions_if_branch_not_exist
+	During start-up, to remove saved sessions there is no branch of the
+	same name in the local repositry.
+Default: >
+	let g:gsw_autodelete_sessions_if_branch_not_exist = 'no'
+
+==============================================================================
+vim:tw=78:sw=4:ts=8:ft=help:norl:noet:
