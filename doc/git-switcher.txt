@@ -1,7 +1,7 @@
 *git-switcher.txt*	Switch a session by following the branch switching
 			of git
 
-Version: 1.0.0
+Version: 1.0.1
 Author: ToruIwashita <toru.iwashita@gmail.com>
 License: MIT License
 
@@ -81,13 +81,16 @@ Commands
 	This command initialize Vim's window, tab, buffer.
 
 							*:GswDeleteSession*
-:GswDeleteSession <session-name>
-	This command removes the specified session.
+:GswDeleteSession[!] <session-name>
+	This command removes the specified session after confirming.
+	With a '!' bang, remove without confirmation.
 	This command is equipped with saved session names completion.
 
 					*:GswDeleteSessionsIfBranchNotExist*
-:GswDeleteSessionsIfBranchNotExist
+:GswDeleteSessionsIfBranchNotExist[!]
 	This command removes saved sessions there is no branch of the same name
+	after confirming.
+	With a '!' bang, remove without confirmation.
 	in the local repositry.
 
 								*:GswBranch*
@@ -141,6 +144,9 @@ g:gsw_autoload_session
 	the working branch name, is outside the git repository to load the
 	default session that is specified in the
 	g:gsw_non_project_default_session_name.
+	 - 'yes': Automatic loading immediately.
+	 - 'confirm': Automatic loading after confirming.
+	 - 'no': Disable automatic loading.
 Default: >
 	let g:gsw_autoload_session = 'no'
 
@@ -148,6 +154,9 @@ Default: >
 g:gsw_autodelete_sessions_if_branch_not_exist
 	During start-up, to remove saved sessions there is no branch of the
 	same name in the local repositry.
+	 - 'yes': Automatic deleting immediately.
+	 - 'confirm': Automatic deleting after confirming.
+	 - 'no': Disable automatic deleting.
 Default: >
 	let g:gsw_autodelete_sessions_if_branch_not_exist = 'no'
 
