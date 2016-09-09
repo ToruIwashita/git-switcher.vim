@@ -212,7 +212,7 @@ fun! git_switcher#new(...) abort
     redraw!
 
     redraw!
-    echo "checking out files."
+    echo 'checking out files.'
 
     call self.git.switch(a:branch)
     call self._set_project_session(a:branch)
@@ -258,16 +258,16 @@ fun! git_switcher#new(...) abort
   fun! obj.delete_sessions_if_branch_not_exist(...) abort
     let bang = 0
     if a:0 | let bang = a:1 | endif
-     
+
     for project_session in self.stored_project_sessions()
       if self.git.branch_exists(project_session.session_name())
         continue
       endif
- 
+
       if !bang && confirm("delete '".project_session.name()."' session?", "&Yes\n&No", 0) != 1
         continue
       endif
- 
+
       call project_session.destroy()
     endfor
   endf
