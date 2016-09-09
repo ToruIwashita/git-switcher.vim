@@ -1,0 +1,152 @@
+*git-switcher.txt*	gitのブランチ切り替えに追随してセッション切り替えを行う
+
+Version: 1.0.0
+Author: ToruIwashita <toru.iwashita@gmail.com>
+License: MIT License
+
+==============================================================================
+							*git-switcher-contents*
+目次
+
+概要						|git-switcher-introduction|
+インターフェース				|git-switcher-interface|
+  コマンド					|git-switcher-commnads|
+オプション					|git-switcher-options|
+  変数						|git-switcher-variables|
+
+==============================================================================
+						*git-switcher-introduction*
+概要
+
+*git-switcher*はgitのワーキングディレクトリにおいて、ブランチ切り替えに
+追随する形でのセッションの保持・復元を簡単に行うためのプラグインです。
+gitのワーキングディレクトリ外においてもセッションの保持・復元を行う事が
+できます。
+
+==============================================================================
+						*git-switcher-interface*
+インターフェース
+
+------------------------------------------------------------------------------
+							*git-switcher-commnads*
+コマンド
+
+								*:Gsw*
+:Gsw[!] <branch-name>
+	作業ブランチを切り替えます。
+	切り替え時に切り替え先ブランチと同名のセッションが保存されている場合、
+	同時にそのセッションをロードします。
+	'!'付きで実行された場合、ブランチの切り替えのみを行います。
+	また、切り替え時に切り替え対象のブランチがローカルに存在しない場合は、
+	新しいブランチを作成して切り替えます。
+	このコマンドではローカルリポジトリに存在するブランチを補完します。
+
+								*:GswRemote*
+:GswRemote[!] <branch-name>
+	リモートリポジトリにあるブランチを、ローカルにcheckoutします。
+	その時、取得したブランチと同名のセッションが保存されている場合は、
+	同時にそのセッションをロードします。
+	'!'付きで実行された場合、ブランチのcheckoutのみを行います。
+	このコマンドではリモートリポジトリのみに存在するブランチを補完します。
+
+								*:GswSave*
+:GswSave [session-name]
+	引数無しで実行した場合、現在の作業ブランチ名でセッションを保存します。
+	引数ありの場合は与えられた文字列をセッション名として保存します。
+	このコマンドでは同プロジェクトにおいて既に保存されているセッションを
+	補完します。
+	また、このコマンドはGitで管理されていないディレクトリ上でも動作し、
+	その際はg:gsw_non_project_sessions_dirオプションと
+	g:gsw_non_project_default_session_nameオプションを利用してセッションを
+	保存します。
+								*:GswLoad*
+:GswLoad [session-name]
+	引数無しで実行した場合、現在の作業ブランチ名のセッションを復元します。
+	引数ありの場合は与えられた文字列をセッション名として復元します。
+	このコマンドでは同プロジェクトにおいて既に保存されているセッションを
+	補完します。
+	また、このコマンドはGitで管理されていないディレクトリ上でも動作し、
+	その際はg:gsw_non_project_sessions_dirオプションと
+	g:gsw_non_project_default_session_nameオプションを利用してセッションを
+	復元します。
+
+							*:GswSessionList*
+:GswSessionList
+	保存されているセッション名の一覧を表示します。
+
+							*:GswClearState*
+:GswClearState
+	Vimのbuffer、window、tabの状態を初期化します。
+
+					*:GswDeleteSessionsIfBranchNotExist*
+:GswDeleteSessionsIfBranchNotExist
+	保存したセッションの内、ローカルに同じ名前のブランチが存在しないもの
+	を削除します。
+
+							*:GswDeleteSession*
+:GswDeleteSession <session-name>
+	指定されたセッションを削除します。
+	このコマンドでは同プロジェクトにおいて既に保存されているセッションを
+	補完します。
+
+								*:GswBranch*
+:GswBranch
+	ローカルリポジトリのブランチ一覧を表示します。
+
+							*:GswBranchRemote*
+:GswBranchRemote
+	リモートリポジトリのブランチ一覧を表示します。
+
+								*:GswFetch*
+:GswFetch
+	git fetchを実行します。
+
+								*:GswPull*
+:GswPull
+	git pullを実行します。
+
+==============================================================================
+							*git-switcher-options*
+オプション
+
+------------------------------------------------------------------------------
+						*git-switcher-variables*
+変数
+
+							*g:gsw_sessions_dir*
+g:gsw_sessions_dir
+	セッションを保存するディレクトリパス。
+Default: >
+	let g:gsw_sessions_dir = $HOME.'/.cache/vim/git_switcher'
+
+					*g:gsw_non_project_sessions_dir*
+g:gsw_non_project_sessions_dir
+	gitのリポジトリ以外でセッションを保持する場合の
+	プロジェクト名(ディレクトリ名)。
+Default: >
+	let g:gsw_non_project_sessions_dir = 'non_project'
+
+				*g:gsw_non_project_default_session_name*
+g:gsw_non_project_default_session_name
+	gitのリポジトリ以外でセッションを保持する場合のデフォルトセッション名。
+Default: >
+	let g:gsw_non_project_default_session_name = 'default'
+
+						*g:gsw_autoload_session*
+g:gsw_autoload_session
+	vim起動時のセッション自動ロード設定。
+	gitのリポジトリ上では作業ブランチ名と同じ名前のセッションをロードし、
+	gitリポジトリ外ではg:gsw_non_project_default_session_nameで指定された
+	デフォルトのセッションをロードする
+Default: >
+	let g:gsw_autoload_session = 'no'
+
+				*g:gsw_autodelete_sessions_if_branch_not_exist*
+g:gsw_autodelete_sessions_if_branch_not_exist
+	vim起動時、保存したセッションの内でローカルに同じ名前のブランチが
+	存在しないものを削除する
+Default: >
+	let g:gsw_autodelete_sessions_if_branch_not_exist = 'no'
+
+==============================================================================
+vim:tw=78:sw=4:ts=8:ft=help:norl:noet:
