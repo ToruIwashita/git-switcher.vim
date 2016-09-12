@@ -19,9 +19,9 @@ Options						|git-switcher-options|
 						*git-switcher-introduction*
 Introduction
 
-*git-switcher* provide the retention and restoration of the session based on
-the switching branches. If even outside the git working directory, management
-of session is possible.
+*git-switcher* provide the save and load of the session based on the switching
+branches. If even outside the git working directory, management of session is
+possible.
 
 ==============================================================================
 						*git-switcher-interface*
@@ -121,21 +121,30 @@ Variables
 g:gsw_sessions_dir
 	Directory path where saving the session.
 Default: >
-	let g:gsw_sessions_dir = $HOME.'/.cache/vim/git_switcher'
+	g:gsw_sessions_dir = $HOME.'/.cache/vim/git_switcher'
 
 					*g:gsw_non_project_sessions_dir*
 g:gsw_non_project_sessions_dir
 	This is the project (directory) name to use when saving the session
 	outside of the repository.
 Default: >
-	let g:gsw_non_project_sessions_dir = 'non_project'
+	g:gsw_non_project_sessions_dir = 'non_project'
 
 				*g:gsw_non_project_default_session_name*
 g:gsw_non_project_default_session_name
 	This is the default session name to use when saving the session outside
 	of the repository.
 Default: >
-	let g:gsw_non_project_default_session_name = 'default'
+	g:gsw_non_project_default_session_name = 'default'
+
+						*g:gsw_save_session_confirm
+g:gsw_save_session_confirm
+	It is setting of whether or not to confirm the save of the session
+	when the Gsw command is executed.
+	 - 'yes': Enable the save confrimation
+	 - 'no': Disable the save confrimation
+Default: >
+	g:gsw_save_session_confirm = 'yes'
 
 						*g:gsw_autoload_session*
 g:gsw_autoload_session
@@ -148,7 +157,7 @@ g:gsw_autoload_session
 	 - 'confirm': Automatic loading after confirming.
 	 - 'no': Disable automatic loading.
 Default: >
-	let g:gsw_autoload_session = 'no'
+	g:gsw_autoload_session = 'no'
 
 				*g:gsw_autodelete_sessions_if_branch_not_exist*
 g:gsw_autodelete_sessions_if_branch_not_exist
@@ -158,7 +167,7 @@ g:gsw_autodelete_sessions_if_branch_not_exist
 	 - 'confirm': Automatic deleting after confirming.
 	 - 'no': Disable automatic deleting.
 Default: >
-	let g:gsw_autodelete_sessions_if_branch_not_exist = 'no'
+	g:gsw_autodelete_sessions_if_branch_not_exist = 'no'
 
 ==============================================================================
 vim:tw=78:sw=4:ts=8:ft=help:norl:noet:

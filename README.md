@@ -1,6 +1,6 @@
 # git-switcher.vim  
 
-Switching session based on git branch.  
+git-switcher provide the save and load of the session based on the switching branches. If even outside the git working directory, management of session is possible.  
 
 ## Installation  
 
@@ -79,6 +79,15 @@ Default: `g:gsw_non_project_sessions_dir = 'non_project'`
 This is the default session name to use when saving the session outside of the repository.  
 
 Default: `g:gsw_non_project_default_session_name = 'default'`  
+
+##### - `g:gsw_save_session_confirm`  
+
+It is setting of whether or not to confirm the save of the session when the Gsw command is executed.  
+
+ - `yes`: Enable the save confrimation.  
+ - `no`: Disable the save confrimation.  
+
+Default: `g:gsw_save_session_confirm = 'yes'`  
 
 ##### - `g:gsw_autoload_session`  
 
