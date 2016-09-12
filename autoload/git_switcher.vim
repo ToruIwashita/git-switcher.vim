@@ -11,6 +11,7 @@ fun! git_switcher#new(...) abort
   " initialize
 
   fun! obj.initialize(...) abort
+    let self._save_confirmation            = g:gsw_save_session_confirm
     let self._autoload_session_behavior    = g:gsw_autoload_session
     let self._autodelete_sessions_bahavior = g:gsw_autodelete_sessions_if_branch_not_exist
     let self._default_project_name         = g:gsw_non_project_sessions_dir
@@ -43,6 +44,10 @@ fun! git_switcher#new(...) abort
   " initialize END
 
   " private
+
+  fun! obj._save_confirmation_enabled()
+    return self._save_confirmation == 'yes'
+  endf
 
   fun! obj._autoload_enabled() abort
     return self._autoload_session_behavior == 'yes'
@@ -205,7 +210,7 @@ fun! git_switcher#new(...) abort
       end
     endif
 
-    if !a:bang && confirm("save '".self.project_session.name()."' session?", "&Yes\n&No", 0) == 1
+    if !a:bang && (self._save_confirmation_enabled() && confirm("save '".self.project_session.name()."' session?", "&Yes\n&No", 0) == 1)
       redraw!
       call self.save_session()
     endif
