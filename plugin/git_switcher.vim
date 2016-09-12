@@ -22,6 +22,10 @@ if !exists('g:gsw_non_project_default_session_name')
   let g:gsw_non_project_default_session_name = 'default'
 endif
 
+if !exists('g:gsw_save_session_confirm')
+  let g:gsw_save_session_confirm = 'yes'
+endif
+
 if !exists('g:gsw_autoload_session')
   let g:gsw_autoload_session = 'no'
 endif

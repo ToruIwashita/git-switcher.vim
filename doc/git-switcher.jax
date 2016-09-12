@@ -119,20 +119,28 @@ gitのワーキングディレクトリ外においてもセッションの保�
 g:gsw_sessions_dir
 	セッションを保存するディレクトリパス。
 Default: >
-	let g:gsw_sessions_dir = $HOME.'/.cache/vim/git_switcher'
+	g:gsw_sessions_dir = $HOME.'/.cache/vim/git_switcher'
 
 					*g:gsw_non_project_sessions_dir*
 g:gsw_non_project_sessions_dir
 	gitのリポジトリ以外でセッションを保持する場合の
 	プロジェクト名(ディレクトリ名)。
 Default: >
-	let g:gsw_non_project_sessions_dir = 'non_project'
+	g:gsw_non_project_sessions_dir = 'non_project'
 
 				*g:gsw_non_project_default_session_name*
 g:gsw_non_project_default_session_name
 	gitのリポジトリ以外でセッションを保持する場合のデフォルトセッション名。
 Default: >
-	let g:gsw_non_project_default_session_name = 'default'
+	g:gsw_non_project_default_session_name = 'default'
+
+						*g:gsw_save_session_confirm
+g:gsw_save_session_confirm
+	Gswコマンド実行時にセッションの保存の確認を行う。
+	 - 'yes': 保存確認有効
+	 - 'no': 保存確認無効
+Default: >
+	g:gsw_save_session_confirm = 'yes'
 
 						*g:gsw_autoload_session*
 g:gsw_autoload_session
@@ -144,8 +152,7 @@ g:gsw_autoload_session
 	 - 'confirm': 確認後にロード
 	 - 'no': 自動ロード無効
 Default: >
-Default: >
-	let g:gsw_autoload_session = 'no'
+	g:gsw_autoload_session = 'no'
 
 				*g:gsw_autodelete_sessions_if_branch_not_exist*
 g:gsw_autodelete_sessions_if_branch_not_exist
@@ -155,7 +162,7 @@ g:gsw_autodelete_sessions_if_branch_not_exist
 	 - 'confirm': 確認後に削除
 	 - 'no': 自動削除無効
 Default: >
-	let g:gsw_autodelete_sessions_if_branch_not_exist = 'no'
+	g:gsw_autodelete_sessions_if_branch_not_exist = 'no'
 
 ==============================================================================
 vim:tw=78:sw=4:ts=8:ft=help:norl:noet:
