@@ -35,7 +35,7 @@ fun! git_switcher#git#new() abort
   endf
 
   fun! obj._remote_tracking_branches() abort
-    return filter(map(filter(split(self.remote_tracking_branch(), '\n'), 'v:val !~ "->"'), 'matchstr(v:val, "^\\(  origin/\\|  \\)\\zs\\(.*\\)\\ze", 0)'), 'v:val != ""')
+    return filter(map(filter(split(self.remote_tracking_branch(), '\n'), 'v:val !~ "->"'), 'matchstr(v:val, "^\\s*\\(origin/\\|\\)\\zs\\(.*\\)\\ze", 0)'), 'v:val != ""')
   endf
 
   " private END
