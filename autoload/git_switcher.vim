@@ -214,7 +214,6 @@ fun! git_switcher#new(...) abort
       redraw!
       call self.save_session()
     endif
-    redraw!
 
     redraw!
     echo 'checking out files.'
