@@ -233,6 +233,7 @@ fun! git_switcher#new(...) abort
       call self.load_session()
       let res_message = "switched to '".a:branch."' branch and loaded session."
     else
+      checktime
       let res_message = "switched to '".a:branch."' branch."
     endif
 
