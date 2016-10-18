@@ -19,7 +19,7 @@ fun! git_switcher#project_session#lock_file#new(key) abort
   " initialize END
 
   " private
- 
+
   fun! obj._basename() abort
     return self._key
   endf

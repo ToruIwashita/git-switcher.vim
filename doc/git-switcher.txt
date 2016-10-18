@@ -72,6 +72,11 @@ Commands
 	g:gsw_non_project_sessions_dir and
 	g:gsw_non_project_default_session_name option.
 
+								*:GswMove*
+:GswMove[!] <branch-name>
+	This command move(rename) the current working branch.
+	With a '!' bang, to move without confirmation.
+
 							*:GswSessionList*
 :GswSessionList
 	This command display a list of saved session names.
@@ -83,14 +88,14 @@ Commands
 							*:GswDeleteSession*
 :GswDeleteSession[!] <session-name>
 	This command removes the specified session after confirming.
-	With a '!' bang, remove without confirmation.
+	With a '!' bang, to remove without confirmation.
 	This command is equipped with saved session names completion.
 
 					*:GswDeleteSessionsIfBranchNotExist*
 :GswDeleteSessionsIfBranchNotExist[!]
 	This command removes saved sessions there is no branch of the same name
 	after confirming.
-	With a '!' bang, remove without confirmation.
+	With a '!' bang, to remove without confirmation.
 	in the local repositry.
 
 								*:GswBranch*
@@ -141,8 +146,8 @@ Default: >
 g:gsw_save_session_confirm
 	It is setting of whether or not to confirm the save of the session
 	when the Gsw command is executed.
-	 - 'yes': Enable the save confrimation
-	 - 'no': Disable the save confrimation
+	 - 'yes': Enable the save confirmation
+	 - 'no': Disable the save confirmation
 Default: >
 	g:gsw_save_session_confirm = 'yes'
 

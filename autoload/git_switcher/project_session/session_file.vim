@@ -17,7 +17,7 @@ fun! git_switcher#project_session#session_file#new(key) abort
   call call(obj.initialize, [a:key], obj)
 
   " initialize END
- 
+
   " private
 
   fun! obj._ext() abort
@@ -35,7 +35,7 @@ fun! git_switcher#project_session#session_file#new(key) abort
   endf
 
   fun! obj.escaped_ext() abort
-    return '\.session\.vim' 
+    return '\.session\.vim'
   endf
 
   return obj
