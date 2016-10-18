@@ -70,6 +70,11 @@ gitのワーキングディレクトリ外においてもセッションの保�
 	g:gsw_non_project_default_session_nameオプションを利用してセッションを
 	復元します。
 
+								*:GswMove*
+:GswMove[!] <branch-name>
+	現在の作業ブランチを移動(名前を変更)します。
+	'!'付きで実行された場合、確認無しで移動します。
+
 							*:GswSessionList*
 :GswSessionList
 	保存されているセッション名の一覧を表示します。

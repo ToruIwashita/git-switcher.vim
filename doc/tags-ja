@@ -7,6 +7,7 @@
 :GswDeleteSessionsIfBranchNotExist	git-switcher.jax	/*:GswDeleteSessionsIfBranchNotExist*
 :GswFetch	git-switcher.jax	/*:GswFetch*
 :GswLoad	git-switcher.jax	/*:GswLoad*
+:GswMove	git-switcher.jax	/*:GswMove*
 :GswPull	git-switcher.jax	/*:GswPull*
 :GswRemote	git-switcher.jax	/*:GswRemote*
 :GswSave	git-switcher.jax	/*:GswSave*
