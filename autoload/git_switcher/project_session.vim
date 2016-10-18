@@ -9,7 +9,7 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
   let obj = {'_self': 'project_session'}
 
   " initialize
- 
+
   fun! obj.initialize(project_key, session_key) abort
     let self.project_dir = git_switcher#project_session#project_dir#new(a:project_key)
     let self.session_file = git_switcher#project_session#session_file#new(a:session_key)
@@ -25,7 +25,7 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
   endf
 
   fun! obj.session_name() abort
-    return self.session_file.basename() 
+    return self.session_file.basename()
   endf
 
   fun! obj.name() abort
