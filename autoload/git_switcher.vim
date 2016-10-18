@@ -194,6 +194,16 @@ fun! git_switcher#new(...) abort
     end
   endf
 
+  fun! obj.move_to(bang, branch) abort
+    if !a:bang && confirm("move '".self.git.current_branch()."' branch to '".a:branch."'?", "&Yes\n&No", 0) != 1
+      return 1
+    endif
+
+    call self.git.move_to(a:branch)
+    redraw!
+    echo "moved to '".a:branch."' branch."
+  endf
+
   fun! obj.switch(bang, source, branch) abort
     if !self.git.branch_exists(a:branch)
       if confirm("create '".a:branch."' branch based on '".self.git.current_branch()."'?", "&Yes\n&No", 0) != 1
@@ -351,6 +361,16 @@ fun! git_switcher#load_session(...)
   try
     let git_switcher = call('git_switcher#new', a:000)
     call git_switcher.load_session()
+  catch
+    redraw!
+    echo v:exception
+  endtry
+endf
+
+fun! git_switcher#gsw_move(bang,branch)
+  try
+    let git_switcher = git_switcher#new()
+    call git_switcher.move_to(a:bang, a:branch)
   catch
     redraw!
     echo v:exception

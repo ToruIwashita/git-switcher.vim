@@ -93,6 +93,14 @@ fun! git_switcher#git#new() abort
     return self.create_branch(a:branch.' origin/'.a:branch)
   endf
 
+  fun! obj.move_to(branch) abort
+    if self.branch_exists(a:branch)
+      throw "'".a:branch."' branch already exists."
+    endif
+
+    call self._exec('branch --move '.a:branch)
+  endf
+
   fun! obj.switch(branch) abort
     if !self.branch_exists(a:branch)
       throw "'".a:branch."' branch not exists."
