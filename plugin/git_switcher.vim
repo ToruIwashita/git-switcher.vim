@@ -47,12 +47,12 @@ command! GswFetch call git_switcher#fetch_project()
 command! GswPull call git_switcher#pull_current_branch()
 command! GswClearState call git_switcher#clear_stete()
 command! -bang GswDeleteSessionsIfBranchNotExist call git_switcher#delete_sessions_if_branch_not_exist(<bang>0)
-command! -bang -nargs=1 GswMove call git_switcher#gsw_move(<bang>0,<f-args>)
+command! -bang -nargs=1 GswMove call git_switcher#gsw_move(<bang>0, <f-args>)
 command! -nargs=? -complete=customlist,git_switcher#_stored_session_names GswSave call git_switcher#save_session(<f-args>)
 command! -nargs=? -complete=customlist,git_switcher#_stored_session_names GswLoad call git_switcher#load_session(<f-args>)
-command! -bang -nargs=1 -complete=customlist,git_switcher#_stored_session_names GswDeleteSession call git_switcher#delete_session(<bang>0,<f-args>)
-command! -bang -nargs=1 -complete=customlist,git_switcher#_branches Gsw call git_switcher#gsw(<bang>0,<f-args>)
-command! -bang -nargs=1 -complete=customlist,git_switcher#_remote_only_branches GswRemote call git_switcher#gsw_remote(<bang>0,<f-args>)
+command! -bang -nargs=1 -complete=customlist,git_switcher#_stored_session_names GswDeleteSession call git_switcher#delete_session(<bang>0, <f-args>)
+command! -bang -nargs=1 -complete=customlist,git_switcher#_branches Gsw call git_switcher#gsw(<bang>0, <f-args>)
+command! -bang -nargs=1 -complete=customlist,git_switcher#_remote_only_branches GswRemote call git_switcher#gsw_remote(<bang>0, <f-args>)
 
 let &cpo = s:cpo_save
 unlet s:cpo_save

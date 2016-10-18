@@ -367,7 +367,7 @@ fun! git_switcher#load_session(...)
   endtry
 endf
 
-fun! git_switcher#gsw_move(bang,branch)
+fun! git_switcher#gsw_move(bang, branch)
   try
     let git_switcher = git_switcher#new()
     call git_switcher.move_to(a:bang, a:branch)
@@ -377,7 +377,7 @@ fun! git_switcher#gsw_move(bang,branch)
   endtry
 endf
 
-fun! git_switcher#gsw(bang,branch)
+fun! git_switcher#gsw(bang, branch)
   try
     let git_switcher = git_switcher#new()
     call git_switcher.switch(a:bang, 'local', a:branch)
@@ -387,7 +387,7 @@ fun! git_switcher#gsw(bang,branch)
   endtry
 endf
 
-fun! git_switcher#gsw_remote(bang,branch)
+fun! git_switcher#gsw_remote(bang, branch)
   try
     let git_switcher = git_switcher#new()
     call git_switcher.switch(a:bang, 'remote', a:branch)
@@ -407,7 +407,7 @@ fun! git_switcher#clear_stete()
   endtry
 endf
 
-fun! git_switcher#delete_session(bang,branch)
+fun! git_switcher#delete_session(bang, branch)
   try
     let git_switcher = git_switcher#new(a:branch)
     call git_switcher.delete_session(a:bang)
