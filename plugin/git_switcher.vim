@@ -1,5 +1,5 @@
 " File: plugin/git_switcher.vim
-" Author: Toru Hoyano <toru.iwashita@gmail.com>
+" Author: ToruIwashita <toru.iwashita@gmail.com>
 " License: MIT License
 
 if exists('g:loaded_git_switcher')
