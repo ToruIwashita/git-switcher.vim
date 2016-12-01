@@ -24,7 +24,7 @@ Checkout a remote branch. At that time, if the session that the same name as the
 
 If this command is run with no arguments, then save the session in the current working branch name. With an argument, then save the given string as the session name. This command is equipped with session names completion that has already been saved. In addition, this command will also work on the directory that are not managed by git, that case is to save the session using `g:gsw_non_project_sessions_dir` and `g:gsw_non_project_default_session_name` option.  
 
-#####・`GswLoad`  
+##### - `GswLoad`  
 
 If this command is run with no arguments, then load the session in the current working branch name. With an argument, then load the given string as the session name. This command is equipped with saved session names completion. In addition, this command will also work on the directory that are not managed by git, that case is to load the session using `g:gsw_non_project_sessions_dir` and `g:gsw_non_project_default_session_name` option.  
 
