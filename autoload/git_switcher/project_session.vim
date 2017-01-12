@@ -20,24 +20,14 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
 
   " initialize END
 
+  " private
+
   fun! obj.project_name() abort
     return self.project_dir.name()
   endf
 
-  fun! obj.session_name() abort
-    return self.session_file.basename()
-  endf
-
-  fun! obj.name() abort
-    return self.project_name().'/'.self.session_name()
-  endf
-
   fun! obj.file_path() abort
     return self.project_dir.path().self.session_file.name()
-  endf
-
-  fun! obj.exists() abort
-    return filereadable(self.file_path())
   endf
 
   fun! obj.current_session_lock_file_path() abort
@@ -68,16 +58,6 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
     return lock_file_paths
   endf
 
-  fun! obj.one_of_already_existing_session_lock_file_paths() abort
-    let already_existing_session_lock_file_paths = self.already_existing_session_lock_file_paths()
-
-    if len(already_existing_session_lock_file_paths) == 0
-      return ''
-    endif
-
-    return self.already_existing_session_lock_file_paths()[0]
-  endf
-
   fun! obj.already_existing_current_session_lock_file_paths() abort
     let lock_file_paths = split(expand(self.project_dir.path().self.lock_file.glob_name()))
 
@@ -100,6 +80,20 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
 
   fun! obj.already_existing_current_session_lock_file_exists() abort
     return filereadable(self.one_of_already_existing_current_session_lock_file_paths())
+  endf
+
+  " private END
+
+  fun! obj.session_name() abort
+    return self.session_file.basename()
+  endf
+
+  fun! obj.name() abort
+    return self.project_name().'/'.self.session_name()
+  endf
+
+  fun! obj.exists() abort
+    return filereadable(self.file_path())
   endf
 
   fun! obj.create_lock_file() abort
