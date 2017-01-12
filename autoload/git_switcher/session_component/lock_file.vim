@@ -1,11 +1,11 @@
-" File: autoload/git_switcher/project_session/lock_file.vim
+" File: autoload/git_switcher/session_component/lock_file.vim
 " Author: ToruIwashita <toru.iwashita@gmail.com>
 " License: MIT License
 
 let s:cpo_save = &cpo
 set cpo&vim
 
-fun! git_switcher#project_session#lock_file#new(key) abort
+fun! git_switcher#session_component#lock_file#new(key) abort
   let obj = {'_self': 'lock_file'}
 
   " initialize
