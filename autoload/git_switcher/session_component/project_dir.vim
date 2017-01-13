@@ -1,11 +1,11 @@
-" File: autoload/git_switcher/project_session/project_dir.vim
+" File: autoload/git_switcher/session_component/project_dir.vim
 " Author: ToruIwashita <toru.iwashita@gmail.com>
 " License: MIT License
 
 let s:cpo_save = &cpo
 set cpo&vim
 
-fun! git_switcher#project_session#project_dir#new(key) abort
+fun! git_switcher#session_component#project_dir#new(key) abort
   let obj = {'_self': 'project_dir'}
 
   " initialize

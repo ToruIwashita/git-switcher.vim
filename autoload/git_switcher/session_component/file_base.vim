@@ -1,12 +1,12 @@
-" File: autoload/git_switcher/project_session/session_file.vim
+" File: autoload/git_switcher/session_component/file_base.vim
 " Author: ToruIwashita <toru.iwashita@gmail.com>
 " License: MIT License
 
 let s:cpo_save = &cpo
 set cpo&vim
 
-fun! git_switcher#project_session#session_file#new(key) abort
-  let obj = {'_self': 'session_file'}
+fun! git_switcher#session_component#file_base#new(key) abort
+  let obj = {'_self': 'file_base'}
 
   " initialize
 
@@ -18,24 +18,16 @@ fun! git_switcher#project_session#session_file#new(key) abort
 
   " initialize END
 
-  " private
-
-  fun! obj._ext() abort
-    return '.session.vim'
-  endf
-
-  " private END
-
   fun! obj.basename() abort
     return self._key
   endf
 
-  fun! obj.name() abort
-    return self.basename().self._ext()
+  fun! obj.ext() abort
+    return '.session.vim'
   endf
 
-  fun! obj.escaped_ext() abort
-    return '\.session\.vim'
+  fun! obj.name() abort
+    return self.basename().self.ext()
   endf
 
   return obj
