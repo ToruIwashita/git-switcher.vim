@@ -4,7 +4,7 @@ git-switcher provide the save and load of the session based on the switching bra
 
 ## Installation  
 
-Install either with [Pathogen](https://github.com/tpope/vim-pathogen), [Vundle](https://github.com/gmarik/Vundle.vim), [NeoBundle](https://github.com/Shougo/neobundle.vim), or other plugin manager.  
+Install either with [vim-plug](https://github.com/junegunn/vim-plug), [Pathogen](https://github.com/tpope/vim-pathogen), [Vundle](https://github.com/gmarik/Vundle.vim), [NeoBundle](https://github.com/Shougo/neobundle.vim), or other plugin manager.  
 
 ## Usage  
 
