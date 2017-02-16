@@ -7,7 +7,7 @@ License: MIT License
 
 ==============================================================================
 							*git-switcher-contents*
-目次
+CONTENTS
 
 Introduction					|git-switcher-introduction|
 Interface					|git-switcher-interface|
