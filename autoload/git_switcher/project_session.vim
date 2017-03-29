@@ -30,12 +30,12 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
     return self.project_dir.path().self.session_file.name()
   endf
 
-  fun! obj._current_session_lock_file_path() abort
+  fun! obj._lock_file_path() abort
     return self.project_dir.path().self.lock_file.name()
   endf
 
-  fun! obj._current_session_lock_file_exists() abort
-    return filereadable(self._current_session_lock_file_path())
+  fun! obj._lock_file_exists() abort
+    return filereadable(self._lock_file_path())
   endf
 
   fun! obj._same_process_lock_file_paths() abort
@@ -48,7 +48,7 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
     return lock_file_paths
   endf
 
-  fun! obj._already_existing_current_session_lock_file_paths() abort
+  fun! obj._already_existing_lock_file_paths() abort
     let lock_file_paths = split(expand(self.project_dir.path().self.lock_file.glob_name()))
 
     if !filereadable(lock_file_paths[0])
@@ -58,18 +58,18 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
     return lock_file_paths
   endf
 
-  fun! obj._one_of_already_existing_current_session_lock_file_paths() abort
-    let already_existing_current_session_lock_file_paths = self._already_existing_current_session_lock_file_paths()
+  fun! obj._one_of_already_existing_lock_file_paths() abort
+    let already_existing_lock_file_paths = self._already_existing_lock_file_paths()
 
-    if len(already_existing_current_session_lock_file_paths) == 0
+    if len(already_existing_lock_file_paths) == 0
       return ''
     endif
 
-    return self._already_existing_current_session_lock_file_paths()[0]
+    return self._already_existing_lock_file_paths()[0]
   endf
 
-  fun! obj._already_existing_current_session_lock_file_exists() abort
-    return filereadable(self._one_of_already_existing_current_session_lock_file_paths())
+  fun! obj._already_existing_lock_file_exists() abort
+    return filereadable(self._one_of_already_existing_lock_file_paths())
   endf
 
   " private END
@@ -87,8 +87,8 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
   endf
 
   fun! obj.lock_session() abort
-    exec 'redir > '.self._current_session_lock_file_path()
-    if !self._current_session_lock_file_exists()
+    exec 'redir > '.self._lock_file_path()
+    if !self._lock_file_exists()
       throw 'failed to create lock file.'
     endif
   endf
@@ -102,7 +102,7 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
   endf
 
   fun! obj.locked() abort
-    if !self._already_existing_current_session_lock_file_exists() || self._current_session_lock_file_path() == self._one_of_already_existing_current_session_lock_file_paths()
+    if !self._already_existing_lock_file_exists() || self._lock_file_path() == self._one_of_already_existing_lock_file_paths()
       return 0
     else
       return 1
