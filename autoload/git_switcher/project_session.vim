@@ -86,14 +86,14 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
     return filereadable(self._file_path())
   endf
 
-  fun! obj.create_lock_file() abort
+  fun! obj.lock_session() abort
     exec 'redir > '.self._current_session_lock_file_path()
     if !self._current_session_lock_file_exists()
       throw 'failed to create lock file.'
     endif
   endf
 
-  fun! obj.delete_lock_files() abort
+  fun! obj.unlock_sessions() abort
     for lock_file_path in self._same_process_lock_file_paths()
       if delete(lock_file_path) != 0
         throw 'failed to delete lock files.'
