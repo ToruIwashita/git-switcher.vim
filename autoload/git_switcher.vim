@@ -36,6 +36,7 @@ fun! git_switcher#new(...) abort
     endif
 
     let self.project_session = git_switcher#project_session#new(self._project_name, self._session_name)
+    let self.project_prev_branch = git_switcher#project_prev_branch#new(self._project_name, self._session_name)
     let self.state = git_switcher#state#new()
   endf
 
@@ -69,6 +70,11 @@ fun! git_switcher#new(...) abort
     return self._project_name == self._default_project_name && self._session_name == self._default_session_name
   endf
 
+  fun! obj._refresh_prev_branch() abort
+    call self.clear_prev_branch()
+    call self.project_prev_branch.store()
+  endf
+
   fun! obj._session_locked() abort
     if self.project_session.locked()
       throw "'".self.project_session.name()."' session has been locked."
@@ -83,13 +89,18 @@ fun! git_switcher#new(...) abort
     endtry
   endf
 
-  fun! obj._set_project_session(session_name) abort
+  fun! obj._set_session_name(session_name) abort
     let self._project_name = self.git.project()
     let self._session_name = a:session_name
     let self.project_session = git_switcher#project_session#new(self._project_name, self._session_name)
+    let self.project_pev_branch = git_switcher#project_prev_branch#new(self._project_name, self._session_name)
   endf
 
   " private END
+
+  fun! obj.clear_prev_branch() abort
+    call self.project_prev_branch.destroy_all()
+  endf
 
   fun! obj.unlock_sessions() abort
     try
@@ -229,7 +240,8 @@ fun! git_switcher#new(...) abort
     echo 'checking out files.'
 
     call self.git.switch(a:branch)
-    call self._set_project_session(a:branch)
+    call self._refresh_prev_branch()
+    call self._set_session_name(a:branch)
 
     if a:bang
       checktime
@@ -441,6 +453,7 @@ endf
 fun! git_switcher#autocmd_for_vim_leave()
   try
     let git_switcher = git_switcher#new()
+    call git_switcher.clear_prev_branch()
     call git_switcher.unlock_sessions()
   catch
     redraw!
