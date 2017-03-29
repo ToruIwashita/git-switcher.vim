@@ -77,7 +77,7 @@ fun! git_switcher#new(...) abort
 
   fun! obj._lock_session() abort
     try
-      call self.project_session.create_lock_file()
+      call self.project_session.lock_session()
     catch
       throw "lock '".self.project_session.name()."' session failed."
     endtry
@@ -93,7 +93,7 @@ fun! git_switcher#new(...) abort
 
   fun! obj.unlock_sessions() abort
     try
-      call self.project_session.delete_lock_files()
+      call self.project_session.unlock_sessions()
     catch
       throw 'unlock sessions failed.'
     endtry
