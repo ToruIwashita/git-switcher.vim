@@ -124,7 +124,7 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
     endtry
 
     if !result
-      throw "faild to store '".self.name()."' session." 
+      throw "faild to store '".self.name()."' session."
     endif
   endf
 
@@ -141,7 +141,7 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
     endtry
 
     if !result
-      throw "faild to restore '".self.name()."' session." 
+      throw "faild to restore '".self.name()."' session."
     endif
   endf
 
