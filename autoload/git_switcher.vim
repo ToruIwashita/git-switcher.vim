@@ -70,6 +70,10 @@ fun! git_switcher#new(...) abort
     return self._project_name == self._default_project_name && self._session_name == self._default_session_name
   endf
 
+  fun! obj._prev_branch() abort
+    return self.project_prev_branch.branch_name()
+  endf
+
   fun! obj._refresh_prev_branch() abort
     call self.clear_prev_branch()
     call self.project_prev_branch.store()
@@ -115,7 +119,7 @@ fun! git_switcher#new(...) abort
   endf
 
   fun! obj.prev_branch_name() abort
-    echo self.project_prev_branch.branch_name()
+    echo self._prev_branch()
   endf
 
   fun! obj.branch() abort
@@ -220,7 +224,6 @@ fun! git_switcher#new(...) abort
   endf
 
   fun! obj.switch(bang, source, branch) abort
-    Debugger 
     if !self.git.branch_exists(a:branch)
       if confirm("create '".a:branch."' branch based on '".self.git.current_branch()."'?", "&Yes\n&No", 0) != 1
         return 1
@@ -266,6 +269,16 @@ fun! git_switcher#new(...) abort
 
     redraw!
     echo res_message
+  endf
+
+  fun! obj.switch_prev(bang) abort
+    let prev_branch = self._prev_branch()
+
+    if len(prev_branch) == 0
+      throw 'previous branch does not exist.'
+    endif
+
+    call self.switch(a:bang, 'local', self._prev_branch())
   endf
 
   fun! obj.stored_session_names() abort
@@ -418,6 +431,16 @@ fun! git_switcher#gsw_remote(bang, branch)
   try
     let git_switcher = git_switcher#new()
     call git_switcher.switch(a:bang, 'remote', a:branch)
+  catch
+    redraw!
+    echo v:exception
+  endtry
+endf
+
+fun! git_switcher#gsw_prev(bang)
+  try
+    let git_switcher = git_switcher#new()
+    call git_switcher.switch_prev(a:bang)
   catch
     redraw!
     echo v:exception

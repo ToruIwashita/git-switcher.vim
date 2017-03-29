@@ -54,6 +54,7 @@ command! -nargs=? -complete=customlist,git_switcher#_stored_session_names GswLoa
 command! -bang -nargs=1 -complete=customlist,git_switcher#_stored_session_names GswDeleteSession call git_switcher#delete_session(<bang>0, <f-args>)
 command! -bang -nargs=1 -complete=customlist,git_switcher#_branches Gsw call git_switcher#gsw(<bang>0, <f-args>)
 command! -bang -nargs=1 -complete=customlist,git_switcher#_remote_only_branches GswRemote call git_switcher#gsw_remote(<bang>0, <f-args>)
+command! -bang GswPrev call git_switcher#gsw_prev(<bang>0)
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
