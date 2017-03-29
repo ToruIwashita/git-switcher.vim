@@ -41,6 +41,7 @@ augroup git_switcher
 augroup END
 
 command! GswSessionList call git_switcher#session_list()
+command! GswPrevBranchName call git_switcher#prev_branch_name()
 command! GswBranch call git_switcher#branch()
 command! GswBranchRemote call git_switcher#remote_tracking_branch()
 command! GswFetch call git_switcher#fetch_project()

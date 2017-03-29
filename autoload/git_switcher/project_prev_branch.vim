@@ -61,7 +61,13 @@ fun! git_switcher#project_prev_branch#new(project_key, branch_key) abort
   endf
 
   fun! obj.branch_name() abort
-    return self._branch_names()[0]
+    let branch_names = self._branch_names()
+
+    if len(branch_names) == 0
+      return ''
+    else
+      return self._branch_names()[0]
+    endif
   endf
 
   return obj

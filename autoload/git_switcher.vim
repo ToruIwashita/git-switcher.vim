@@ -114,6 +114,10 @@ fun! git_switcher#new(...) abort
     echo self.project_session.stored_session_list()
   endf
 
+  fun! obj.prev_branch_name() abort
+    echo self.project_prev_branch.branch_name()
+  endf
+
   fun! obj.branch() abort
     echo self.git.branch()
   endf
@@ -216,6 +220,7 @@ fun! git_switcher#new(...) abort
   endf
 
   fun! obj.switch(bang, source, branch) abort
+    Debugger 
     if !self.git.branch_exists(a:branch)
       if confirm("create '".a:branch."' branch based on '".self.git.current_branch()."'?", "&Yes\n&No", 0) != 1
         return 1
@@ -313,6 +318,16 @@ fun! git_switcher#session_list()
   try
     let git_switcher = git_switcher#new()
     call git_switcher.session_list()
+  catch
+    redraw!
+    echo v:exception
+  endtry
+endf
+
+fun! git_switcher#prev_branch_name()
+  try
+    let git_switcher = git_switcher#new()
+    call git_switcher.prev_branch_name()
   catch
     redraw!
     echo v:exception
