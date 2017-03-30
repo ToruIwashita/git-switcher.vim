@@ -7,6 +7,8 @@
 :GswFetch	git-switcher.txt	/*:GswFetch*
 :GswLoad	git-switcher.txt	/*:GswLoad*
 :GswMove	git-switcher.txt	/*:GswMove*
+:GswPrev	git-switcher.txt	/*:GswPrev*
+:GswPrevBranchName	git-switcher.txt	/*:GswPrevBranchName*
 :GswPull	git-switcher.txt	/*:GswPull*
 :GswRemote	git-switcher.txt	/*:GswRemote*
 :GswSave	git-switcher.txt	/*:GswSave*

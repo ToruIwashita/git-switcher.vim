@@ -49,6 +49,11 @@ gitのワーキングディレクトリ外においてもセッションの保�
 	'!'付きで実行された場合、ブランチのcheckoutのみを行います。
 	このコマンドではリモートリポジトリのみに存在するブランチを補完します。
 
+								*:GswPrev*
+:GswPrev[!]
+	git-switcherで切り替えた1つ前のブランチに切り替えます。
+	前のブランチに切り替える以外はGswコマンドと同じ動作をします。
+
 								*:GswSave*
 :GswSave [session-name]
 	引数無しで実行した場合、現在の作業ブランチ名でセッションを保存します。
@@ -78,6 +83,10 @@ gitのワーキングディレクトリ外においてもセッションの保�
 							*:GswSessionList*
 :GswSessionList
 	保存されているセッション名の一覧を表示します。
+
+							*:GswPrevBranchName*
+:GswPrevBranchName
+	git-switcherによって切り替えられた1つ前のブランチ名を表示します。
 
 							*:GswClearState*
 :GswClearState

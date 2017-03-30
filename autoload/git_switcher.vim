@@ -36,6 +36,7 @@ fun! git_switcher#new(...) abort
     endif
 
     let self.project_session = git_switcher#project_session#new(self._project_name, self._session_name)
+    let self.project_prev_branch = git_switcher#project_prev_branch#new(self._project_name, self._session_name)
     let self.state = git_switcher#state#new()
   endf
 
@@ -69,6 +70,15 @@ fun! git_switcher#new(...) abort
     return self._project_name == self._default_project_name && self._session_name == self._default_session_name
   endf
 
+  fun! obj._prev_branch() abort
+    return self.project_prev_branch.branch_name()
+  endf
+
+  fun! obj._refresh_prev_branch() abort
+    call self.clear_prev_branch()
+    call self.project_prev_branch.store()
+  endf
+
   fun! obj._session_locked() abort
     if self.project_session.locked()
       throw "'".self.project_session.name()."' session has been locked."
@@ -83,13 +93,18 @@ fun! git_switcher#new(...) abort
     endtry
   endf
 
-  fun! obj._set_project_session(session_name) abort
+  fun! obj._set_session_name(session_name) abort
     let self._project_name = self.git.project()
     let self._session_name = a:session_name
     let self.project_session = git_switcher#project_session#new(self._project_name, self._session_name)
+    let self.project_pev_branch = git_switcher#project_prev_branch#new(self._project_name, self._session_name)
   endf
 
   " private END
+
+  fun! obj.clear_prev_branch() abort
+    call self.project_prev_branch.destroy_all()
+  endf
 
   fun! obj.unlock_sessions() abort
     try
@@ -101,6 +116,10 @@ fun! git_switcher#new(...) abort
 
   fun! obj.session_list() abort
     echo self.project_session.stored_session_list()
+  endf
+
+  fun! obj.prev_branch_name() abort
+    echo self._prev_branch()
   endf
 
   fun! obj.branch() abort
@@ -229,7 +248,8 @@ fun! git_switcher#new(...) abort
     echo 'checking out files.'
 
     call self.git.switch(a:branch)
-    call self._set_project_session(a:branch)
+    call self._refresh_prev_branch()
+    call self._set_session_name(a:branch)
 
     if a:bang
       checktime
@@ -249,6 +269,16 @@ fun! git_switcher#new(...) abort
 
     redraw!
     echo res_message
+  endf
+
+  fun! obj.switch_prev(bang) abort
+    let prev_branch = self._prev_branch()
+
+    if len(prev_branch) == 0
+      throw 'previous branch does not exist.'
+    endif
+
+    call self.switch(a:bang, 'local', self._prev_branch())
   endf
 
   fun! obj.stored_session_names() abort
@@ -301,6 +331,16 @@ fun! git_switcher#session_list()
   try
     let git_switcher = git_switcher#new()
     call git_switcher.session_list()
+  catch
+    redraw!
+    echo v:exception
+  endtry
+endf
+
+fun! git_switcher#prev_branch_name()
+  try
+    let git_switcher = git_switcher#new()
+    call git_switcher.prev_branch_name()
   catch
     redraw!
     echo v:exception
@@ -397,6 +437,16 @@ fun! git_switcher#gsw_remote(bang, branch)
   endtry
 endf
 
+fun! git_switcher#gsw_prev(bang)
+  try
+    let git_switcher = git_switcher#new()
+    call git_switcher.switch_prev(a:bang)
+  catch
+    redraw!
+    echo v:exception
+  endtry
+endf
+
 fun! git_switcher#clear_stete()
   try
     let git_switcher = git_switcher#new()
@@ -441,6 +491,7 @@ endf
 fun! git_switcher#autocmd_for_vim_leave()
   try
     let git_switcher = git_switcher#new()
+    call git_switcher.clear_prev_branch()
     call git_switcher.unlock_sessions()
   catch
     redraw!
