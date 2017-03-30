@@ -22,14 +22,15 @@ Checkout a remote branch. At that time, if the session that the same name as the
 
 ##### - `GswSave`  
 
-If this command is run with no arguments, then save the session in the current working branch name. With an argument, then save the given string as the session name. This command is equipped with session names completion that has already been saved. In addition, this command will also work on the directory that are not managed by git, that case is to save the session using `g:gsw_non_project_sessions_dir` and `g:gsw_non_project_default_session_name` option.  
+If this command is run with no arguments, then save the session in the current working branch name. With an argument, then save the given string as the session name. This command is equipped with session names completion that has already been saved. In addition, this command works even if it is not in the git managed directory, that case is to save the session using `g:gsw_non_project_sessions_dir` and `g:gsw_non_project_default_session_name` option.  
 
 ##### - `GswLoad`  
 
-If this command is run with no arguments, then load the session in the current working branch name. With an argument, then load the given string as the session name. This command is equipped with saved session names completion. In addition, this command will also work on the directory that are not managed by git, that case is to load the session using `g:gsw_non_project_sessions_dir` and `g:gsw_non_project_default_session_name` option.  
+If this command is run with no arguments, then load the session in the current working branch name. With an argument, then load the given string as the session name. This command is equipped with saved session names completion. In addition, this command works even if it is not in the git managed directory, that case is to load the session using `g:gsw_non_project_sessions_dir` and `g:gsw_non_project_default_session_name` option.  
 
 ##### - `GswMove[!]`  
-This command move(rename) the current working branch. With a '!' bang, to move without confirmation.  
+
+This command moves(renames) the current working branch. With a '!' bang, to move without confirmation.  
 
 ##### - `GswFetch`  
 
@@ -41,15 +42,15 @@ Execute git pull.
 
 ##### - `GswBranch`  
 
-This command display a list of branch in the local repositry.  
+This command displays a list of branch in the local repositry.  
 
 ##### - `GswBranchRemote`  
 
-This command display a list of branch in the remote repositry.  
+This command displays a list of branch in the remote repositry.  
 
 ##### - `GswSessionList`  
 
-This command display a list of saved session names.  
+This command displays a list of saved session names.  
 
 ##### - `GswClearState`  
 
