@@ -49,6 +49,12 @@ Commands
 	With a '!' bang, it only checkout a remote branch.
 	This command is equipped with remote branch names completion.
 
+								*:GswPrev*
+:GswPrev[!]
+	Switch to the previous branch that switched by git-switcher.
+	The operation except switching to the previous branch is the same as
+	the Gsw command.
+
 								*:GswSave*
 :GswSave [session-name]
 	If this command is run with no arguments, then save the session in the
@@ -56,8 +62,8 @@ Commands
 	With an argument, then save the given string as the session name.
 	This command is equipped with session names completion that has
 	already been saved.
-	In addition, this command will also work on the directory that are not
-	managed by git, that case is to save the session using
+	In addition, this command works even if it is not in the git managed
+	directory, that case is to save the session using
 	g:gsw_non_project_sessions_dir and
 	g:gsw_non_project_default_session_name option.
 
@@ -67,8 +73,8 @@ Commands
 	current working branch name.
 	With an argument, then load the given string as the session name.
 	This command is equipped with saved session names completion.
-	In addition, this command will also work on the directory that are not
-	managed by git, that case is to load the session using
+	In addition, this command works even if it is not in the git managed
+	directory, that case is to load the session using
 	g:gsw_non_project_sessions_dir and
 	g:gsw_non_project_default_session_name option.
 
@@ -80,6 +86,11 @@ Commands
 							*:GswSessionList*
 :GswSessionList
 	This command display a list of saved session names.
+
+							*:GswPrevBranchName*
+:GswPrevBranchName
+	This command displays the name of the previous branch that switched by
+	git-switcher.
 
 							*:GswClearState*
 :GswClearState
