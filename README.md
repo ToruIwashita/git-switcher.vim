@@ -12,23 +12,27 @@ Install either with [vim-plug](https://github.com/junegunn/vim-plug), [Pathogen]
 
 ### Commands  
 
-##### - `Gsw[!]`  
+##### - `Gsw[!] <branch name>`  
 
 Switch branches. When switching branches, If the session that the same name as the branch has been saved, the session is loaded. With a '!' bang, it only switch branches. If there is no switching destination branch, create new branch and switch to it. This command is equipped with branch names completion.  
 
-##### - `GswRemote[!]`  
+##### - `GswRemote[!] <branch name>`  
 
 Checkout a remote branch. At that time, if the session that the same name as the remote branch has been saved, the session is loaded. With a '!' bang, it only checkout a remote branch. This command is equipped with remote branch names completion.  
 
-##### - `GswSave`  
+##### - `GswPrev[!]`  
+
+Switch to the previous branch that switched by git-switcher. The operation except switching to the previous branch is the same as the Gsw command.  
+
+##### - `GswSave [session-name]`  
 
 If this command is run with no arguments, then save the session in the current working branch name. With an argument, then save the given string as the session name. This command is equipped with session names completion that has already been saved. In addition, this command works even if it is not in the git managed directory, that case is to save the session using `g:gsw_non_project_sessions_dir` and `g:gsw_non_project_default_session_name` option.  
 
-##### - `GswLoad`  
+##### - `GswLoad [session-name]`  
 
 If this command is run with no arguments, then load the session in the current working branch name. With an argument, then load the given string as the session name. This command is equipped with saved session names completion. In addition, this command works even if it is not in the git managed directory, that case is to load the session using `g:gsw_non_project_sessions_dir` and `g:gsw_non_project_default_session_name` option.  
 
-##### - `GswMove[!]`  
+##### - `GswMove[!] <branch name>`  
 
 This command moves(renames) the current working branch. With a '!' bang, to move without confirmation.  
 
@@ -52,11 +56,15 @@ This command displays a list of branch in the remote repositry.
 
 This command displays a list of saved session names.  
 
+##### - `GswPrevBranchName`  
+
+This command displays the name of the previous branch that switched by git-switcher.  
+
 ##### - `GswClearState`  
 
 This command initialize Vim's window, tab, buffer.  
 
-##### - `GswDeleteSession[!]`  
+##### - `GswDeleteSession[!] <session-name>`  
 
 This command removes the specified session. This command is equipped with saved session names completion.  
 
