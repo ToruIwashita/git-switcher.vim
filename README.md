@@ -103,7 +103,7 @@ Default: `g:gsw_save_session_confirm = 'yes'`
 
 ##### - `g:gsw_autoload_session`  
 
-Session automatic load settings on startup. It is on the git repository to load the session with the same name as the working branch name, is outside the git repository to load the default session that is specified in the `g:gsw_non_project_default_session_name`.  
+Session automatic load settings on startup. On the git repository, load the session with the same name as the working branch name. If it is outside the git repository, load it with the default session name specified by the g:gsw_non_project_default_session_name.
 
  - `yes`: Automatic loading immediately.  
  - `confirm`: Automatic loading after confirming.  
