@@ -113,7 +113,7 @@ Default: `g:gsw_autoload_session = 'no'`
 
 ##### - `g:gsw_autodelete_sessions_if_branch_not_exist`  
 
-During start-up, to remove saved sessions there is no branch of the same name in the local repositry.  
+During start-up, to remove saved sessions there is no branch of the same name in the local repository.  
 
  - `yes`: Automatic deleting immediately.  
  - `confirm`: Automatic deleting after confirming.  
