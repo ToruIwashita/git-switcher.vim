@@ -12,6 +12,7 @@ fun! git_switcher#new(...) abort
 
   fun! obj.initialize(...) abort
     let self._save_confirmation            = g:gsw_save_session_confirm
+    let self._switch_prev_confirmation     = g:gsw_switch_prev_confirm
     let self._autoload_session_behavior    = g:gsw_autoload_session
     let self._autodelete_sessions_bahavior = g:gsw_autodelete_sessions_if_branch_not_exist
     let self._default_project_name         = g:gsw_non_project_sessions_dir
@@ -48,6 +49,10 @@ fun! git_switcher#new(...) abort
 
   fun! obj._save_confirmation_enabled()
     return self._save_confirmation == 'yes'
+  endf
+
+  fun! obj._switch_prev_confirmation_enabled()
+    return self._switch_prev_confirmation == 'yes'
   endf
 
   fun! obj._autoload_enabled() abort
@@ -278,7 +283,11 @@ fun! git_switcher#new(...) abort
       throw 'previous branch does not exist.'
     endif
 
-    call self.switch(a:bang, 'local', self._prev_branch())
+    if self._switch_prev_confirmation_enabled() && confirm("switch to '".prev_branch."' branch?", "&Yes\n&No", 0) != 1
+      return 1
+    endif
+
+    call self.switch(a:bang, 'local', prev_branch)
   endf
 
   fun! obj.stored_session_names() abort

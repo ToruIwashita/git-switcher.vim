@@ -26,6 +26,10 @@ if !exists('g:gsw_save_session_confirm')
   let g:gsw_save_session_confirm = 'yes'
 endif
 
+if !exists('g:gsw_switch_prev_confirm')
+  let g:gsw_switch_prev_confirm = 'no'
+endif
+
 if !exists('g:gsw_autoload_session')
   let g:gsw_autoload_session = 'no'
 endif
