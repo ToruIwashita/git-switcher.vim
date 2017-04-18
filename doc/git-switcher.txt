@@ -1,7 +1,7 @@
 *git-switcher.txt*	Switch a session by following the branch switching
 			of git
 
-Version: 1.4.1
+Version: 1.4.2
 Author: ToruIwashita <toru.iwashita@gmail.com>
 License: MIT License
 
@@ -153,7 +153,7 @@ g:gsw_non_project_default_session_name
 Default: >
 	g:gsw_non_project_default_session_name = 'default'
 
-						*g:gsw_save_session_confirm
+						*g:gsw_save_session_confirm*
 g:gsw_save_session_confirm
 	It is setting of whether or not to confirm the save of the session
 	when the Gsw command is executed.
@@ -161,6 +161,15 @@ g:gsw_save_session_confirm
 	 - 'no': Disable the save confirmation
 Default: >
 	g:gsw_save_session_confirm = 'yes'
+
+						*g:gsw_switch_prev_confirm*
+g:gsw_switch_prev_confirm
+	It is a setting whether or not to check the destination branch when
+	the GswPrev command is executed.
+	 - `yes`: Enable the switching confrimation.
+	 - `no`: Disable the switching confrimation.
+Default: >
+	g:gsw_switch_prev_confirm = 'no'
 
 						*g:gsw_autoload_session*
 g:gsw_autoload_session

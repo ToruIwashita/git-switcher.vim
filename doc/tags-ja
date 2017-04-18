@@ -18,7 +18,9 @@ g:gsw_autodelete_sessions_if_branch_not_exist	git-switcher.jax	/*g:gsw_autodelet
 g:gsw_autoload_session	git-switcher.jax	/*g:gsw_autoload_session*
 g:gsw_non_project_default_session_name	git-switcher.jax	/*g:gsw_non_project_default_session_name*
 g:gsw_non_project_sessions_dir	git-switcher.jax	/*g:gsw_non_project_sessions_dir*
+g:gsw_save_session_confirm	git-switcher.jax	/*g:gsw_save_session_confirm*
 g:gsw_sessions_dir	git-switcher.jax	/*g:gsw_sessions_dir*
+g:gsw_switch_prev_confirm	git-switcher.jax	/*g:gsw_switch_prev_confirm*
 git-switcher-commnads	git-switcher.jax	/*git-switcher-commnads*
 git-switcher-contents	git-switcher.jax	/*git-switcher-contents*
 git-switcher-interface	git-switcher.jax	/*git-switcher-interface*

@@ -101,9 +101,18 @@ It is setting of whether or not to confirm the save of the session when the Gsw 
 
 Default: `g:gsw_save_session_confirm = 'yes'`  
 
+##### - `g:gsw_switch_prev_confirm`  
+
+It is a setting whether or not to check the destination branch when the GswPrev command is executed.  
+
+ - `yes`: Enable the switching confrimation.  
+ - `no`: Disable the switching confrimation.  
+
+Default: `g:gsw_switch_prev_confirm = 'no'`  
+
 ##### - `g:gsw_autoload_session`  
 
-Session automatic load settings on startup. On the git repository, load the session with the same name as the working branch name. If it is outside the git repository, load it with the default session name specified by the g:gsw_non_project_default_session_name.
+Session automatic load settings on startup. On the git repository, load the session with the same name as the working branch name. If it is outside the git repository, load it with the default session name specified by the g:gsw_non_project_default_session_name.  
 
  - `yes`: Automatic loading immediately.  
  - `confirm`: Automatic loading after confirming.  
