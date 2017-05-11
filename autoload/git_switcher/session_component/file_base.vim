@@ -11,6 +11,10 @@ fun! git_switcher#session_component#file_base#new(key) abort
   " initialize
 
   fun! obj.initialize(key) abort
+    if match(a:key, ':') != -1
+      throw 'invalid session name.'
+    endif
+
     let self._key = a:key
   endf
 
@@ -26,8 +30,8 @@ fun! git_switcher#session_component#file_base#new(key) abort
     return '.session.vim'
   endf
 
-  fun! obj.name() abort
-    return self.basename().self.ext()
+  fun! obj.actual_name() abort
+    return substitute(self.basename(), '/', ':', '').self.ext()
   endf
 
   return obj
