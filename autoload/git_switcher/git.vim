@@ -82,7 +82,7 @@ fun! git_switcher#git#new() abort
   endf
 
   fun! obj.create_branch(branch_key) abort
-    if self.branch_exists(fnamemodify(a:branch_key, ':t'))
+    if self.branch_exists(a:branch_key)
       throw "'".a:branch_key."' branch already exists."
     endif
 

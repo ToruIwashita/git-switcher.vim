@@ -22,7 +22,7 @@ fun! git_switcher#project_prev_branch#new(project_key, branch_key) abort
   " private
 
   fun! obj._file_path() abort
-    return self.project_dir.path().self.prev_branch_file.name()
+    return self.project_dir.path().self.prev_branch_file.actual_name()
   endf
 
   fun! obj._file_exists() abort
@@ -40,7 +40,9 @@ fun! git_switcher#project_prev_branch#new(project_key, branch_key) abort
   endf
 
   fun! obj._branch_names() abort
-    return filter(map(split(expand(self.project_dir.path().'*')), 'matchstr(fnamemodify(v:val, ":t"), "^\\zs\\(.*\\)\\ze'.self.prev_branch_file.escaped_glob_ext().'$", 0)'), 'v:val != ""')
+    let actual_names = map(split(expand(self.project_dir.path().'*')), 'matchstr(fnamemodify(v:val, ":t"), "^\\zs\\(.*\\)\\ze'.self.prev_branch_file.escaped_glob_ext().'$", 0)')
+    let branch_names = map(actual_names, 'substitute(v:val, ":", "/", "")')
+    return filter(branch_names, 'v:val != ""')
   endf
 
   " private END

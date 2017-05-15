@@ -27,11 +27,11 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
   endf
 
   fun! obj._file_path() abort
-    return self.project_dir.path().self.session_file.name()
+    return self.project_dir.path().self.session_file.actual_name()
   endf
 
   fun! obj._lock_file_path() abort
-    return self.project_dir.path().self.lock_file.name()
+    return self.project_dir.path().self.lock_file.actual_name()
   endf
 
   fun! obj._lock_file_exists() abort
@@ -152,7 +152,9 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
   endf
 
   fun! obj.stored_session_names() abort
-    return filter(map(split(expand(self.project_dir.path().'*')), 'matchstr(fnamemodify(v:val, ":t"), "^\\zs\\(.*\\)\\ze'.self.session_file.escaped_ext().'$", 0)'), 'v:val != ""')
+    let actual_names = map(split(expand(self.project_dir.path().'*')), 'matchstr(fnamemodify(v:val, ":t"), "^\\zs\\(.*\\)\\ze'.self.session_file.escaped_ext().'$", 0)')
+    let session_names = map(actual_names, 'substitute(v:val, ":", "/", "")')
+    return filter(session_names, 'v:val != ""')
   endf
 
   fun! obj.stored_session_list() abort
