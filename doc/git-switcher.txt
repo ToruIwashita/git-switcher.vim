@@ -1,7 +1,7 @@
 *git-switcher.txt*	Switch a session by following the branch switching
 			of git
 
-Version: 1.4.2
+Version: 1.4.3
 Author: ToruIwashita <toru.iwashita@gmail.com>
 License: MIT License
 
