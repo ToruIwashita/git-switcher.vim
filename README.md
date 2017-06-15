@@ -1,6 +1,6 @@
 # git-switcher.vim  
 
-git-switcher provide the save and load of the session based on the switching branches. If even outside the git working directory, management of session is possible.  
+git-switcher provide the save and load of the session based on switching of git branch. This plugin can be used for session management even if it is outside of git directory.  
 
 ## Installation  
 
