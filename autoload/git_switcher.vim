@@ -229,19 +229,22 @@ fun! git_switcher#new(...) abort
   endf
 
   fun! obj.switch(bang, source, branch) abort
-    if !self.git.branch_exists(a:branch)
+    if !self.git.branch_exists(a:branch) && a:source ==# 'remote'
+      if confirm("create '".a:branch."' branch from remote branch?", "&Yes\n&No", 0) != 1
+        return 1
+      endif
+      redraw!
+
+      call self.fetch_project()
+      redraw!
+      call self.git.create_remote_trancking_branch(a:branch)
+    elseif !self.git.branch_exists(a:branch) && a:source ==# 'local'
       if confirm("create '".a:branch."' branch based on '".self.git.current_branch()."'?", "&Yes\n&No", 0) != 1
         return 1
       endif
       redraw!
 
-      if a:source ==# 'remote'
-        call self.fetch_project()
-        redraw!
-        call self.git.create_remote_trancking_branch(a:branch)
-      elseif a:source ==# 'local'
-        call self.git.create_branch(a:branch)
-      end
+      call self.git.create_branch(a:branch)
     endif
 
     if !a:bang && (self._save_confirmation_enabled() && confirm("save '".self.project_session.name()."' session?", "&Yes\n&No", 0) == 1)
