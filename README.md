@@ -101,6 +101,15 @@ It is setting of whether or not to confirm the save of the session when the Gsw 
 
 Default: `g:gsw_save_session_confirm = 'yes'`  
 
+##### - `g:gsw_load_session_confirm`  
+
+It is setting of whether or not to confirm the load of the session when the Gsw command is executed.  
+
+ - `yes`: Enable the load confrimation.  
+ - `no`: Disable the load confrimation.  
+
+Default: `g:gsw_load_session_confirm = 'no'`  
+
 ##### - `g:gsw_switch_prev_confirm`  
 
 It is a setting whether or not to check the destination branch when the GswPrev command is executed.  
