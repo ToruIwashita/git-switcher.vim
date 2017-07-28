@@ -12,6 +12,7 @@ fun! git_switcher#new(...) abort
 
   fun! obj.initialize(...) abort
     let self._save_confirmation            = g:gsw_save_session_confirm
+    let self._load_confirmation            = g:gsw_load_session_confirm
     let self._switch_prev_confirmation     = g:gsw_switch_prev_confirm
     let self._autoload_session_behavior    = g:gsw_autoload_session
     let self._autodelete_sessions_bahavior = g:gsw_autodelete_sessions_if_branch_not_exist
@@ -47,11 +48,15 @@ fun! git_switcher#new(...) abort
 
   " private
 
-  fun! obj._save_confirmation_enabled()
+  fun! obj._save_confirmation_enabled() abort
     return self._save_confirmation == 'yes'
   endf
 
-  fun! obj._switch_prev_confirmation_enabled()
+  fun! obj._load_confirmation_enabled() abort
+    return self._load_confirmation == 'yes'
+  endf
+
+  fun! obj._switch_prev_confirmation_enabled() abort
     return self._switch_prev_confirmation == 'yes'
   endf
 
@@ -151,9 +156,13 @@ fun! git_switcher#new(...) abort
     endtry
   endf
 
+  fun! obj.simple_fetch_project() abort
+    call self.git.fetch()
+  endf
+
   fun! obj.fetch_project() abort
     echo 'fetching remote.'
-    call self.git.fetch()
+    call self.simple_fetch_project()
     redraw!
     echo 'fetched.'
   endf
@@ -233,16 +242,13 @@ fun! git_switcher#new(...) abort
       if confirm("create '".a:branch."' branch from remote branch?", "&Yes\n&No", 0) != 1
         return 1
       endif
-      redraw!
 
-      call self.fetch_project()
-      redraw!
+      call self.simple_fetch_project()
       call self.git.create_remote_trancking_branch(a:branch)
     elseif !self.git.branch_exists(a:branch) && a:source ==# 'local'
       if confirm("create '".a:branch."' branch based on '".self.git.current_branch()."'?", "&Yes\n&No", 0) != 1
         return 1
       endif
-      redraw!
 
       call self.git.create_branch(a:branch)
     endif
@@ -253,7 +259,7 @@ fun! git_switcher#new(...) abort
     endif
 
     redraw!
-    echo 'checking out files.'
+    echo "switching to '".a:branch."' branch."
 
     call self.git.switch(a:branch)
     call self._refresh_prev_branch()
@@ -266,11 +272,11 @@ fun! git_switcher#new(...) abort
       return 1
     endif
 
-    redraw!
-    if self.project_session.exists()
+    if self.project_session.exists() && (self._load_confirmation_enabled() && confirm("load '".self.project_session.name()."' session?", "&Yes\n&No", 0) == 1)
       call self.load_session()
       let res_message = "switched to '".a:branch."' branch and loaded session."
     else
+      redraw!
       checktime
       let res_message = "switched to '".a:branch."' branch."
     endif
