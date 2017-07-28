@@ -156,6 +156,14 @@ g:gsw_save_session_confirm
 Default: >
 	g:gsw_save_session_confirm = 'yes'
 
+						*g:gsw_load_session_confirm*
+g:gsw_load_session_confirm
+	Gswコマンド実行時にセッションの復元の確認を行う。
+	 - 'yes': 復元確認有効
+	 - 'no': 復元確認無効
+Default: >
+	g:gsw_load_session_confirm = 'no'
+
 						*g:gsw_switch_prev_confirm*
 g:gsw_switch_prev_confirm
 	GswPrevコマンド実行時に切り替え先ブランチを確認する。
