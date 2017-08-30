@@ -30,19 +30,19 @@ fun! git_switcher#project_prev_branch#new(project_key, branch_key) abort
   endf
 
   fun! l:obj._same_process_file_paths() abort
-    let file_paths = split(expand(l:self.project_dir.path().'*'.l:self.prev_branch_file.ext()))
+    let l:file_paths = split(expand(l:self.project_dir.path().'*'.l:self.prev_branch_file.ext()))
 
-    if !filereadable(file_paths[0])
+    if !filereadable(l:file_paths[0])
       return []
     endif
 
-    return file_paths
+    return l:file_paths
   endf
 
   fun! l:obj._branch_names() abort
-    let actual_names = map(split(expand(l:self.project_dir.path().'*')), 'matchstr(fnamemodify(v:val, ":t"), "^\\zs\\(.*\\)\\ze'.l:self.prev_branch_file.escaped_glob_ext().'$", 0)')
-    let branch_names = map(actual_names, 'substitute(v:val, ":", "/", "")')
-    return filter(branch_names, 'v:val != ""')
+    let l:actual_names = map(split(expand(l:self.project_dir.path().'*')), 'matchstr(fnamemodify(v:val, ":t"), "^\\zs\\(.*\\)\\ze'.l:self.prev_branch_file.escaped_glob_ext().'$", 0)')
+    let l:branch_names = map(l:actual_names, "substitute(v:val, ':', '/', '')")
+    return filter(l:branch_names, "v:val !=# ''")
   endf
 
   " private END
@@ -55,17 +55,17 @@ fun! git_switcher#project_prev_branch#new(project_key, branch_key) abort
   endf
 
   fun! l:obj.destroy_all() abort
-    for file_path in l:self._same_process_file_paths()
-      if delete(file_path) != 0
+    for l:file_path in l:self._same_process_file_paths()
+      if delete(l:file_path) != 0
         throw 'failed to destroy all previous branches.'
       endif
     endfor
   endf
 
   fun! l:obj.branch_name() abort
-    let branch_names = l:self._branch_names()
+    let l:branch_names = l:self._branch_names()
 
-    if len(branch_names) == 0
+    if len(l:branch_names) == 0
       return ''
     else
       return l:self._branch_names()[0]

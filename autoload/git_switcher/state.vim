@@ -9,8 +9,8 @@ fun! git_switcher#state#new() abort
   let l:obj = {'_self': 'state'}
 
   fun! l:obj.delete_all_buffers() abort
-    for buf_num in filter(range(1, bufnr('$')), 'buflisted(v:val)')
-      exec 'silent bdelete' buf_num
+    for l:buf_num in filter(range(1, bufnr('$')), 'buflisted(v:val)')
+      exec 'silent bdelete' l:buf_num
     endfor
   endf
 

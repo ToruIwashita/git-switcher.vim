@@ -44,7 +44,7 @@ endif
 
 augroup git_switcher
   autocmd!
-  autocmd VimEnter * nested if @% == '' | call git_switcher#autocmd_for_vim_enter() | endif
+  autocmd VimEnter * nested if @% ==# '' | call git_switcher#autocmd_for_vim_enter() | endif
   autocmd VimLeave * call git_switcher#autocmd_for_vim_leave()
 augroup END
 

@@ -39,29 +39,29 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
   endf
 
   fun! l:obj._same_process_lock_file_paths() abort
-    let lock_file_paths = split(expand(l:self.project_dir.path().'*'.l:self.lock_file.ext()))
+    let l:lock_file_paths = split(expand(l:self.project_dir.path().'*'.l:self.lock_file.ext()))
 
-    if !filereadable(lock_file_paths[0])
+    if !filereadable(l:lock_file_paths[0])
       return []
     endif
 
-    return lock_file_paths
+    return l:lock_file_paths
   endf
 
   fun! l:obj._already_existing_lock_file_paths() abort
-    let lock_file_paths = split(expand(l:self.project_dir.path().l:self.lock_file.glob_name()))
+    let l:lock_file_paths = split(expand(l:self.project_dir.path().l:self.lock_file.glob_name()))
 
-    if !filereadable(lock_file_paths[0])
+    if !filereadable(l:lock_file_paths[0])
       return []
     endif
 
-    return lock_file_paths
+    return l:lock_file_paths
   endf
 
   fun! l:obj._one_of_already_existing_lock_file_paths() abort
-    let already_existing_lock_file_paths = l:self._already_existing_lock_file_paths()
+    let l:already_existing_lock_file_paths = l:self._already_existing_lock_file_paths()
 
-    if len(already_existing_lock_file_paths) == 0
+    if len(l:already_existing_lock_file_paths) == 0
       return ''
     endif
 
@@ -94,8 +94,8 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
   endf
 
   fun! l:obj.unlock_sessions() abort
-    for lock_file_path in l:self._same_process_lock_file_paths()
-      if delete(lock_file_path) != 0
+    for l:lock_file_path in l:self._same_process_lock_file_paths()
+      if delete(l:lock_file_path) != 0
         throw 'failed to delete lock files.'
       endif
     endfor
@@ -112,35 +112,35 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
   fun! l:obj.store() abort
     call l:self.project_dir.create()
 
-    let result = 1
-    let current_ssop = &sessionoptions
+    let l:result = 1
+    let l:current_ssop = &sessionoptions
     try
-      set ssop-=options
+      set sessionoptions-=options
       exec 'mksession!' l:self._file_path()
     catch
-      let result = 0
+      let l:result = 0
     finally
-      let &sessionoptions = current_ssop
+      let &sessionoptions = l:current_ssop
     endtry
 
-    if !result
+    if !l:result
       throw "faild to store '".l:self.name()."' session."
     endif
   endf
 
   fun! l:obj.restore() abort
-    let result = 1
+    let l:result = 1
 
     try
       exec 'source' l:self._file_path()
     catch
-      let result = 0
+      let l:result = 0
     finally
       checktime
       redraw!
     endtry
 
-    if !result
+    if !l:result
       throw "faild to restore '".l:self.name()."' session."
     endif
   endf
@@ -152,9 +152,9 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
   endf
 
   fun! l:obj.stored_session_names() abort
-    let actual_names = map(split(expand(l:self.project_dir.path().'*')), 'matchstr(fnamemodify(v:val, ":t"), "^\\zs\\(.*\\)\\ze'.l:self.session_file.escaped_ext().'$", 0)')
-    let session_names = map(actual_names, 'substitute(v:val, ":", "/", "")')
-    return filter(session_names, 'v:val != ""')
+    let l:actual_names = map(split(expand(l:self.project_dir.path().'*')), 'matchstr(fnamemodify(v:val, ":t"), "^\\zs\\(.*\\)\\ze'.l:self.session_file.escaped_ext().'$", 0)')
+    let l:session_names = map(l:actual_names, "substitute(v:val, ':', '/', '')")
+    return filter(l:session_names, "v:val !=# ''")
   endf
 
   fun! l:obj.stored_session_list() abort

@@ -23,19 +23,19 @@ fun! git_switcher#git#new() abort
       throw 'failed because not a git repository.'
     endif
 
-    let results = l:self._exec_and_return_list_of_splited_stdout_with_exit_code(a:cmd)
-    let exit_code = remove(results, -1)
-    let output = join(results, "\n")
+    let l:results = l:self._exec_and_return_list_of_splited_stdout_with_exit_code(a:cmd)
+    let l:exit_code = remove(l:results, -1)
+    let l:output = join(l:results, "\n")
 
-    if exit_code
-      throw 'failed to '.a:cmd."\n".output
+    if l:exit_code
+      throw 'failed to '.a:cmd."\n".l:output
     endif
 
-    return output
+    return l:output
   endf
 
   fun! l:obj._remote_tracking_branches() abort
-    return filter(map(filter(split(l:self.remote_tracking_branch(), '\n'), 'v:val !~ "->"'), 'matchstr(v:val, "^\\s*\\(origin/\\|\\)\\zs\\(.*\\)\\ze", 0)'), 'v:val != ""')
+    return filter(map(filter(split(l:self.remote_tracking_branch(), '\n'), "v:val !~# '->'"), 'matchstr(v:val, "^\\s*\\(origin/\\|\\)\\zs\\(.*\\)\\ze", 0)'), "v:val !=# ''")
   endf
 
   " private END
@@ -57,20 +57,20 @@ fun! git_switcher#git#new() abort
   endf
 
   fun! l:obj.branches() abort
-    return filter(split(l:self.branch()), 'v:val != "*"')
+    return filter(split(l:self.branch()), "v:val !=# '*'")
   endf
 
   fun! l:obj.remote_only_branches() abort
-    let local_branches = l:self.branches()
-    let remote_only_branches = []
+    let l:local_branches = l:self.branches()
+    let l:remote_only_branches = []
 
-    for remote_tracking_branch in l:self._remote_tracking_branches()
-      if match(local_branches, '\<'.remote_tracking_branch.'\>') == -1
-        call add(remote_only_branches, remote_tracking_branch)
+    for l:remote_tracking_branch in l:self._remote_tracking_branches()
+      if match(l:local_branches, '\<'.l:remote_tracking_branch.'\>') == -1
+        call add(l:remote_only_branches, l:remote_tracking_branch)
       endif
     endfor
 
-    return remote_only_branches
+    return l:remote_only_branches
   endf
 
   fun! l:obj.current_branch() abort
