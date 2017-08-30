@@ -2,8 +2,8 @@
 " Author: ToruIwashita <toru.iwashita@gmail.com>
 " License: MIT License
 
-let s:cpo_save = &cpo
-set cpo&vim
+let s:cpoptions_save = &cpoptions
+set cpoptions&vim
 
 fun! git_switcher#project_session#new(project_key, session_key) abort
   let obj = {'_self': 'project_session'}
@@ -164,5 +164,5 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
   return obj
 endf
 
-let &cpo = s:cpo_save
-unlet s:cpo_save
+let &cpoptions = s:cpoptions_save
+unlet s:cpoptions_save

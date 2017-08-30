@@ -2,8 +2,8 @@
 " Author: ToruIwashita <toru.iwashita@gmail.com>
 " License: MIT License
 
-let s:cpo_save = &cpo
-set cpo&vim
+let s:cpoptions_save = &cpoptions
+set cpoptions&vim
 
 fun! git_switcher#session_component#prev_branch_file#new(key) abort
   let obj = git_switcher#session_component#file_base#new(a:key)
@@ -20,5 +20,5 @@ fun! git_switcher#session_component#prev_branch_file#new(key) abort
   return obj
 endf
 
-let &cpo = s:cpo_save
-unlet s:cpo_save
+let &cpoptions = s:cpoptions_save
+unlet s:cpoptions_save

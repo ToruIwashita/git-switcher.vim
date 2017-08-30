@@ -7,8 +7,8 @@ if exists('g:loaded_git_switcher')
 endif
 let g:loaded_git_switcher = 1
 
-let s:cpo_save = &cpo
-set cpo&vim
+let s:cpoptions_save = &cpoptions
+set cpoptions&vim
 
 if !exists('g:gsw_sessions_dir')
   let g:gsw_sessions_dir = $HOME.'/.cache/vim/git_switcher'
@@ -64,5 +64,5 @@ command! -bang -nargs=1 -complete=customlist,git_switcher#_branches Gsw call git
 command! -bang -nargs=1 -complete=customlist,git_switcher#_remote_only_branches GswRemote call git_switcher#gsw_remote(<bang>0, <f-args>)
 command! -bang GswPrev call git_switcher#gsw_prev(<bang>0)
 
-let &cpo = s:cpo_save
-unlet s:cpo_save
+let &cpoptions = s:cpoptions_save
+unlet s:cpoptions_save
