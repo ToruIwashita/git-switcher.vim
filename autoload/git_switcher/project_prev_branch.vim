@@ -48,6 +48,8 @@ fun! git_switcher#project_prev_branch#new(project_key, branch_key) abort
   " private END
 
   fun! l:obj.store() abort
+    call l:self.project_dir.create()
+
     exec 'redir > '.l:self._file_path()
     if !l:self._file_exists()
       throw 'failed to store previous branch.'
