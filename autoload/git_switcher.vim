@@ -49,31 +49,31 @@ fun! git_switcher#new(...) abort
   " private
 
   fun! l:obj._save_confirmation_enabled() abort
-    return l:self._save_confirmation == 'yes'
+    return l:self._save_confirmation ==# 'yes'
   endf
 
   fun! l:obj._load_confirmation_enabled() abort
-    return l:self._load_confirmation == 'yes'
+    return l:self._load_confirmation ==# 'yes'
   endf
 
   fun! l:obj._switch_prev_confirmation_enabled() abort
-    return l:self._switch_prev_confirmation == 'yes'
+    return l:self._switch_prev_confirmation ==# 'yes'
   endf
 
   fun! l:obj._autoload_enabled() abort
-    return l:self._autoload_session_behavior == 'yes'
+    return l:self._autoload_session_behavior ==# 'yes'
   endf
 
   fun! l:obj._autoload_enabled_with_confirmation() abort
-    return l:self._autoload_session_behavior == 'confirm'
+    return l:self._autoload_session_behavior ==# 'confirm'
   endf
 
   fun! l:obj._autodelete_sessions_enabled() abort
-    return l:self._autodelete_sessions_bahavior == 'yes'
+    return l:self._autodelete_sessions_bahavior ==# 'yes'
   endf
 
   fun! l:obj._autodelete_sessions_enabled_with_confirmation() abort
-    return l:self._autodelete_sessions_bahavior == 'confirm'
+    return l:self._autodelete_sessions_bahavior ==# 'confirm'
   endf
 
   fun! l:obj._non_project_default_session() abort
