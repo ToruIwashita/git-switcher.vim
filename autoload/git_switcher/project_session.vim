@@ -2,167 +2,167 @@
 " Author: ToruIwashita <toru.iwashita@gmail.com>
 " License: MIT License
 
-let s:cpo_save = &cpo
-set cpo&vim
+let s:cpoptions_save = &cpoptions
+set cpoptions&vim
 
 fun! git_switcher#project_session#new(project_key, session_key) abort
-  let obj = {'_self': 'project_session'}
+  let l:obj = {'_self': 'project_session'}
 
   " initialize
 
-  fun! obj.initialize(project_key, session_key) abort
-    let self.project_dir = git_switcher#session_component#project_dir#new(a:project_key)
-    let self.session_file = git_switcher#session_component#session_file#new(a:session_key)
-    let self.lock_file = git_switcher#session_component#lock_file#new(a:session_key)
+  fun! l:obj.initialize(project_key, session_key) abort
+    let l:self.project_dir = git_switcher#session_component#project_dir#new(a:project_key)
+    let l:self.session_file = git_switcher#session_component#session_file#new(a:session_key)
+    let l:self.lock_file = git_switcher#session_component#lock_file#new(a:session_key)
   endf
 
-  call call(obj.initialize, [a:project_key, a:session_key], obj)
+  call call(l:obj.initialize, [a:project_key, a:session_key], l:obj)
 
   " initialize END
 
   " private
 
-  fun! obj._project_name() abort
-    return self.project_dir.name()
+  fun! l:obj._project_name() abort
+    return l:self.project_dir.name()
   endf
 
-  fun! obj._file_path() abort
-    return self.project_dir.path().self.session_file.actual_name()
+  fun! l:obj._file_path() abort
+    return l:self.project_dir.path().l:self.session_file.actual_name()
   endf
 
-  fun! obj._lock_file_path() abort
-    return self.project_dir.path().self.lock_file.actual_name()
+  fun! l:obj._lock_file_path() abort
+    return l:self.project_dir.path().l:self.lock_file.actual_name()
   endf
 
-  fun! obj._lock_file_exists() abort
-    return filereadable(self._lock_file_path())
+  fun! l:obj._lock_file_exists() abort
+    return filereadable(l:self._lock_file_path())
   endf
 
-  fun! obj._same_process_lock_file_paths() abort
-    let lock_file_paths = split(expand(self.project_dir.path().'*'.self.lock_file.ext()))
+  fun! l:obj._same_process_lock_file_paths() abort
+    let l:lock_file_paths = split(expand(l:self.project_dir.path().'*'.l:self.lock_file.ext()))
 
-    if !filereadable(lock_file_paths[0])
+    if !filereadable(l:lock_file_paths[0])
       return []
     endif
 
-    return lock_file_paths
+    return l:lock_file_paths
   endf
 
-  fun! obj._already_existing_lock_file_paths() abort
-    let lock_file_paths = split(expand(self.project_dir.path().self.lock_file.glob_name()))
+  fun! l:obj._already_existing_lock_file_paths() abort
+    let l:lock_file_paths = split(expand(l:self.project_dir.path().l:self.lock_file.glob_name()))
 
-    if !filereadable(lock_file_paths[0])
+    if !filereadable(l:lock_file_paths[0])
       return []
     endif
 
-    return lock_file_paths
+    return l:lock_file_paths
   endf
 
-  fun! obj._one_of_already_existing_lock_file_paths() abort
-    let already_existing_lock_file_paths = self._already_existing_lock_file_paths()
+  fun! l:obj._one_of_already_existing_lock_file_paths() abort
+    let l:already_existing_lock_file_paths = l:self._already_existing_lock_file_paths()
 
-    if len(already_existing_lock_file_paths) == 0
+    if len(l:already_existing_lock_file_paths) == 0
       return ''
     endif
 
-    return self._already_existing_lock_file_paths()[0]
+    return l:self._already_existing_lock_file_paths()[0]
   endf
 
-  fun! obj._already_existing_lock_file_exists() abort
-    return filereadable(self._one_of_already_existing_lock_file_paths())
+  fun! l:obj._already_existing_lock_file_exists() abort
+    return filereadable(l:self._one_of_already_existing_lock_file_paths())
   endf
 
   " private END
 
-  fun! obj.session_name() abort
-    return self.session_file.basename()
+  fun! l:obj.session_name() abort
+    return l:self.session_file.basename()
   endf
 
-  fun! obj.name() abort
-    return self._project_name().'/'.self.session_name()
+  fun! l:obj.name() abort
+    return l:self._project_name().'/'.l:self.session_name()
   endf
 
-  fun! obj.exists() abort
-    return filereadable(self._file_path())
+  fun! l:obj.exists() abort
+    return filereadable(l:self._file_path())
   endf
 
-  fun! obj.lock_session() abort
-    exec 'redir > '.self._lock_file_path()
-    if !self._lock_file_exists()
+  fun! l:obj.lock_session() abort
+    exec 'redir > '.l:self._lock_file_path()
+    if !l:self._lock_file_exists()
       throw 'failed to create lock file.'
     endif
   endf
 
-  fun! obj.unlock_sessions() abort
-    for lock_file_path in self._same_process_lock_file_paths()
-      if delete(lock_file_path) != 0
+  fun! l:obj.unlock_sessions() abort
+    for l:lock_file_path in l:self._same_process_lock_file_paths()
+      if delete(l:lock_file_path) != 0
         throw 'failed to delete lock files.'
       endif
     endfor
   endf
 
-  fun! obj.locked() abort
-    if !self._already_existing_lock_file_exists() || self._lock_file_path() == self._one_of_already_existing_lock_file_paths()
+  fun! l:obj.locked() abort
+    if !l:self._already_existing_lock_file_exists() || l:self._lock_file_path() == l:self._one_of_already_existing_lock_file_paths()
       return 0
     else
       return 1
     endif
   endf
 
-  fun! obj.store() abort
-    call self.project_dir.create()
+  fun! l:obj.store() abort
+    call l:self.project_dir.create()
 
-    let result = 1
-    let current_ssop = &sessionoptions
+    let l:result = 1
+    let l:current_ssop = &sessionoptions
     try
-      set ssop-=options
-      exec 'mksession!' self._file_path()
+      set sessionoptions-=options
+      exec 'mksession!' l:self._file_path()
     catch
-      let result = 0
+      let l:result = 0
     finally
-      let &sessionoptions = current_ssop
+      let &sessionoptions = l:current_ssop
     endtry
 
-    if !result
-      throw "faild to store '".self.name()."' session."
+    if !l:result
+      throw "faild to store '".l:self.name()."' session."
     endif
   endf
 
-  fun! obj.restore() abort
-    let result = 1
+  fun! l:obj.restore() abort
+    let l:result = 1
 
     try
-      exec 'source' self._file_path()
+      exec 'source' l:self._file_path()
     catch
-      let result = 0
+      let l:result = 0
     finally
       checktime
       redraw!
     endtry
 
-    if !result
-      throw "faild to restore '".self.name()."' session."
+    if !l:result
+      throw "faild to restore '".l:self.name()."' session."
     endif
   endf
 
-  fun! obj.destroy() abort
-    if delete(self._file_path()) != 0
-      throw "failed to destroy '".self.name()."' session."
+  fun! l:obj.destroy() abort
+    if delete(l:self._file_path()) != 0
+      throw "failed to destroy '".l:self.name()."' session."
     endif
   endf
 
-  fun! obj.stored_session_names() abort
-    let actual_names = map(split(expand(self.project_dir.path().'*')), 'matchstr(fnamemodify(v:val, ":t"), "^\\zs\\(.*\\)\\ze'.self.session_file.escaped_ext().'$", 0)')
-    let session_names = map(actual_names, 'substitute(v:val, ":", "/", "")')
-    return filter(session_names, 'v:val != ""')
+  fun! l:obj.stored_session_names() abort
+    let l:actual_names = map(split(expand(l:self.project_dir.path().'*')), 'matchstr(fnamemodify(v:val, ":t"), "^\\zs\\(.*\\)\\ze'.l:self.session_file.escaped_ext().'$", 0)')
+    let l:session_names = map(l:actual_names, "substitute(v:val, ':', '/', '')")
+    return filter(l:session_names, "v:val !=# ''")
   endf
 
-  fun! obj.stored_session_list() abort
-    return join(self.stored_session_names(), "\n")
+  fun! l:obj.stored_session_list() abort
+    return join(l:self.stored_session_names(), "\n")
   endf
 
-  return obj
+  return l:obj
 endf
 
-let &cpo = s:cpo_save
-unlet s:cpo_save
+let &cpoptions = s:cpoptions_save
+unlet s:cpoptions_save

@@ -2,120 +2,120 @@
 " Author: ToruIwashita <toru.iwashita@gmail.com>
 " License: MIT License
 
-let s:cpo_save = &cpo
-set cpo&vim
+let s:cpoptions_save = &cpoptions
+set cpoptions&vim
 
 fun! git_switcher#git#new() abort
-  let obj = {'_self': 'git'}
+  let l:obj = {'_self': 'git'}
 
   " private
 
-  fun! obj._exec_and_return_exit_code(cmd) abort
-    return system('\'.self._self.' '.a:cmd.' >/dev/null 2>&1; echo $?')
+  fun! l:obj._exec_and_return_exit_code(cmd) abort
+    return system('\'.l:self._self.' '.a:cmd.' >/dev/null 2>&1; echo $?')
   endf
 
-  fun! obj._exec_and_return_list_of_splited_stdout_with_exit_code(cmd) abort
-    return split(system('\'.self._self.' '.a:cmd.'; echo $?'), "\n")
+  fun! l:obj._exec_and_return_list_of_splited_stdout_with_exit_code(cmd) abort
+    return split(system('\'.l:self._self.' '.a:cmd.'; echo $?'), "\n")
   endf
 
-  fun! obj._exec(cmd) abort
-    if self._exec_and_return_exit_code('rev-parse')
+  fun! l:obj._exec(cmd) abort
+    if l:self._exec_and_return_exit_code('rev-parse')
       throw 'failed because not a git repository.'
     endif
 
-    let results = self._exec_and_return_list_of_splited_stdout_with_exit_code(a:cmd)
-    let exit_code = remove(results, -1)
-    let output = join(results, "\n")
+    let l:results = l:self._exec_and_return_list_of_splited_stdout_with_exit_code(a:cmd)
+    let l:exit_code = remove(l:results, -1)
+    let l:output = join(l:results, "\n")
 
-    if exit_code
-      throw 'failed to '.a:cmd."\n".output
+    if l:exit_code
+      throw 'failed to '.a:cmd."\n".l:output
     endif
 
-    return output
+    return l:output
   endf
 
-  fun! obj._remote_tracking_branches() abort
-    return filter(map(filter(split(self.remote_tracking_branch(), '\n'), 'v:val !~ "->"'), 'matchstr(v:val, "^\\s*\\(origin/\\|\\)\\zs\\(.*\\)\\ze", 0)'), 'v:val != ""')
+  fun! l:obj._remote_tracking_branches() abort
+    return filter(map(filter(split(l:self.remote_tracking_branch(), '\n'), "v:val !~# '->'"), 'matchstr(v:val, "^\\s*\\(origin/\\|\\)\\zs\\(.*\\)\\ze", 0)'), "v:val !=# ''")
   endf
 
   " private END
 
-  fun! obj.fetch() abort
-    call self._exec('fetch --prune')
+  fun! l:obj.fetch() abort
+    call l:self._exec('fetch --prune')
   endf
 
-  fun! obj.pull_current_branch() abort
-    call self._exec('pull origin '.self.current_branch())
+  fun! l:obj.pull_current_branch() abort
+    call l:self._exec('pull origin '.l:self.current_branch())
   endf
 
-  fun! obj.branch() abort
-    return self._exec('branch')
+  fun! l:obj.branch() abort
+    return l:self._exec('branch')
   endf
 
-  fun! obj.remote_tracking_branch() abort
-    return self._exec('branch --remotes')
+  fun! l:obj.remote_tracking_branch() abort
+    return l:self._exec('branch --remotes')
   endf
 
-  fun! obj.branches() abort
-    return filter(split(self.branch()), 'v:val != "*"')
+  fun! l:obj.branches() abort
+    return filter(split(l:self.branch()), "v:val !=# '*'")
   endf
 
-  fun! obj.remote_only_branches() abort
-    let local_branches = self.branches()
-    let remote_only_branches = []
+  fun! l:obj.remote_only_branches() abort
+    let l:local_branches = l:self.branches()
+    let l:remote_only_branches = []
 
-    for remote_tracking_branch in self._remote_tracking_branches()
-      if match(local_branches, '\<'.remote_tracking_branch.'\>') == -1
-        call add(remote_only_branches, remote_tracking_branch)
+    for l:remote_tracking_branch in l:self._remote_tracking_branches()
+      if match(l:local_branches, '\<'.l:remote_tracking_branch.'\>') == -1
+        call add(l:remote_only_branches, l:remote_tracking_branch)
       endif
     endfor
 
-    return remote_only_branches
+    return l:remote_only_branches
   endf
 
-  fun! obj.current_branch() abort
-    return self._exec('symbolic-ref --short HEAD')
+  fun! l:obj.current_branch() abort
+    return l:self._exec('symbolic-ref --short HEAD')
   endf
 
-  fun! obj.branch_exists(branch) abort
-    return match(self.branches(), '\<'.a:branch.'\>') != -1
+  fun! l:obj.branch_exists(branch) abort
+    return match(l:self.branches(), '\<'.a:branch.'\>') != -1
   endf
 
-  fun! obj.create_branch(branch_key) abort
-    if self.branch_exists(a:branch_key)
+  fun! l:obj.create_branch(branch_key) abort
+    if l:self.branch_exists(a:branch_key)
       throw "'".a:branch_key."' branch already exists."
     endif
 
-    call self._exec('branch '.a:branch_key)
+    call l:self._exec('branch '.a:branch_key)
   endf
 
-  fun! obj.create_remote_trancking_branch(branch) abort
-    return self.create_branch(a:branch.' origin/'.a:branch)
+  fun! l:obj.create_remote_trancking_branch(branch) abort
+    return l:self.create_branch(a:branch.' origin/'.a:branch)
   endf
 
-  fun! obj.move_to(branch) abort
-    if self.branch_exists(a:branch)
+  fun! l:obj.move_to(branch) abort
+    if l:self.branch_exists(a:branch)
       throw "'".a:branch."' branch already exists."
     endif
 
-    call self._exec('branch --move '.a:branch)
+    call l:self._exec('branch --move '.a:branch)
   endf
 
-  fun! obj.switch(branch) abort
-    if !self.branch_exists(a:branch)
+  fun! l:obj.switch(branch) abort
+    if !l:self.branch_exists(a:branch)
       throw "'".a:branch."' branch not exists."
     endif
 
-    call self._exec('checkout '.a:branch)
+    call l:self._exec('checkout '.a:branch)
   endf
 
-  fun! obj.project() abort
-    return fnamemodify(self._exec('rev-parse --show-toplevel'), ':t')
+  fun! l:obj.project() abort
+    return fnamemodify(l:self._exec('rev-parse --show-toplevel'), ':t')
   endf
 
-  fun! obj.inside_work_tree() abort
+  fun! l:obj.inside_work_tree() abort
     try
-      call self._exec('rev-parse')
+      call l:self._exec('rev-parse')
     catch
       return 0
     endtry
@@ -123,8 +123,8 @@ fun! git_switcher#git#new() abort
     return 1
   endf
 
-  return obj
+  return l:obj
 endf
 
-let &cpo = s:cpo_save
-unlet s:cpo_save
+let &cpoptions = s:cpoptions_save
+unlet s:cpoptions_save

@@ -2,40 +2,40 @@
 " Author: ToruIwashita <toru.iwashita@gmail.com>
 " License: MIT License
 
-let s:cpo_save = &cpo
-set cpo&vim
+let s:cpoptions_save = &cpoptions
+set cpoptions&vim
 
 fun! git_switcher#session_component#file_base#new(key) abort
-  let obj = {'_self': 'file_base'}
+  let l:obj = {'_self': 'file_base'}
 
   " initialize
 
-  fun! obj.initialize(key) abort
+  fun! l:obj.initialize(key) abort
     if match(a:key, ':') != -1
       throw 'invalid session name.'
     endif
 
-    let self._key = a:key
+    let l:self._key = a:key
   endf
 
-  call call(obj.initialize, [a:key], obj)
+  call call(l:obj.initialize, [a:key], l:obj)
 
   " initialize END
 
-  fun! obj.basename() abort
-    return self._key
+  fun! l:obj.basename() abort
+    return l:self._key
   endf
 
-  fun! obj.ext() abort
+  fun! l:obj.ext() abort
     return '.session.vim'
   endf
 
-  fun! obj.actual_name() abort
-    return substitute(self.basename(), '/', ':', '').self.ext()
+  fun! l:obj.actual_name() abort
+    return substitute(l:self.basename(), '/', ':', '').l:self.ext()
   endf
 
-  return obj
+  return l:obj
 endf
 
-let &cpo = s:cpo_save
-unlet s:cpo_save
+let &cpoptions = s:cpoptions_save
+unlet s:cpoptions_save

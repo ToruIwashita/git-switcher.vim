@@ -2,78 +2,78 @@
 " Author: ToruIwashita <toru.iwashita@gmail.com>
 " License: MIT License
 
-let s:cpo_save = &cpo
-set cpo&vim
+let s:cpoptions_save = &cpoptions
+set cpoptions&vim
 
 fun! git_switcher#project_prev_branch#new(project_key, branch_key) abort
-  let obj = {'_self': 'project_prev_branch'}
+  let l:obj = {'_self': 'project_prev_branch'}
 
   " initialize
 
-  fun! obj.initialize(project_key, branch_key) abort
-    let self.project_dir = git_switcher#session_component#project_dir#new(a:project_key)
-    let self.prev_branch_file = git_switcher#session_component#prev_branch_file#new(a:branch_key)
+  fun! l:obj.initialize(project_key, branch_key) abort
+    let l:self.project_dir = git_switcher#session_component#project_dir#new(a:project_key)
+    let l:self.prev_branch_file = git_switcher#session_component#prev_branch_file#new(a:branch_key)
   endf
 
-  call call(obj.initialize, [a:project_key, a:branch_key], obj)
+  call call(l:obj.initialize, [a:project_key, a:branch_key], l:obj)
 
   " initialize END
 
   " private
 
-  fun! obj._file_path() abort
-    return self.project_dir.path().self.prev_branch_file.actual_name()
+  fun! l:obj._file_path() abort
+    return l:self.project_dir.path().l:self.prev_branch_file.actual_name()
   endf
 
-  fun! obj._file_exists() abort
-    return filereadable(self._file_path())
+  fun! l:obj._file_exists() abort
+    return filereadable(l:self._file_path())
   endf
 
-  fun! obj._same_process_file_paths() abort
-    let file_paths = split(expand(self.project_dir.path().'*'.self.prev_branch_file.ext()))
+  fun! l:obj._same_process_file_paths() abort
+    let l:file_paths = split(expand(l:self.project_dir.path().'*'.l:self.prev_branch_file.ext()))
 
-    if !filereadable(file_paths[0])
+    if !filereadable(l:file_paths[0])
       return []
     endif
 
-    return file_paths
+    return l:file_paths
   endf
 
-  fun! obj._branch_names() abort
-    let actual_names = map(split(expand(self.project_dir.path().'*')), 'matchstr(fnamemodify(v:val, ":t"), "^\\zs\\(.*\\)\\ze'.self.prev_branch_file.escaped_glob_ext().'$", 0)')
-    let branch_names = map(actual_names, 'substitute(v:val, ":", "/", "")')
-    return filter(branch_names, 'v:val != ""')
+  fun! l:obj._branch_names() abort
+    let l:actual_names = map(split(expand(l:self.project_dir.path().'*')), 'matchstr(fnamemodify(v:val, ":t"), "^\\zs\\(.*\\)\\ze'.l:self.prev_branch_file.escaped_glob_ext().'$", 0)')
+    let l:branch_names = map(l:actual_names, "substitute(v:val, ':', '/', '')")
+    return filter(l:branch_names, "v:val !=# ''")
   endf
 
   " private END
 
-  fun! obj.store() abort
-    exec 'redir > '.self._file_path()
-    if !self._file_exists()
+  fun! l:obj.store() abort
+    exec 'redir > '.l:self._file_path()
+    if !l:self._file_exists()
       throw 'failed to store previous branch.'
     endif
   endf
 
-  fun! obj.destroy_all() abort
-    for file_path in self._same_process_file_paths()
-      if delete(file_path) != 0
+  fun! l:obj.destroy_all() abort
+    for l:file_path in l:self._same_process_file_paths()
+      if delete(l:file_path) != 0
         throw 'failed to destroy all previous branches.'
       endif
     endfor
   endf
 
-  fun! obj.branch_name() abort
-    let branch_names = self._branch_names()
+  fun! l:obj.branch_name() abort
+    let l:branch_names = l:self._branch_names()
 
-    if len(branch_names) == 0
+    if len(l:branch_names) == 0
       return ''
     else
-      return self._branch_names()[0]
+      return l:self._branch_names()[0]
     endif
   endf
 
-  return obj
+  return l:obj
 endf
 
-let &cpo = s:cpo_save
-unlet s:cpo_save
+let &cpoptions = s:cpoptions_save
+unlet s:cpoptions_save

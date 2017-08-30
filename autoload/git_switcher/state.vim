@@ -2,20 +2,20 @@
 " Author: ToruIwashita <toru.iwashita@gmail.com>
 " License: MIT License
 
-let s:cpo_save = &cpo
-set cpo&vim
+let s:cpoptions_save = &cpoptions
+set cpoptions&vim
 
 fun! git_switcher#state#new() abort
-  let obj = {'_self': 'state'}
+  let l:obj = {'_self': 'state'}
 
-  fun! obj.delete_all_buffers() abort
-    for buf_num in filter(range(1, bufnr('$')), 'buflisted(v:val)')
-      exec 'silent bdelete' buf_num
+  fun! l:obj.delete_all_buffers() abort
+    for l:buf_num in filter(range(1, bufnr('$')), 'buflisted(v:val)')
+      exec 'silent bdelete' l:buf_num
     endfor
   endf
 
-  return obj
+  return l:obj
 endf
 
-let &cpo = s:cpo_save
-unlet s:cpo_save
+let &cpoptions = s:cpoptions_save
+unlet s:cpoptions_save

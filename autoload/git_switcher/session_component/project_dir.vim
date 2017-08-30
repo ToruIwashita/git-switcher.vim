@@ -2,51 +2,51 @@
 " Author: ToruIwashita <toru.iwashita@gmail.com>
 " License: MIT License
 
-let s:cpo_save = &cpo
-set cpo&vim
+let s:cpoptions_save = &cpoptions
+set cpoptions&vim
 
 fun! git_switcher#session_component#project_dir#new(key) abort
-  let obj = {'_self': 'project_dir'}
+  let l:obj = {'_self': 'project_dir'}
 
   " initialize
 
-  fun! obj.initialize(key) abort
-    let self._root_dir = g:gsw_sessions_dir
-    let self._key = a:key
+  fun! l:obj.initialize(key) abort
+    let l:self._root_dir = g:gsw_sessions_dir
+    let l:self._key = a:key
   endf
 
-  call call(obj.initialize, [a:key], obj)
+  call call(l:obj.initialize, [a:key], l:obj)
 
   " initialize END
 
   " private
 
-  fun! obj._root_dir_path() abort
-    return self._root_dir.'/'
+  fun! l:obj._root_dir_path() abort
+    return l:self._root_dir.'/'
   endf
 
-  fun! obj._exists() abort
-    return isdirectory(self.path())
+  fun! l:obj._exists() abort
+    return isdirectory(l:self.path())
   endf
 
   " private END
 
-  fun! obj.name() abort
-    return self._key
+  fun! l:obj.name() abort
+    return l:self._key
   endf
 
-  fun! obj.path() abort
-    return self._root_dir_path().self.name().'/'
+  fun! l:obj.path() abort
+    return l:self._root_dir_path().l:self.name().'/'
   endf
 
-  fun! obj.create() abort
-    if !self._exists()
-      call mkdir(self.path(), 'p')
+  fun! l:obj.create() abort
+    if !l:self._exists()
+      call mkdir(l:self.path(), 'p')
     endif
   endf
 
-  return obj
+  return l:obj
 endf
 
-let &cpo = s:cpo_save
-unlet s:cpo_save
+let &cpoptions = s:cpoptions_save
+unlet s:cpoptions_save
