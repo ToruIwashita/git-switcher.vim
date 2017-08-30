@@ -6,11 +6,11 @@ let s:cpoptions_save = &cpoptions
 set cpoptions&vim
 
 fun! git_switcher#new(...) abort
-  let obj = {'_self': 'git_switcher'}
+  let l:obj = {'_self': 'git_switcher'}
 
   " initialize
 
-  fun! obj.initialize(...) abort
+  fun! l:obj.initialize(...) abort
     let self._save_confirmation            = g:gsw_save_session_confirm
     let self._load_confirmation            = g:gsw_load_session_confirm
     let self._switch_prev_confirmation     = g:gsw_switch_prev_confirm
@@ -42,60 +42,60 @@ fun! git_switcher#new(...) abort
     let self.state = git_switcher#state#new()
   endf
 
-  call call(obj.initialize, a:000, obj)
+  call call(l:obj.initialize, a:000, l:obj)
 
   " initialize END
 
   " private
 
-  fun! obj._save_confirmation_enabled() abort
+  fun! l:obj._save_confirmation_enabled() abort
     return self._save_confirmation == 'yes'
   endf
 
-  fun! obj._load_confirmation_enabled() abort
+  fun! l:obj._load_confirmation_enabled() abort
     return self._load_confirmation == 'yes'
   endf
 
-  fun! obj._switch_prev_confirmation_enabled() abort
+  fun! l:obj._switch_prev_confirmation_enabled() abort
     return self._switch_prev_confirmation == 'yes'
   endf
 
-  fun! obj._autoload_enabled() abort
+  fun! l:obj._autoload_enabled() abort
     return self._autoload_session_behavior == 'yes'
   endf
 
-  fun! obj._autoload_enabled_with_confirmation() abort
+  fun! l:obj._autoload_enabled_with_confirmation() abort
     return self._autoload_session_behavior == 'confirm'
   endf
 
-  fun! obj._autodelete_sessions_enabled() abort
+  fun! l:obj._autodelete_sessions_enabled() abort
     return self._autodelete_sessions_bahavior == 'yes'
   endf
 
-  fun! obj._autodelete_sessions_enabled_with_confirmation() abort
+  fun! l:obj._autodelete_sessions_enabled_with_confirmation() abort
     return self._autodelete_sessions_bahavior == 'confirm'
   endf
 
-  fun! obj._non_project_default_session() abort
+  fun! l:obj._non_project_default_session() abort
     return self._project_name == self._default_project_name && self._session_name == self._default_session_name
   endf
 
-  fun! obj._prev_branch() abort
+  fun! l:obj._prev_branch() abort
     return self.project_prev_branch.branch_name()
   endf
 
-  fun! obj._refresh_prev_branch() abort
+  fun! l:obj._refresh_prev_branch() abort
     call self.clear_prev_branch()
     call self.project_prev_branch.store()
   endf
 
-  fun! obj._session_locked() abort
+  fun! l:obj._session_locked() abort
     if self.project_session.locked()
       throw "'".self.project_session.name()."' session has been locked."
     endif
   endf
 
-  fun! obj._lock_session() abort
+  fun! l:obj._lock_session() abort
     try
       call self.project_session.lock_session()
     catch
@@ -103,7 +103,7 @@ fun! git_switcher#new(...) abort
     endtry
   endf
 
-  fun! obj._set_session_name(session_name) abort
+  fun! l:obj._set_session_name(session_name) abort
     let self._project_name = self.git.project()
     let self._session_name = a:session_name
     let self.project_session = git_switcher#project_session#new(self._project_name, self._session_name)
@@ -112,11 +112,11 @@ fun! git_switcher#new(...) abort
 
   " private END
 
-  fun! obj.clear_prev_branch() abort
+  fun! l:obj.clear_prev_branch() abort
     call self.project_prev_branch.destroy_all()
   endf
 
-  fun! obj.unlock_sessions() abort
+  fun! l:obj.unlock_sessions() abort
     try
       call self.project_session.unlock_sessions()
     catch
@@ -124,23 +124,23 @@ fun! git_switcher#new(...) abort
     endtry
   endf
 
-  fun! obj.session_list() abort
+  fun! l:obj.session_list() abort
     echo self.project_session.stored_session_list()
   endf
 
-  fun! obj.prev_branch_name() abort
+  fun! l:obj.prev_branch_name() abort
     echo self._prev_branch()
   endf
 
-  fun! obj.branch() abort
+  fun! l:obj.branch() abort
     echo self.git.branch()
   endf
 
-  fun! obj.remote_tracking_branch() abort
+  fun! l:obj.remote_tracking_branch() abort
     echo self.git.remote_tracking_branch()
   endf
 
-  fun! obj.branches() abort
+  fun! l:obj.branches() abort
     try
       return self.git.branches()
     catch
@@ -148,7 +148,7 @@ fun! git_switcher#new(...) abort
     endtry
   endf
 
-  fun! obj.remote_only_branches() abort
+  fun! l:obj.remote_only_branches() abort
     try
       return self.git.remote_only_branches()
     catch
@@ -156,18 +156,18 @@ fun! git_switcher#new(...) abort
     endtry
   endf
 
-  fun! obj.simple_fetch_project() abort
+  fun! l:obj.simple_fetch_project() abort
     call self.git.fetch()
   endf
 
-  fun! obj.fetch_project() abort
+  fun! l:obj.fetch_project() abort
     echo 'fetching remote.'
     call self.simple_fetch_project()
     redraw!
     echo 'fetched.'
   endf
 
-  fun! obj.pull_current_branch() abort
+  fun! l:obj.pull_current_branch() abort
     echo "pulling '".self.git.current_branch()."' branch."
     call self.git.pull_current_branch()
     checktime
@@ -175,7 +175,7 @@ fun! git_switcher#new(...) abort
     echo 'pulled.'
   endf
 
-  fun! obj.save_session() abort
+  fun! l:obj.save_session() abort
     if self._non_project_default_session() && confirm("save '".self.project_session.name()."'(non project default) session?", "&Yes\n&No", 0) != 1
       return 1
     endif
@@ -192,7 +192,7 @@ fun! git_switcher#new(...) abort
     call self._lock_session()
   endf
 
-  fun! obj.load_session() abort
+  fun! l:obj.load_session() abort
     call self._session_locked()
     if !self.project_session.exists()
       throw "'".self.project_session.name()."' session file does not exist."
@@ -206,7 +206,7 @@ fun! git_switcher#new(...) abort
     call self._lock_session()
   endf
 
-  fun! obj.autoload_session() abort
+  fun! l:obj.autoload_session() abort
     if !self.git.inside_work_tree() || !self.project_session.exists()
       return 1
     endif
@@ -217,7 +217,7 @@ fun! git_switcher#new(...) abort
     end
   endf
 
-  fun! obj.autodelete_sessions_if_branch_not_exist() abort
+  fun! l:obj.autodelete_sessions_if_branch_not_exist() abort
     let bang = 0
     if self._autodelete_sessions_enabled() | let bang = 1 | end
 
@@ -227,7 +227,7 @@ fun! git_switcher#new(...) abort
     end
   endf
 
-  fun! obj.move_to(bang, branch) abort
+  fun! l:obj.move_to(bang, branch) abort
     if !a:bang && confirm("move '".self.git.current_branch()."' branch to '".a:branch."'?", "&Yes\n&No", 0) != 1
       return 1
     endif
@@ -237,7 +237,7 @@ fun! git_switcher#new(...) abort
     echo "moved to '".a:branch."' branch."
   endf
 
-  fun! obj.switch(bang, source, branch) abort
+  fun! l:obj.switch(bang, source, branch) abort
     if !self.git.branch_exists(a:branch) && a:source ==# 'remote'
       if confirm("create '".a:branch."' branch from remote branch?", "&Yes\n&No", 0) != 1
         return 1
@@ -285,7 +285,7 @@ fun! git_switcher#new(...) abort
     echo res_message
   endf
 
-  fun! obj.switch_prev(bang) abort
+  fun! l:obj.switch_prev(bang) abort
     let prev_branch = self._prev_branch()
 
     if len(prev_branch) == 0
@@ -299,15 +299,15 @@ fun! git_switcher#new(...) abort
     call self.switch(a:bang, 'local', prev_branch)
   endf
 
-  fun! obj.stored_session_names() abort
+  fun! l:obj.stored_session_names() abort
     return self.project_session.stored_session_names()
   endf
 
-  fun! obj.stored_project_sessions() abort
+  fun! l:obj.stored_project_sessions() abort
     return map(self.stored_session_names(), 'git_switcher#project_session#new(self._project_name, v:val)')
   endf
 
-  fun! obj.delete_session(...) abort
+  fun! l:obj.delete_session(...) abort
     let bang = 0
     if a:0 | let bang = a:1 | endif
 
@@ -318,7 +318,7 @@ fun! git_switcher#new(...) abort
     call self.project_session.destroy()
   endf
 
-  fun! obj.delete_sessions_if_branch_not_exist(...) abort
+  fun! l:obj.delete_sessions_if_branch_not_exist(...) abort
     let bang = 0
     if a:0 | let bang = a:1 | endif
 
@@ -335,14 +335,14 @@ fun! git_switcher#new(...) abort
     endfor
   endf
 
-  fun! obj.clear_state() abort
+  fun! l:obj.clear_state() abort
     call self.state.delete_all_buffers()
     call self.unlock_sessions()
     redraw!
     echo 'cleared session state.'
   endf
 
-  return obj
+  return l:obj
 endf
 
 fun! git_switcher#session_list()

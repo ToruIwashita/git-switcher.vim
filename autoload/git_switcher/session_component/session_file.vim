@@ -6,14 +6,14 @@ let s:cpoptions_save = &cpoptions
 set cpoptions&vim
 
 fun! git_switcher#session_component#session_file#new(key) abort
-  let obj = git_switcher#session_component#file_base#new(a:key)
-  let obj._self = 'session_file'
+  let l:obj = git_switcher#session_component#file_base#new(a:key)
+  let l:obj._self = 'session_file'
 
-  fun! obj.escaped_ext() abort
+  fun! l:obj.escaped_ext() abort
     return '\.session\.vim'
   endf
 
-  return obj
+  return l:obj
 endf
 
 let &cpoptions = s:cpoptions_save
