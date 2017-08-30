@@ -15,7 +15,7 @@ fun! git_switcher#session_component#file_base#new(key) abort
       throw 'invalid session name.'
     endif
 
-    let self._key = a:key
+    let l:self._key = a:key
   endf
 
   call call(l:obj.initialize, [a:key], l:obj)
@@ -23,7 +23,7 @@ fun! git_switcher#session_component#file_base#new(key) abort
   " initialize END
 
   fun! l:obj.basename() abort
-    return self._key
+    return l:self._key
   endf
 
   fun! l:obj.ext() abort
@@ -31,7 +31,7 @@ fun! git_switcher#session_component#file_base#new(key) abort
   endf
 
   fun! l:obj.actual_name() abort
-    return substitute(self.basename(), '/', ':', '').self.ext()
+    return substitute(l:self.basename(), '/', ':', '').l:self.ext()
   endf
 
   return l:obj

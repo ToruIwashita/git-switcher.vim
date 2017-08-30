@@ -11,8 +11,8 @@ fun! git_switcher#session_component#project_dir#new(key) abort
   " initialize
 
   fun! l:obj.initialize(key) abort
-    let self._root_dir = g:gsw_sessions_dir
-    let self._key = a:key
+    let l:self._root_dir = g:gsw_sessions_dir
+    let l:self._key = a:key
   endf
 
   call call(l:obj.initialize, [a:key], l:obj)
@@ -22,26 +22,26 @@ fun! git_switcher#session_component#project_dir#new(key) abort
   " private
 
   fun! l:obj._root_dir_path() abort
-    return self._root_dir.'/'
+    return l:self._root_dir.'/'
   endf
 
   fun! l:obj._exists() abort
-    return isdirectory(self.path())
+    return isdirectory(l:self.path())
   endf
 
   " private END
 
   fun! l:obj.name() abort
-    return self._key
+    return l:self._key
   endf
 
   fun! l:obj.path() abort
-    return self._root_dir_path().self.name().'/'
+    return l:self._root_dir_path().l:self.name().'/'
   endf
 
   fun! l:obj.create() abort
-    if !self._exists()
-      call mkdir(self.path(), 'p')
+    if !l:self._exists()
+      call mkdir(l:self.path(), 'p')
     endif
   endf
 

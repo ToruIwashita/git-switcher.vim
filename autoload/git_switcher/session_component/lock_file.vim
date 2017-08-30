@@ -22,7 +22,7 @@ fun! git_switcher#session_component#lock_file#new(key) abort
   endf
 
   fun! l:obj.glob_name() abort
-    return self.basename().self._glob_ext()
+    return l:self.basename().l:self._glob_ext()
   endf
 
   return l:obj
