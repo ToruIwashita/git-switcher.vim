@@ -12,6 +12,7 @@
 :GswPrevBranchName	git-switcher.jax	/*:GswPrevBranchName*
 :GswPull	git-switcher.jax	/*:GswPull*
 :GswRemote	git-switcher.jax	/*:GswRemote*
+:GswRemove	git-switcher.jax	/*:GswRemove*
 :GswSave	git-switcher.jax	/*:GswSave*
 :GswSessionList	git-switcher.jax	/*:GswSessionList*
 g:gsw_autodelete_sessions_if_branch_not_exist	git-switcher.jax	/*g:gsw_autodelete_sessions_if_branch_not_exist*

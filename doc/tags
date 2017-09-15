@@ -11,6 +11,7 @@
 :GswPrevBranchName	git-switcher.txt	/*:GswPrevBranchName*
 :GswPull	git-switcher.txt	/*:GswPull*
 :GswRemote	git-switcher.txt	/*:GswRemote*
+:GswRemove	git-switcher.txt	/*:GswRemove*
 :GswSave	git-switcher.txt	/*:GswSave*
 :GswSessionList	git-switcher.txt	/*:GswSessionList*
 g:gsw_autodelete_sessions_if_branch_not_exist	git-switcher.txt	/*g:gsw_autodelete_sessions_if_branch_not_exist*
