@@ -237,6 +237,16 @@ fun! git_switcher#new(...) abort
     echo "moved to '".a:branch."' branch."
   endf
 
+  fun! l:obj.remove(bang, branch) abort
+    if !a:bang && confirm("remove '".a:branch."' branch?", "&Yes\n&No", 0) != 1
+      return 1
+    endif
+
+    call l:self.git.remove(a:branch)
+    redraw!
+    echo "removed '".a:branch."' branch."
+  endf
+
   fun! l:obj.switch(bang, source, branch) abort
     if !l:self.git.branch_exists(a:branch) && a:source ==# 'remote'
       if confirm("create '".a:branch."' branch from remote branch?", "&Yes\n&No", 0) != 1
@@ -429,6 +439,16 @@ fun! git_switcher#gsw_move(bang, branch)
   try
     let l:git_switcher = git_switcher#new()
     call l:git_switcher.move_to(a:bang, a:branch)
+  catch
+    redraw!
+    echo v:exception
+  endtry
+endf
+
+fun! git_switcher#gsw_remove(bang, branch)
+  try
+    let l:git_switcher = git_switcher#new()
+    call l:git_switcher.remove(a:bang, a:branch)
   catch
     redraw!
     echo v:exception

@@ -101,6 +101,14 @@ fun! git_switcher#git#new() abort
     call l:self._exec('branch --move '.a:branch)
   endf
 
+  fun! l:obj.remove(branch) abort
+    if !l:self.branch_exists(a:branch)
+      throw "'".a:branch."' branch does not exist."
+    endif
+
+    call l:self._exec('branch -D '.a:branch)
+  endf
+
   fun! l:obj.switch(branch) abort
     if !l:self.branch_exists(a:branch)
       throw "'".a:branch."' branch not exists."
