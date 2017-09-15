@@ -83,6 +83,11 @@ Commands
 	This command move(rename) the current working branch.
 	With a '!' bang, to move without confirmation.
 
+								*:GswRemove*
+:GswRemove[!] <branch-name>
+	This command remove specified branch.
+	With a '!' bang, to remove without confirmation.
+
 							*:GswSessionList*
 :GswSessionList
 	This command display a list of saved session names.
