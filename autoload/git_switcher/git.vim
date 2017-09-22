@@ -74,7 +74,7 @@ fun! git_switcher#git#new() abort
   endf
 
   fun! l:obj.current_branch() abort
-    return l:self._exec('symbolic-ref --short HEAD')
+    return l:self._exec('rev-parse --abbrev-ref HEAD')
   endf
 
   fun! l:obj.branch_exists(branch) abort
