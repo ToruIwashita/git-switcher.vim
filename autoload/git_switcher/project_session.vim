@@ -41,7 +41,7 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
   fun! l:obj._same_process_lock_file_paths() abort
     let l:lock_file_paths = split(expand(l:self.project_dir.path().'*'.l:self.lock_file.ext()))
 
-    if !filereadable(l:lock_file_paths[0])
+    if empty(l:lock_file_paths) || !filereadable(l:lock_file_paths[0])
       return []
     endif
 
@@ -51,7 +51,7 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
   fun! l:obj._already_existing_lock_file_paths() abort
     let l:lock_file_paths = split(expand(l:self.project_dir.path().l:self.lock_file.glob_name()))
 
-    if !filereadable(l:lock_file_paths[0])
+    if empty(l:lock_file_paths) || !filereadable(l:lock_file_paths[0])
       return []
     endif
 
