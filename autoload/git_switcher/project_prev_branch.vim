@@ -32,7 +32,7 @@ fun! git_switcher#project_prev_branch#new(project_key, branch_key) abort
   fun! l:obj._same_process_file_paths() abort
     let l:file_paths = split(expand(l:self.project_dir.path().'*'.l:self.prev_branch_file.ext()))
 
-    if !filereadable(l:file_paths[0])
+    if empty(l:file_paths) || !filereadable(l:file_paths[0])
       return []
     endif
 
