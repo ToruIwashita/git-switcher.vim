@@ -94,7 +94,7 @@ Commands
 
 							*:GswPrevBranchName*
 :GswPrevBranchName
-	This command displays the name of the previous branch that switched by
+	This command display the name of the previous branch that switched by
 	git-switcher.
 
 							*:GswClearState*
@@ -103,16 +103,15 @@ Commands
 
 							*:GswDeleteSession*
 :GswDeleteSession[!] <session-name>
-	This command removes the specified session after confirming.
+	This command remove the specified session after confirming.
 	With a '!' bang, to remove without confirmation.
 	This command is equipped with saved session names completion.
 
 					*:GswDeleteSessionsIfBranchNotExist*
 :GswDeleteSessionsIfBranchNotExist[!]
-	This command removes saved sessions there is no branch of the same name
-	after confirming.
+	This command remove saved sessions there is no branch of the same name
+	after confirming in the local repositry.
 	With a '!' bang, to remove without confirmation.
-	in the local repositry.
 
 								*:GswBranch*
 :GswBranch
