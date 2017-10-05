@@ -34,7 +34,39 @@ If this command is run with no arguments, then load the session in the current w
 
 ##### - `GswMove[!] <branch name>`  
 
-This command moves(renames) the current working branch. With a '!' bang, to move without confirmation.  
+This command move(rename) the current working branch. With a '!' bang, to move without confirmation.  
+
+##### - `GswRemove[!] <branch-name>`  
+
+This command remove specified branch. With a '!' bang, to remove without confirmation.  
+
+##### - `GswSessionList`  
+
+This command display a list of saved session names.  
+
+##### - `GswPrevBranchName`  
+
+This command display the name of the previous branch that switched by git-switcher.  
+
+##### - `GswClearState`  
+
+This command initialize Vim's window, tab, buffer.  
+
+##### - `GswDeleteSession[!] <session-name>`  
+
+This command remove the specified session after confirming. With a '!' bang, to remove without confirmation. This command is equipped with saved session names completion.  
+
+##### - `GswDeleteSessionsIfBranchNotExist[!]`  
+
+This command remove saved sessions there is no branch of the same name after confirming in the local repositry. With a '!' bang, to remove without confirmation.  
+
+##### - `GswBranch`  
+
+This command display a list of branch in the local repositry.  
+
+##### - `GswBranchRemote`  
+
+This command display a list of branch in the remote repositry.  
 
 ##### - `GswFetch`  
 
@@ -43,34 +75,6 @@ Execute git fetch.
 ##### - `GswPull`  
 
 Execute git pull.  
-
-##### - `GswBranch`  
-
-This command displays a list of branch in the local repositry.  
-
-##### - `GswBranchRemote`  
-
-This command displays a list of branch in the remote repositry.  
-
-##### - `GswSessionList`  
-
-This command displays a list of saved session names.  
-
-##### - `GswPrevBranchName`  
-
-This command displays the name of the previous branch that switched by git-switcher.  
-
-##### - `GswClearState`  
-
-This command initialize Vim's window, tab, buffer.  
-
-##### - `GswDeleteSession[!] <session-name>`  
-
-This command removes the specified session. This command is equipped with saved session names completion.  
-
-##### - `GswDeleteSessionIfBranchDoesNotExist[!]`  
-
-This command removes saved sessions there is no branch of the same name in the local repositry.  
 
 ### Options  
 
