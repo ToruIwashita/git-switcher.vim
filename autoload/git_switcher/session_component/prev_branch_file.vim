@@ -10,11 +10,11 @@ fun! git_switcher#session_component#prev_branch_file#new(key) abort
   let l:obj._self = 'prev_branch_file'
 
   fun! l:obj.ext() abort
-    return '.branch.prev.'.substitute(system('echo $PPID'), '\n$', '', '').'.vim'
+    return '.branch.prev.'.getpid().'.vim'
   endf
 
   fun! l:obj.escaped_glob_ext() abort
-    return '\.branch\.prev\.'.substitute(system('echo $PPID'), '\n$', '', '').'\.vim'
+    return '\.branch\.prev\.'.getpid().'\.vim'
   endf
 
   return l:obj
