@@ -18,7 +18,7 @@ fun! git_switcher#session_component#lock_file#new(key) abort
   " private END
 
   fun! l:obj.ext() abort
-    return '.session.lock.'.substitute(system('echo $PPID'), '\n$', '', '').'.vim'
+    return '.session.lock.'.getpid().'.vim'
   endf
 
   fun! l:obj.glob_name() abort
