@@ -1,7 +1,7 @@
 *git-switcher.txt*	Switch a session by following the branch switching
 			of git
 
-Version: 1.6.0
+Version: 1.6.1
 Author: ToruIwashita <toru.iwashita@gmail.com>
 License: MIT License
 
@@ -10,6 +10,7 @@ License: MIT License
 CONTENTS
 
 Introduction					|git-switcher-introduction|
+Installation					|git-switcher-installation|
 Interface					|git-switcher-interface|
   Commands					|git-switcher-commnads|
 Options						|git-switcher-options|
@@ -22,6 +23,17 @@ Introduction
 *git-switcher* provide the save and load of the session based on switching of
 git branch. This plugin can be used for session management even if it is
 outside of git directory.
+
+==============================================================================
+						*git-switcher-installation*
+Installation
+
+	When using on Windows, it is neccesary to set PATH to make Git Bash
+	executable.
+>
+	e.g.)
+	> setx /M PATH "%PATH%;c:\Program Files\Git\bin"
+<
 
 ==============================================================================
 						*git-switcher-interface*
