@@ -1,6 +1,6 @@
 *git-switcher.txt*	gitのブランチ切り替えに追随してセッション切り替えを行う
 
-Version: 1.6.0
+Version: 1.6.1
 Author: ToruIwashita <toru.iwashita@gmail.com>
 License: MIT License
 
@@ -9,6 +9,7 @@ License: MIT License
 目次
 
 概要						|git-switcher-introduction|
+インストール					|git-switcher-installation|
 インターフェース				|git-switcher-interface|
   コマンド					|git-switcher-commnads|
 オプション					|git-switcher-options|
@@ -22,6 +23,17 @@ License: MIT License
 追随する形でのセッションの保持・復元を簡単に行うためのプラグインです。
 gitのワーキングディレクトリ外においてもセッションの保持・復元を行う事が
 できます。
+
+==============================================================================
+						*git-switcher-installation*
+インストール
+
+	Windowsで使用する場合は、Git Bashを実行可能にするためにPATHを設定する
+	必要があります。
+>
+	e.g.)
+	> setx /M PATH "%PATH%;c:\Program Files\Git\bin"
+<
 
 ==============================================================================
 						*git-switcher-interface*

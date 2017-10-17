@@ -11,11 +11,12 @@ fun! git_switcher#git#new() abort
   " private
 
   fun! l:obj._exec_and_return_exit_code(cmd) abort
-    return system('bash -c "'.l:self._self.' '.a:cmd.' >/dev/null 2>&1; echo $?"')
+    call system('bash -c "'.l:self._self.' '.a:cmd.' >/dev/null 2>&1"')
+    return v:shell_error
   endf
 
   fun! l:obj._exec_and_return_list_of_splited_stdout_with_exit_code(cmd) abort
-    return split(system('bash -c "'.l:self._self.' '.a:cmd.'; echo $?"'), "\n")
+    return add(split(system('bash -c "'.l:self._self.' '.a:cmd.'"'), "\n"), v:shell_error)
   endf
 
   fun! l:obj._exec(cmd) abort

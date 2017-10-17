@@ -6,6 +6,14 @@ git-switcher provide the save and load of the session based on switching of git 
 
 Install either with [vim-plug](https://github.com/junegunn/vim-plug), [Pathogen](https://github.com/tpope/vim-pathogen), [Vundle](https://github.com/gmarik/Vundle.vim), [NeoBundle](https://github.com/Shougo/neobundle.vim), or other plugin manager.  
 
+#### On Windows  
+
+When using on Windows, it is neccesary to set PATH to make Git Bash executable.  
+
+e.g.)  
+
+    > setx /M PATH "%PATH%;c:\Program Files\Git\bin"    
+
 ## Usage  
 
 ![git_switcher_example](https://raw.githubusercontent.com/wiki/ToruIwashita/git-switcher.vim/images/git_switcher_example_new.gif)  
