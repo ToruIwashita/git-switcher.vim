@@ -170,7 +170,7 @@ fun! git_switcher#new(...) abort
   fun! l:obj.pull_current_branch() abort
     echo "pulling '".l:self.git.current_branch()."' branch."
     call l:self.git.pull_current_branch()
-    checktime
+    silent! checktime
     redraw!
     echo 'pulled.'
   endf
@@ -276,7 +276,7 @@ fun! git_switcher#new(...) abort
     call l:self._set_session_name(a:branch)
 
     if a:bang
-      checktime
+      silent! checktime
       redraw!
       echo "switched to '".a:branch."' branch."
       return 1
@@ -287,7 +287,7 @@ fun! git_switcher#new(...) abort
       let l:res_message = "switched to '".a:branch."' branch and loaded session."
     else
       redraw!
-      checktime
+      silent! checktime
       let l:res_message = "switched to '".a:branch."' branch."
     endif
 
