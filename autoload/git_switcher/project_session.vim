@@ -136,7 +136,7 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
     catch
       let l:result = 0
     finally
-      checktime
+      silent! checktime
       redraw!
     endtry
 
