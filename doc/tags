@@ -25,6 +25,7 @@ g:gsw_switch_prev_confirm	git-switcher.txt	/*g:gsw_switch_prev_confirm*
 git-switcher	git-switcher.txt	/*git-switcher*
 git-switcher-commnads	git-switcher.txt	/*git-switcher-commnads*
 git-switcher-contents	git-switcher.txt	/*git-switcher-contents*
+git-switcher-installation	git-switcher.txt	/*git-switcher-installation*
 git-switcher-interface	git-switcher.txt	/*git-switcher-interface*
 git-switcher-introduction	git-switcher.txt	/*git-switcher-introduction*
 git-switcher-options	git-switcher.txt	/*git-switcher-options*

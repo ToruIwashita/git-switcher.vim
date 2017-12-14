@@ -25,6 +25,7 @@ g:gsw_sessions_dir	git-switcher.jax	/*g:gsw_sessions_dir*
 g:gsw_switch_prev_confirm	git-switcher.jax	/*g:gsw_switch_prev_confirm*
 git-switcher-commnads	git-switcher.jax	/*git-switcher-commnads*
 git-switcher-contents	git-switcher.jax	/*git-switcher-contents*
+git-switcher-installation	git-switcher.jax	/*git-switcher-installation*
 git-switcher-interface	git-switcher.jax	/*git-switcher-interface*
 git-switcher-introduction	git-switcher.jax	/*git-switcher-introduction*
 git-switcher-options	git-switcher.jax	/*git-switcher-options*
