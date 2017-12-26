@@ -35,6 +35,21 @@ fun! git_switcher#git#new() abort
     return l:output
   endf
 
+  fun! l:obj._async_exec(cmd, exit_msg) abort
+    if l:self._exec_and_return_exit_code('rev-parse')
+      throw 'failed because not a git repository.'
+    endif
+
+    call job_start('bash -c "'.l:self._self.' '.a:cmd.' >/dev/null 2>&1"', {
+      \ 'exit_cb': {
+      \   channel, status -> [
+      \     execute('checktime'),
+      \     execute("if ".status." == 0 | echo '".a:exit_msg."' | else | echo 'failed to ".a:cmd.".' | endif", '')
+      \   ]
+      \ }
+    \ })
+  endf
+
   fun! l:obj._remote_tracking_branches() abort
     return filter(map(filter(split(l:self.remote_tracking_branch(), '\n'), "v:val !~# '->'"), 'matchstr(v:val, "^\\s*\\(origin/\\|\\)\\zs\\(.*\\)\\ze", 0)'), "v:val !=# ''")
   endf
@@ -43,6 +58,10 @@ fun! git_switcher#git#new() abort
 
   fun! l:obj.fetch() abort
     call l:self._exec('fetch --prune')
+  endf
+
+  fun! l:obj.async_fetch(msg_dict) abort
+    call l:self._async_exec('fetch --prune', a:msg_dict['exit_msg'])
   endf
 
   fun! l:obj.pull_current_branch() abort
