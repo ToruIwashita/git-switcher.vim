@@ -1,6 +1,6 @@
 *git-switcher.txt*	gitのブランチ切り替えに追随してセッション切り替えを行う
 
-Version: 1.6.2
+Version: 1.7.0
 Author: ToruIwashita <toru.iwashita@gmail.com>
 License: MIT License
 
@@ -131,12 +131,14 @@ gitのワーキングディレクトリ外においてもセッションの保�
 	リモートリポジトリのブランチ一覧を表示します。
 
 								*:GswFetch*
-:GswFetch
+:GswFetch[!]
 	git fetchを実行します。
+	'!'付きの場合、非同期で実行されます。
 
 								*:GswPull*
-:GswPull
+:GswPull[!]
 	git pullを実行します。
+	'!'付きの場合、非同期で実行されます。
 
 ==============================================================================
 							*git-switcher-options*

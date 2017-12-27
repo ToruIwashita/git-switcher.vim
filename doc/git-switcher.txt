@@ -1,7 +1,7 @@
 *git-switcher.txt*	Switch a session by following the branch switching
 			of git
 
-Version: 1.6.2
+Version: 1.7.0
 Author: ToruIwashita <toru.iwashita@gmail.com>
 License: MIT License
 
@@ -134,12 +134,14 @@ Commands
 	This command display a list of branch in the remote repositry.
 
 								*:GswFetch*
-:GswFetch
+:GswFetch[!]
 	Execute git fetch.
+	With a '!' bang, it is executed asynchronously.
 
 								*:GswPull*
-:GswPull
+:GswPull[!]
 	Execute git pull.
+	With a '!' bang, it is executed asynchronously.
 
 ==============================================================================
 							*git-switcher-options*

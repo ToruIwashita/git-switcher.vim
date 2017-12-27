@@ -160,19 +160,28 @@ fun! git_switcher#new(...) abort
     call l:self.git.fetch()
   endf
 
-  fun! l:obj.fetch_project() abort
+  fun! l:obj.fetch_project(bang) abort
     echo 'fetching remote.'
-    call l:self.simple_fetch_project()
-    redraw!
-    echo 'fetched.'
+    if a:bang
+      call l:self.git.async_fetch({'exit_msg': 'fetched.'})
+    else
+      call l:self.simple_fetch_project()
+      redraw!
+      echo 'fetched.'
+    endif
   endf
 
-  fun! l:obj.pull_current_branch() abort
+  fun! l:obj.pull_current_branch(bang) abort
     echo "pulling '".l:self.git.current_branch()."' branch."
-    call l:self.git.pull_current_branch()
-    silent! checktime
-    redraw!
-    echo 'pulled.'
+
+    if a:bang
+      call l:self.git.async_pull_current_branch({'exit_msg': 'pulled.'})
+    else
+      call l:self.git.pull_current_branch()
+      silent! checktime
+      redraw!
+      echo 'pulled.'
+    endif
   endf
 
   fun! l:obj.save_session() abort
@@ -395,20 +404,20 @@ fun! git_switcher#remote_tracking_branch()
   endtry
 endf
 
-fun! git_switcher#fetch_project()
+fun! git_switcher#fetch_project(bang)
   try
     let l:git_switcher = git_switcher#new()
-    call l:git_switcher.fetch_project()
+    call l:git_switcher.fetch_project(a:bang)
   catch
     redraw!
     echo v:exception
   endtry
 endf
 
-fun! git_switcher#pull_current_branch()
+fun! git_switcher#pull_current_branch(bang)
   try
     let l:git_switcher = git_switcher#new()
-    call l:git_switcher.pull_current_branch()
+    call l:git_switcher.pull_current_branch(a:bang)
   catch
     redraw!
     echo v:exception
