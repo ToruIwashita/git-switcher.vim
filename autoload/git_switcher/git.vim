@@ -68,6 +68,10 @@ fun! git_switcher#git#new() abort
     call l:self._exec('pull origin '.l:self.current_branch())
   endf
 
+  fun! l:obj.async_pull_current_branch(msg_dict) abort
+    call l:self._async_exec('pull origin '.l:self.current_branch(), a:msg_dict['exit_msg'])
+  endf
+
   fun! l:obj.branch() abort
     return l:self._exec('branch')
   endf
