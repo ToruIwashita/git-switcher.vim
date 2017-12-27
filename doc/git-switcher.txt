@@ -134,12 +134,14 @@ Commands
 	This command display a list of branch in the remote repositry.
 
 								*:GswFetch*
-:GswFetch
+:GswFetch[!]
 	Execute git fetch.
+	With a '!' bang, it is executed asynchronously.
 
 								*:GswPull*
-:GswPull
+:GswPull[!]
 	Execute git pull.
+	With a '!' bang, it is executed asynchronously.
 
 ==============================================================================
 							*git-switcher-options*

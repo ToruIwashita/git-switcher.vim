@@ -78,11 +78,11 @@ This command display a list of branch in the remote repositry.
 
 ##### - `GswFetch`  
 
-Execute git fetch.  
+Execute git fetch. With a '!' bang, it is executed asynchronously.  
 
 ##### - `GswPull`  
 
-Execute git pull.  
+Execute git pull. With a '!' bang, it is executed asynchronously.  
 
 ### Options  
 
