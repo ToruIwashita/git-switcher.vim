@@ -51,6 +51,7 @@ augroup END
 command! GswSessionList call git_switcher#session_list()
 command! GswPrevBranchName call git_switcher#prev_branch_name()
 command! GswBranch call git_switcher#branch()
+command! GswMergedBranch call git_switcher#merged_branch()
 command! GswBranchRemote call git_switcher#remote_tracking_branch()
 command! GswClearState call git_switcher#clear_stete()
 command! -bang GswPull call git_switcher#pull_current_branch(<bang>0)

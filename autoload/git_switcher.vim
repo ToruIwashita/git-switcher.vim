@@ -136,6 +136,10 @@ fun! git_switcher#new(...) abort
     echo l:self.git.branch()
   endf
 
+  fun! l:obj.merged_branch() abort
+    echo l:self.git.merged_branch()
+  endf
+
   fun! l:obj.remote_tracking_branch() abort
     echo l:self.git.remote_tracking_branch()
   endf
@@ -392,6 +396,16 @@ fun! git_switcher#branch()
   try
     let l:git_switcher = git_switcher#new()
     call l:git_switcher.branch()
+  catch
+    redraw!
+    echo v:exception
+  endtry
+endf
+
+fun! git_switcher#merged_branch()
+  try
+    let l:git_switcher = git_switcher#new()
+    call l:git_switcher.merged_branch()
   catch
     redraw!
     echo v:exception
