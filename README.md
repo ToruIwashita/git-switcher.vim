@@ -64,7 +64,7 @@ This command initialize Vim's window, tab, buffer.
 
 This command remove the specified session after confirming. With a '!' bang, to remove without confirmation. This command is equipped with saved session names completion.  
 
-##### - `GswDeleteSessionsIfBranchNotExist[!]`  
+##### - `GswDeleteSessionsIfBranchNotExists[!]`  
 
 This command remove saved sessions there is no branch of the same name after confirming in the local repositry. With a '!' bang, to remove without confirmation.  
 
@@ -141,7 +141,7 @@ Session automatic load settings on startup. On the git repository, load the sess
 
 Default: `g:gsw_autoload_session = 'no'`  
 
-##### - `g:gsw_autodelete_sessions_if_branch_not_exist`  
+##### - `g:gsw_autodelete_sessions_if_branch_not_exists`  
 
 During start-up, to remove saved sessions there is no branch of the same name in the local repository.  
 
@@ -149,4 +149,4 @@ During start-up, to remove saved sessions there is no branch of the same name in
  - `confirm`: Automatic deleting after confirming.  
  - `no`: Disable automatic deleting.  
 
-Default: `g:gsw_autodelete_sessions_if_branch_not_exist = 'no'`  
+Default: `g:gsw_autodelete_sessions_if_branch_not_exists = 'no'`  
