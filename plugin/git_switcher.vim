@@ -38,8 +38,8 @@ if !exists('g:gsw_autoload_session')
   let g:gsw_autoload_session = 'no'
 endif
 
-if !exists('g:gsw_autodelete_sessions_if_branch_not_exist')
-  let g:gsw_autodelete_sessions_if_branch_not_exist = 'no'
+if !exists('g:gsw_autodelete_sessions_if_branch_not_exists')
+  let g:gsw_autodelete_sessions_if_branch_not_exists = 'no'
 endif
 
 augroup git_switcher
@@ -55,7 +55,7 @@ command! GswBranchRemote call git_switcher#remote_tracking_branch()
 command! GswClearState call git_switcher#clear_stete()
 command! -bang GswPull call git_switcher#pull_current_branch(<bang>0)
 command! -bang GswFetch call git_switcher#fetch_project(<bang>0)
-command! -bang GswDeleteSessionsIfBranchNotExist call git_switcher#delete_sessions_if_branch_not_exist(<bang>0)
+command! -bang GswDeleteSessionsIfBranchNotExists call git_switcher#delete_sessions_if_branch_not_exists(<bang>0)
 command! -bang -nargs=1 -complete=customlist,git_switcher#_branches GswMove call git_switcher#gsw_move(<bang>0, <f-args>)
 command! -bang -nargs=1 -complete=customlist,git_switcher#_branches GswRemove call git_switcher#gsw_remove(<bang>0, <f-args>)
 command! -nargs=? -complete=customlist,git_switcher#_stored_session_names GswSave call git_switcher#save_session(<f-args>)

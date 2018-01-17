@@ -15,7 +15,7 @@ fun! git_switcher#new(...) abort
     let l:self._load_confirmation            = g:gsw_load_session_confirm
     let l:self._switch_prev_confirmation     = g:gsw_switch_prev_confirm
     let l:self._autoload_session_behavior    = g:gsw_autoload_session
-    let l:self._autodelete_sessions_bahavior = g:gsw_autodelete_sessions_if_branch_not_exist
+    let l:self._autodelete_sessions_bahavior = g:gsw_autodelete_sessions_if_branch_not_exists
     let l:self._default_project_name         = g:gsw_non_project_sessions_dir
     let l:self._default_session_name         = g:gsw_non_project_default_session_name
 
@@ -226,12 +226,12 @@ fun! git_switcher#new(...) abort
     end
   endf
 
-  fun! l:obj.autodelete_sessions_if_branch_not_exist() abort
+  fun! l:obj.autodelete_sessions_if_branch_not_exists() abort
     let l:bang = 0
     if l:self._autodelete_sessions_enabled() | let l:bang = 1 | end
 
     if l:self._autodelete_sessions_enabled() || l:self._autodelete_sessions_enabled_with_confirmation()
-      call l:self.delete_sessions_if_branch_not_exist(l:bang)
+      call l:self.delete_sessions_if_branch_not_exists(l:bang)
       redraw!
     end
   endf
@@ -337,7 +337,7 @@ fun! git_switcher#new(...) abort
     call l:self.project_session.destroy()
   endf
 
-  fun! l:obj.delete_sessions_if_branch_not_exist(...) abort
+  fun! l:obj.delete_sessions_if_branch_not_exists(...) abort
     let l:bang = 1
     if a:0 | let l:bang = a:1 | endif
 
@@ -514,10 +514,10 @@ fun! git_switcher#delete_session(bang, branch)
   endtry
 endf
 
-fun! git_switcher#delete_sessions_if_branch_not_exist(bang)
+fun! git_switcher#delete_sessions_if_branch_not_exists(bang)
   try
     let l:git_switcher = git_switcher#new()
-    return l:git_switcher.delete_sessions_if_branch_not_exist(a:bang)
+    return l:git_switcher.delete_sessions_if_branch_not_exists(a:bang)
   catch
     redraw!
     echo v:exception
@@ -527,7 +527,7 @@ endf
 fun! git_switcher#autocmd_for_vim_enter()
   try
     let l:git_switcher = git_switcher#new()
-    call l:git_switcher.autodelete_sessions_if_branch_not_exist()
+    call l:git_switcher.autodelete_sessions_if_branch_not_exists()
     call l:git_switcher.autoload_session()
   catch
     redraw!
