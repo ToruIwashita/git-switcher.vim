@@ -119,8 +119,8 @@ Commands
 	With a '!' bang, to remove without confirmation.
 	This command is equipped with saved session names completion.
 
-					*:GswDeleteSessionsIfBranchNotExist*
-:GswDeleteSessionsIfBranchNotExist[!]
+					*:GswDeleteSessionsIfBranchNotExists*
+:GswDeleteSessionsIfBranchNotExists[!]
 	This command remove saved sessions there is no branch of the same name
 	after confirming in the local repositry.
 	With a '!' bang, to remove without confirmation.
@@ -211,15 +211,15 @@ g:gsw_autoload_session
 Default: >
 	g:gsw_autoload_session = 'no'
 
-				*g:gsw_autodelete_sessions_if_branch_not_exist*
-g:gsw_autodelete_sessions_if_branch_not_exist
+			*g:gsw_autodelete_sessions_if_branch_not_exists*
+g:gsw_autodelete_sessions_if_branch_not_exists
 	During start-up, to remove saved sessions there is no branch of the
 	same name in the local repositry.
 	 - 'yes': Automatic deleting immediately.
 	 - 'confirm': Automatic deleting after confirming.
 	 - 'no': Disable automatic deleting.
 Default: >
-	g:gsw_autodelete_sessions_if_branch_not_exist = 'no'
+	g:gsw_autodelete_sessions_if_branch_not_exists = 'no'
 
 ==============================================================================
 vim:tw=78:sw=4:ts=8:ft=help:norl:noet:

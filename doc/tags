@@ -3,7 +3,7 @@
 :GswBranchRemote	git-switcher.txt	/*:GswBranchRemote*
 :GswClearState	git-switcher.txt	/*:GswClearState*
 :GswDeleteSession	git-switcher.txt	/*:GswDeleteSession*
-:GswDeleteSessionsIfBranchNotExist	git-switcher.txt	/*:GswDeleteSessionsIfBranchNotExist*
+:GswDeleteSessionsIfBranchNotExists	git-switcher.txt	/*:GswDeleteSessionsIfBranchNotExists*
 :GswFetch	git-switcher.txt	/*:GswFetch*
 :GswLoad	git-switcher.txt	/*:GswLoad*
 :GswMove	git-switcher.txt	/*:GswMove*
@@ -14,7 +14,7 @@
 :GswRemove	git-switcher.txt	/*:GswRemove*
 :GswSave	git-switcher.txt	/*:GswSave*
 :GswSessionList	git-switcher.txt	/*:GswSessionList*
-g:gsw_autodelete_sessions_if_branch_not_exist	git-switcher.txt	/*g:gsw_autodelete_sessions_if_branch_not_exist*
+g:gsw_autodelete_sessions_if_branch_not_exists	git-switcher.txt	/*g:gsw_autodelete_sessions_if_branch_not_exists*
 g:gsw_autoload_session	git-switcher.txt	/*g:gsw_autoload_session*
 g:gsw_load_session_confirm	git-switcher.txt	/*g:gsw_load_session_confirm*
 g:gsw_non_project_default_session_name	git-switcher.txt	/*g:gsw_non_project_default_session_name*

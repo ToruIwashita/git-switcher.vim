@@ -116,8 +116,8 @@ gitのワーキングディレクトリ外においてもセッションの保�
 	このコマンドでは同プロジェクトにおいて既に保存されているセッションを
 	補完します。
 
-					*:GswDeleteSessionsIfBranchNotExist*
-:GswDeleteSessionsIfBranchNotExist[!]
+					*:GswDeleteSessionsIfBranchNotExists*
+:GswDeleteSessionsIfBranchNotExists[!]
 	保存したセッションのうちローカルに同じ名前のブランチが存在しないもの
 	を確認後に削除します。
 	'!'付きで実行された場合、確認なしで削除します。
@@ -203,15 +203,15 @@ g:gsw_autoload_session
 Default: >
 	g:gsw_autoload_session = 'no'
 
-				*g:gsw_autodelete_sessions_if_branch_not_exist*
-g:gsw_autodelete_sessions_if_branch_not_exist
+			*g:gsw_autodelete_sessions_if_branch_not_exists*
+g:gsw_autodelete_sessions_if_branch_not_exists
 	vim起動時、保存したセッションのうち、ローカルに同じ名前のブランチが
 	存在しないものを削除する。
 	 - 'yes': 自動削除
 	 - 'confirm': 確認後に削除
 	 - 'no': 自動削除無効
 Default: >
-	g:gsw_autodelete_sessions_if_branch_not_exist = 'no'
+	g:gsw_autodelete_sessions_if_branch_not_exists = 'no'
 
 ==============================================================================
 vim:tw=78:sw=4:ts=8:ft=help:norl:noet:
