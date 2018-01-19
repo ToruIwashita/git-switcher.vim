@@ -345,6 +345,25 @@ fun! git_switcher#new(...) abort
     call l:self.project_session.destroy()
   endf
 
+  fun! l:obj.remove_merged_branches(...) abort
+    let l:bang = 1
+    if a:0 | let l:bang = a:1 | endif
+
+    call l:self.simple_fetch_project()
+
+    for l:merged_branch in l:self.git.merged_branches()
+      if l:self.git.current_branch() ==# l:merged_branch
+        continue
+      endif
+
+      if !l:bang && confirm("delete '".l:merged_branch."' branch?", "&Yes\n&No", 0) != 1
+        continue
+      endif
+
+      call l:self.git.remove(l:merged_branch)
+    endfor
+  endf
+
   fun! l:obj.delete_sessions_if_branch_not_exists(...) abort
     let l:bang = 1
     if a:0 | let l:bang = a:1 | endif
@@ -526,6 +545,16 @@ fun! git_switcher#delete_session(bang, branch)
   try
     let l:git_switcher = git_switcher#new(a:branch)
     call l:git_switcher.delete_session(a:bang)
+  catch
+    redraw!
+    echo v:exception
+  endtry
+endf
+
+fun! git_switcher#remove_merged_branches(bang)
+  try
+    let l:git_switcher = git_switcher#new()
+    call l:git_switcher.remove_merged_branches(a:bang)
   catch
     redraw!
     echo v:exception

@@ -88,6 +88,10 @@ fun! git_switcher#git#new() abort
     return filter(split(l:self.branch()), "v:val !=# '*'")
   endf
 
+  fun! l:obj.merged_branches() abort
+    return filter(split(l:self.merged_branch()), "v:val !=# '*'")
+  endf
+
   fun! l:obj.remote_only_branches() abort
     let l:local_branches = l:self.branches()
     let l:remote_only_branches = []
