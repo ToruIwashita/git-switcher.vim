@@ -6,12 +6,14 @@
 :GswDeleteSessionsIfBranchNotExists	git-switcher.txt	/*:GswDeleteSessionsIfBranchNotExists*
 :GswFetch	git-switcher.txt	/*:GswFetch*
 :GswLoad	git-switcher.txt	/*:GswLoad*
+:GswMergedBranch	git-switcher.txt	/*:GswMergedBranch*
 :GswMove	git-switcher.txt	/*:GswMove*
 :GswPrev	git-switcher.txt	/*:GswPrev*
 :GswPrevBranchName	git-switcher.txt	/*:GswPrevBranchName*
 :GswPull	git-switcher.txt	/*:GswPull*
 :GswRemote	git-switcher.txt	/*:GswRemote*
 :GswRemove	git-switcher.txt	/*:GswRemove*
+:GswRemoveMergedBranches	git-switcher.txt	/*:GswRemoveMergedBranches*
 :GswSave	git-switcher.txt	/*:GswSave*
 :GswSessionList	git-switcher.txt	/*:GswSessionList*
 g:gsw_autodelete_sessions_if_branch_not_exists	git-switcher.txt	/*g:gsw_autodelete_sessions_if_branch_not_exists*

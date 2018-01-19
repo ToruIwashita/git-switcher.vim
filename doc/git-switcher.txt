@@ -100,6 +100,11 @@ Commands
 	This command remove specified branch.
 	With a '!' bang, to remove without confirmation.
 
+						*:GswRemoveMergedBranches*
+:GswRemoveMergedBranches[!] <branch-name>
+	Remove merged branches of the local repository.
+	With a '!' bang, to remove without confirmation.
+
 							*:GswSessionList*
 :GswSessionList
 	This command display a list of saved session names.
@@ -128,6 +133,10 @@ Commands
 								*:GswBranch*
 :GswBranch
 	This command display a list of branch in the local repositry.
+
+							*:GswMergedBranch*
+:GswMergedBranch
+	This command display a list of merged branch in the local repositry.
 
 							*:GswBranchRemote*
 :GswBranchRemote

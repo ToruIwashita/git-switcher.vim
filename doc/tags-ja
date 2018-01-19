@@ -7,12 +7,14 @@
 :GswDeleteSessionsIfBranchNotExists	git-switcher.jax	/*:GswDeleteSessionsIfBranchNotExists*
 :GswFetch	git-switcher.jax	/*:GswFetch*
 :GswLoad	git-switcher.jax	/*:GswLoad*
+:GswMergedBranch	git-switcher.jax	/*:GswMergedBranch*
 :GswMove	git-switcher.jax	/*:GswMove*
 :GswPrev	git-switcher.jax	/*:GswPrev*
 :GswPrevBranchName	git-switcher.jax	/*:GswPrevBranchName*
 :GswPull	git-switcher.jax	/*:GswPull*
 :GswRemote	git-switcher.jax	/*:GswRemote*
 :GswRemove	git-switcher.jax	/*:GswRemove*
+:GswRemoveMergedBranches	git-switcher.jax	/*:GswRemoveMergedBranches*
 :GswSave	git-switcher.jax	/*:GswSave*
 :GswSessionList	git-switcher.jax	/*:GswSessionList*
 g:gsw_autodelete_sessions_if_branch_not_exists	git-switcher.jax	/*g:gsw_autodelete_sessions_if_branch_not_exists*
