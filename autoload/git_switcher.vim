@@ -227,6 +227,10 @@ fun! git_switcher#new(...) abort
   endf
 
   fun! l:obj.autodelete_sessions_if_branch_not_exists() abort
+    if !l:self.git.inside_work_tree()
+      return 1
+    endif
+
     let l:bang = 0
     if l:self._autodelete_sessions_enabled() | let l:bang = 1 | end
 
