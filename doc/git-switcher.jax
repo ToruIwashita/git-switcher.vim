@@ -1,6 +1,6 @@
 *git-switcher.txt*	gitのブランチ切り替えに追随してセッション切り替えを行う
 
-Version: 1.7.2
+Version: 1.8.0
 Author: ToruIwashita <toru.iwashita@gmail.com>
 License: MIT License
 
@@ -97,6 +97,11 @@ gitのワーキングディレクトリ外においてもセッションの保�
 	指定したブランチを削除します。
 	'!'付きで実行された場合、確認無しで削除します。
 
+						*:GswRemoveMergedBranches*
+:GswRemoveMergedBranches[!] <branch-name>
+	ローカルリポジトリのマージ済みブランチを削除します。
+	'!'付きで実行された場合、確認無しで削除します。
+
 							*:GswSessionList*
 :GswSessionList
 	保存されているセッション名の一覧を表示します。
@@ -125,6 +130,10 @@ gitのワーキングディレクトリ外においてもセッションの保�
 								*:GswBranch*
 :GswBranch
 	ローカルリポジトリのブランチ一覧を表示します。
+
+							*:GswMergedBranch*
+:GswMergedBranch
+	ローカルリポジトリのマージ済みブランチ一覧を表示します。
 
 							*:GswBranchRemote*
 :GswBranchRemote

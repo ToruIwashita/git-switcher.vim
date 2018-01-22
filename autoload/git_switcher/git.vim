@@ -80,8 +80,16 @@ fun! git_switcher#git#new() abort
     return l:self._exec('branch --remotes')
   endf
 
+  fun! l:obj.merged_branch() abort
+    return l:self._exec('branch --merged')
+  endf
+
   fun! l:obj.branches() abort
     return filter(split(l:self.branch()), "v:val !=# '*'")
+  endf
+
+  fun! l:obj.merged_branches() abort
+    return filter(split(l:self.merged_branch()), "v:val !=# '*'")
   endf
 
   fun! l:obj.remote_only_branches() abort
