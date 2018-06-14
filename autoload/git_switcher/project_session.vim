@@ -151,6 +151,14 @@ fun! git_switcher#project_session#new(project_key, session_key) abort
     endif
   endf
 
+  fun! l:obj.writefile(lines) abort
+    return writefile(a:lines, l:self._file_path())
+  endf
+
+  fun! l:obj.readfile() abort
+    return readfile(l:self._file_path())
+  endf
+
   fun! l:obj.stored_session_names() abort
     let l:actual_names = map(split(expand(l:self.project_dir.path().'*')), 'matchstr(fnamemodify(v:val, ":t"), "^\\zs\\(.*\\)\\ze'.l:self.session_file.escaped_ext().'$", 0)')
     let l:session_names = map(l:actual_names, "substitute(v:val, ':', '/', '')")

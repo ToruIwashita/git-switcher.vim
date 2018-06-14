@@ -1,6 +1,6 @@
 *git-switcher.txt*	gitのブランチ切り替えに追随してセッション切り替えを行う
 
-Version: 1.8.0
+Version: 1.9.0
 Author: ToruIwashita <toru.iwashita@gmail.com>
 License: MIT License
 
@@ -10,6 +10,7 @@ License: MIT License
 
 概要						|git-switcher-introduction|
 インストール					|git-switcher-installation|
+他のプラグインのサポート		|git-switcher-other-plugins-support|
 インターフェース				|git-switcher-interface|
   コマンド					|git-switcher-commnads|
 オプション					|git-switcher-options|
@@ -34,6 +35,14 @@ gitのワーキングディレクトリ外においてもセッションの保�
 	e.g.)
 	> setx /M PATH "%PATH%;c:\Program Files\Git\bin"
 <
+
+==============================================================================
+					*git-switcher-other-plugins-support*
+他のプラグインのサポート
+
+	このプラグインは以下のプラグインをサポートしています。
+	他のプラグインによって生成された特別なウィンドウ等の状態も保存可能です。
+	 - NERDTree
 
 ==============================================================================
 						*git-switcher-interface*
