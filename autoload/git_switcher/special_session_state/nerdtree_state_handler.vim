@@ -61,7 +61,7 @@ fun! git_switcher#special_session_state#nerdtree_state_handler#new() abort
         let l:nerdtree_root_path = l:self._extract_nerdtree_root_path(l:nerdtree_file)
 
         call add(l:nerdtree_session_appended_lines, l:line)
-        call add(l:nerdtree_session_appended_lines, 'bwipeout '.l:nerdtree_file)
+        call add(l:nerdtree_session_appended_lines, 'silent! bwipeout '.l:nerdtree_file)
         call add(l:nerdtree_session_appended_lines, 'NERDTree '.l:nerdtree_root_path)
       else
         call add(l:nerdtree_session_appended_lines, l:line)
