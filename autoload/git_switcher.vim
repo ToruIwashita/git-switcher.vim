@@ -41,6 +41,7 @@ fun! git_switcher#new(...) abort
     let l:self.project_prev_branch    = git_switcher#project_prev_branch#new(l:self._project_name, l:self._session_name)
     let l:self.state                  = git_switcher#state#new()
     let l:self.nerdtree_state_handler = git_switcher#special_session_state#nerdtree_state_handler#new()
+    let l:self.tagbar_state_handler = git_switcher#special_session_state#tagbar_state_handler#new()
   endf
 
   call call(l:obj.initialize, a:000, l:obj)
@@ -197,6 +198,7 @@ fun! git_switcher#new(...) abort
     call l:self._session_locked()
     call l:self.project_session.store()
     call l:self.nerdtree_state_handler.store(l:self.project_session)
+    call l:self.tagbar_state_handler.store(l:self.project_session)
     echo "saved '".l:self.project_session.name()."' session."
 
     if !l:self.git.inside_work_tree() || (l:self.project_session.session_name() != l:self.git.current_branch())
