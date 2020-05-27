@@ -61,14 +61,12 @@ fun! git_switcher#special_session_state#nerdtree_state_handler#new() abort
         let l:nerdtree_root_path = l:self._extract_nerdtree_root_path(l:nerdtree_file)
 
         for l:nerdtree_session_appended_line in [
-            \ 'file NERD_tree_tmp',
             \ "if winnr('$') == 1",
-            \ '  silent! vnew',
-            \ '  silent! bwipeout NERD_tree_tmp',
             \ '  NERDTree '.l:nerdtree_root_path,
             \ '  wincm l',
-            \ '  bwipeout',
+            \ '  quit',
             \ 'else',
+            \ '  file NERD_tree_tmp',
             \ '  silent! bwipeout NERD_tree_tmp',
             \ '  NERDTree '.l:nerdtree_root_path,
             \ 'endif'
