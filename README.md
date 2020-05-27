@@ -20,6 +20,7 @@ This plugin supports the following plugins. Therefore, states such as special wi
 
 - [NERDTree](https://github.com/scrooloose/nerdtree)  
 - [Tagbar](https://github.com/majutsushi/tagbar)  
+- [Gutentags](https://github.com/ludovicchabant/vim-gutentags)  
 
 ## Usage  
 
