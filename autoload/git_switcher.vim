@@ -11,13 +11,14 @@ fun! git_switcher#new(...) abort
   " initialize
 
   fun! l:obj.initialize(...) abort
-    let l:self._save_confirmation            = g:gsw_save_session_confirm
-    let l:self._load_confirmation            = g:gsw_load_session_confirm
-    let l:self._switch_prev_confirmation     = g:gsw_switch_prev_confirm
-    let l:self._autoload_session_behavior    = g:gsw_autoload_session
-    let l:self._autodelete_sessions_bahavior = g:gsw_autodelete_sessions_if_branch_not_exists
-    let l:self._default_project_name         = g:gsw_non_project_sessions_dir
-    let l:self._default_session_name         = g:gsw_non_project_default_session_name
+    let l:self._save_confirmation             = g:gsw_save_session_confirm
+    let l:self._save_non_project_confirmation = g:gsw_save_non_project_session_confirm
+    let l:self._load_confirmation             = g:gsw_load_session_confirm
+    let l:self._switch_prev_confirmation      = g:gsw_switch_prev_confirm
+    let l:self._autoload_session_behavior     = g:gsw_autoload_session
+    let l:self._autodelete_sessions_bahavior  = g:gsw_autodelete_sessions_if_branch_not_exists
+    let l:self._default_project_name          = g:gsw_non_project_sessions_dir
+    let l:self._default_session_name          = g:gsw_non_project_default_session_name
 
     let l:self.git = git_switcher#git#new()
 
@@ -53,6 +54,10 @@ fun! git_switcher#new(...) abort
 
   fun! l:obj._save_confirmation_enabled() abort
     return l:self._save_confirmation ==# 'yes'
+  endf
+
+  fun! l:obj._save_non_project_confirmation_enabled() abort
+    return l:self._save_non_project_confirmation ==# 'yes'
   endf
 
   fun! l:obj._load_confirmation_enabled() abort
@@ -192,7 +197,7 @@ fun! git_switcher#new(...) abort
   endf
 
   fun! l:obj.save_session() abort
-    if l:self._non_project_default_session() && confirm("save '".l:self.project_session.name()."'(non project default) session?", "&Yes\n&No", 0) != 1
+    if l:self._non_project_default_session() && l:self._save_non_project_confirmation_enabled() && confirm("save '".l:self.project_session.name()."'(non project default) session?", "&Yes\n&No", 0) != 1
       return 1
     endif
 
