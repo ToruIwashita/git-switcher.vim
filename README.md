@@ -121,6 +121,15 @@ It is setting of whether or not to confirm the save of the session when the Gsw 
 
 Default: `g:gsw_save_session_confirm = 'yes'`  
 
+##### - `g:gsw_save_non_project_session_confirm`  
+
+It is setting of whether or not to confirm the save of the session when the GswSave command is executed outside of the git repository.  
+
+ - `yes`: Enable the save confrimation.  
+ - `no`: Disable the save confrimation.  
+
+Default: `g:gsw_save_non_project_session_confirm = 'yes'`  
+
 ##### - `g:gsw_load_session_confirm`  
 
 It is setting of whether or not to confirm the load of the session when the Gsw command is executed.  

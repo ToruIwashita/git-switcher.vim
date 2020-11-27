@@ -1,6 +1,6 @@
 *git-switcher.txt*	gitのブランチ切り替えに追随してセッション切り替えを行う
 
-Version: 1.11.0
+Version: 1.12.0
 Author: ToruIwashita <toru.iwashita@gmail.com>
 License: MIT License
 
@@ -194,6 +194,15 @@ g:gsw_save_session_confirm
 	 - 'no': 保存確認無効
 Default: >
 	g:gsw_save_session_confirm = 'yes'
+
+				*g:gsw_save_non_project_session_confirm*
+g:gsw_save_non_project_session_confirm
+	gitのリポジトリ以外でGswSaveコマンドを実行する場合に、セッションの
+	保存の確認を行う。
+	 - 'yes': 保存確認有効
+	 - 'no': 保存確認無効
+Default: >
+	g:gsw_save_non_project_session_confirm = 'no'
 
 						*g:gsw_load_session_confirm*
 g:gsw_load_session_confirm
