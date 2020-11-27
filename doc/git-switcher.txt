@@ -1,7 +1,7 @@
 *git-switcher.txt*	Switch a session by following the branch switching
 			of git
 
-Version: 1.11.0
+Version: 1.12.0
 Author: ToruIwashita <toru.iwashita@gmail.com>
 License: MIT License
 
@@ -114,7 +114,7 @@ Commands
 
 						*:GswRemoveMergedBranches*
 :GswRemoveMergedBranches[!] <branch-name>
-	Remove merged branches of the local repository.
+	Remove merged branches of the local git repository.
 	With a '!' bang, to remove without confirmation.
 
 							*:GswSessionList*
@@ -181,14 +181,14 @@ Default: >
 					*g:gsw_non_project_sessions_dir*
 g:gsw_non_project_sessions_dir
 	This is the project (directory) name to use when saving the session
-	outside of the repository.
+	outside of the git repository.
 Default: >
 	g:gsw_non_project_sessions_dir = 'non_project'
 
 				*g:gsw_non_project_default_session_name*
 g:gsw_non_project_default_session_name
 	This is the default session name to use when saving the session outside
-	of the repository.
+	of the git repository.
 Default: >
 	g:gsw_non_project_default_session_name = 'default'
 
@@ -200,6 +200,15 @@ g:gsw_save_session_confirm
 	 - 'no': Disable the save confirmation
 Default: >
 	g:gsw_save_session_confirm = 'yes'
+
+				*g:gsw_save_non_project_session_confirm*
+g:gsw_save_non_project_session_confirm
+	It is setting of whether or not to confirm the save of the session
+	when the GswSave command is executed outside of the git repository.
+	 - 'yes': Enable the save confirmation
+	 - 'no': Disable the save confirmation
+Default: >
+	g:gsw_save_non_project_session_confirm = 'no'
 
 						*g:gsw_load_session_confirm*
 g:gsw_load_session_confirm
