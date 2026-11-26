@@ -35,7 +35,8 @@ fun! git_switcher#special_session_state#gutentags_state_handler#new() abort
 
     for l:line in l:session_file_lines
       if match(l:line, 'doautoall SessionLoadPost') != -1
-        call add(l:gutentags_session_appended_lines, 'let g:gutentags_enabled = '.g:gutentags_enabled)
+        " mksession may write the session in vim9script, where :let is not allowed
+        call add(l:gutentags_session_appended_lines, "call extend(g:, {'gutentags_enabled': ".g:gutentags_enabled.'})')
         call add(l:gutentags_session_appended_lines, 'doautoall SessionLoadPost')
       else
         call add(l:gutentags_session_appended_lines, l:line)
